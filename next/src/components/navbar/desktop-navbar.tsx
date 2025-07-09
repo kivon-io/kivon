@@ -33,8 +33,7 @@ const DesktopNavbar = ({ items }: Props) => {
         "w-full flex relative justify-between px-4 py-3 transition duration-200 bg-transparent mx-auto"
       )}
       animate={{
-        width: showBackground ? "80%" : "100%",
-        background: showBackground ? "bg-white" : "bg-white",
+        background: showBackground ? "var(--neutral-900)" : "transparent",
       }}
       transition={{
         duration: 0.4,
@@ -55,7 +54,15 @@ const DesktopNavbar = ({ items }: Props) => {
           />
         )}
       </AnimatePresence>
-      <div className='relative max-w-screen-2xl mx-auto w-full flex justify-between items-center'>
+      <motion.div
+        className='relative max-w-7xl mx-auto w-full flex justify-between items-center'
+        animate={{
+          width: showBackground ? "70%" : "100%",
+        }}
+        transition={{
+          duration: 0.4,
+        }}
+      >
         <div className='flex flex-row gap-2 items-center'>
           <Logo />
           {items.map((item) => (
@@ -69,7 +76,7 @@ const DesktopNavbar = ({ items }: Props) => {
             Connect Wallet
           </Button>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   )
 }
