@@ -1,0 +1,29 @@
+{
+  "id": 1,
+  "items": [
+    {
+      "id": 1,
+      "text": "Swap",
+      "URL": "/",
+      "target": null
+    },
+    {
+      "id": 2,
+      "text": "Buy",
+      "URL": "/buy",
+      "target": null
+    },
+    {
+      "id": 3,
+      "text": "Sell",
+      "URL": "/sell",
+      "target": null
+    },
+    {
+      "id": 4,
+      "text": "Web3",
+      "URL": "/web3",
+      "target": null
+    }
+  ]
+}
