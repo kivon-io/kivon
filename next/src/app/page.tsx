@@ -1,9 +1,9 @@
-import Hero from "@/components/dynamic-zone/hero"
+import SelectSwapType from "@/components/swap-zone/select-action"
 
 export default function Home() {
   return (
-    <main className='relative mt-20 w-full'>
-      <Hero />
+    <main className='relative w-full'>
+      <SelectSwapType />
     </main>
   )
 }

@@ -4,7 +4,7 @@
     {
       "id": 1,
       "text": "Swap",
-      "URL": "/",
+      "URL": "/exchange",
       "target": null
     },
     {
@@ -21,8 +21,8 @@
     },
     {
       "id": 4,
-      "text": "Web3",
-      "URL": "/web3",
+      "text": "Defi",
+      "URL": "/defi",
       "target": null
     }
   ]

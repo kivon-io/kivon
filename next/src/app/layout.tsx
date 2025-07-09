@@ -1,3 +1,4 @@
+import Hero from "@/components/dynamic-zone/hero"
 import Navbar from "@/components/navbar"
 import { AppProvider } from "@/context/app-context"
 import type { Metadata } from "next"
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <AppProvider>
           <Navbar />
+          <Hero />
           {children}
         </AppProvider>
       </body>
