@@ -65,7 +65,7 @@ const DesktopNavbar = ({ items }: Props) => {
           ))}
         </div>
         <div className='flex space-x-2 items-center'>
-          <Button className='rounded-lg bg-[#1B1B1B] text-white' size='lg'>
+          <Button className='rounded-lg bg-primary text-white' size='lg'>
             Connect Wallet
           </Button>
         </div>
