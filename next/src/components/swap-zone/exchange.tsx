@@ -1,8 +1,9 @@
 "use client"
 import { motion } from "motion/react"
 import { usePathname } from "next/navigation"
-import { Button } from "../ui/button"
+import ExchangeAction from "./exchange/action"
 import SelectCoin from "./exchange/select-coin"
+import TransactionDetails from "./exchange/transaction-details"
 
 const Exchange = () => {
   // only show if params match exchange
@@ -12,9 +13,8 @@ const Exchange = () => {
   return (
     <motion.div className='h-fit rounded-3xl bg-white p-5 flex flex-col gap-5'>
       <SelectCoin />
-      <Button className='w-full rounded-lg' size='lg'>
-        Continue
-      </Button>
+      <TransactionDetails />
+      <ExchangeAction />
     </motion.div>
   )
 }
