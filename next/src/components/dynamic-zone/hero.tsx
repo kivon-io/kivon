@@ -41,7 +41,7 @@ const Hero = () => {
           </Subheading>
         </motion.div>
       </div>
-      <Grid size={60} className='top-20 left-0 right-0 bottom-0 opacity-60' />
+      <Grid size={60} className='top-20 left-0 right-0 bottom-0 opacity-80' />
     </div>
   )
 }

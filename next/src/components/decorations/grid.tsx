@@ -20,11 +20,11 @@ export const Grid = ({
   return (
     <div
       className={cn(
-        "pointer-events-none absolute top-0 left-1/2 -mt-2 -ml-20 h-full w-full [mask-image:linear-gradient(white,transparent)]",
+        "pointer-events-none absolute top-20 left-0 right-0 bottom-0 h-full w-full [mask-image:linear-gradient(white,white)]",
         className
       )}
     >
-      <div className='absolute inset-0 bg-gradient-to-b from-zinc-100/30 to-zinc-300/30 opacity-100 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-zinc-900/30 dark:to-zinc-900/30'>
+      <div className='absolute inset-0 bg-gradient-to-b from-zinc-100/50 to-zinc-300/50 opacity-100 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-zinc-900/30 dark:to-zinc-900/30'>
         <GridPattern
           width={size ?? 20}
           height={size ?? 20}
