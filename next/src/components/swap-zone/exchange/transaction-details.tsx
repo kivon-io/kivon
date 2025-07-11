@@ -2,6 +2,14 @@ import Badge from "@/components/decorations/badge"
 import Symbol from "@/components/elements/symbol"
 import TokenName from "@/components/elements/token-name"
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -17,12 +25,14 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { useAppContext } from "@/context/app-context"
 import { useExchange } from "@/context/exchange-context"
 import { motion } from "motion/react"
 import { useState } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { AiTwotoneLock, AiTwotoneUnlock } from "react-icons/ai"
+import { BsInfoCircle } from "react-icons/bs"
 import { HiOutlineArrowNarrowDown, HiOutlineArrowNarrowUp } from "react-icons/hi"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { EXCHANGE_STEPS, EXCHANGE_TYPE, ExchangeFormSchema } from "./constants"
@@ -54,7 +64,7 @@ const TransactionDetails = () => {
       </div>
       <AmountDetails type='receive' token={receiveToken} form={form} />
 
-      <div className='mt-5'>
+      <div className='mt-5 flex flex-col gap-5'>
         <Form {...form}>
           <FormField
             control={form.control}
@@ -64,7 +74,7 @@ const TransactionDetails = () => {
                 <FormLabel>Receipiant Address</FormLabel>
                 <FormControl>
                   <Input
-                    className='md:text-base text-sm h-12 focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none placeholder:text-sm shadow-none'
+                    className='md:text-base text-sm h-12 focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none placeholder:text-sm shadow-none focus-visible:border-secondary-custom'
                     placeholder='Enter the ETH payout address'
                     {...field}
                   />
@@ -73,6 +83,22 @@ const TransactionDetails = () => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name='terms_and_conditions'
+            render={({ field }) => (
+              <FormItem className='flex items-start gap-3'>
+                <Checkbox id='terms-2' checked={field.value} onCheckedChange={field.onChange} />
+                <div className='grid gap-2'>
+                  <Label htmlFor='terms-2'>Accept terms and conditions</Label>
+                  <p className='text-muted-foreground text-sm'>
+                    By clicking this checkbox, you agree to the terms and conditions.
+                  </p>
+                </div>
+              </FormItem>
+            )}
+          />
+          <AdvancedSettings form={form} />
         </Form>
       </div>
     </div>
@@ -209,5 +235,46 @@ const FixedRateInfoDialog = ({
         </div>
       </DialogContent>
     </Dialog>
+  )
+}
+
+const AdvancedSettings = ({ form }: { form: UseFormReturn<ExchangeFormSchema> }) => {
+  return (
+    <Accordion type='single' collapsible>
+      <AccordionItem value='advanced-settings' className='border-t border-zinc-100'>
+        <AccordionTrigger className='uppercase text-xs text-zinc-500  hover:no-underline flex justify-center'>
+          Advanced Settings
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className='flex flex-col gap-2'>
+            <FormField
+              control={form.control}
+              name='refund_address'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Refund Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      className='md:text-base text-sm h-12 focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none placeholder:text-sm shadow-none'
+                      placeholder='Refund address (optional)'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Alert variant='info'>
+              <BsInfoCircle />
+              <AlertTitle className='text-sm'>Refund Address</AlertTitle>
+              <AlertDescription className='text-blue-900 text-sm'>
+                To receive a refund in case of an issue, add this address. This is an optional
+                field.
+              </AlertDescription>
+            </Alert>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   )
 }

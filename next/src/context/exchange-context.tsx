@@ -27,8 +27,9 @@ const ExchangeProvider = ({ children }: { children: React.ReactNode }) => {
       receiveToken: "",
       sendAmount: 0,
       destination_address: "",
-      refund_address: "",
-      fixed_rate: false,
+      terms_and_conditions: false,
+      refund_address: undefined,
+      fixed_rate: undefined,
     },
   })
 

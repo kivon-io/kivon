@@ -13,6 +13,7 @@ const ExchangeAction = () => {
   const receiveToken = form.watch("receiveToken")
   const sendAmount = form.watch("sendAmount")
   const destinationAddress = form.watch("destination_address")
+  const termsAndConditions = form.watch("terms_and_conditions")
 
   const isNextStepEnabled = useMemo(() => {
     if (step === EXCHANGE_STEPS.SELECT_COIN) {
@@ -20,11 +21,11 @@ const ExchangeAction = () => {
     }
 
     if (step === EXCHANGE_STEPS.TRANSACTION_DETAILS) {
-      return !!sendAmount && !!destinationAddress
+      return !!sendAmount && !!destinationAddress && termsAndConditions
     }
 
     return false
-  }, [step, sendToken, receiveToken, sendAmount, destinationAddress])
+  }, [step, sendToken, receiveToken, sendAmount, destinationAddress, termsAndConditions])
 
   const handleNextStep = () => {
     if (isNextStepEnabled) {

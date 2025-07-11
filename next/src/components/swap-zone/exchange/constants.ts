@@ -6,8 +6,9 @@ export const exchangeFormSchema = z
     receiveToken: z.string().min(1, { message: "Receive token is required" }),
     sendAmount: z.number().min(0, { message: "Send amount is required" }),
     destination_address: z.string().min(1, { message: "Destination address is required" }),
+    terms_and_conditions: z.boolean(),
     refund_address: z.string().min(1, { message: "Refund address is required" }).optional(),
-    fixed_rate: z.boolean().default(false).optional(),
+    fixed_rate: z.boolean().optional(),
   })
   .refine((data) => data.sendToken !== data.receiveToken, {
     message: "Send token and receive token cannot be the same.",
