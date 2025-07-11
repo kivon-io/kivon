@@ -28,10 +28,16 @@ const ExchangeAction = () => {
   }, [step, sendToken, receiveToken, sendAmount, destinationAddress, termsAndConditions])
 
   const handleNextStep = () => {
-    if (isNextStepEnabled) {
+    if (step === EXCHANGE_STEPS.SELECT_COIN) {
       setStep(EXCHANGE_STEPS.TRANSACTION_DETAILS)
     }
+
+    if (step === EXCHANGE_STEPS.TRANSACTION_DETAILS) {
+      setStep(EXCHANGE_STEPS.SEND_TRANSACTION)
+    }
   }
+
+  if (step === EXCHANGE_STEPS.SEND_TRANSACTION) return null
 
   return (
     <Button
@@ -39,7 +45,7 @@ const ExchangeAction = () => {
       className='w-full h-12 rounded-lg'
       disabled={!isNextStepEnabled}
     >
-      Continue
+      {step !== EXCHANGE_STEPS.TRANSACTION_DETAILS ? "Continue" : "Start Transaction"}
     </Button>
   )
 }
