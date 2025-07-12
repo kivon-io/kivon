@@ -1,6 +1,7 @@
 import Hero from "@/components/dynamic-zone/hero"
 import Navbar from "@/components/navbar"
 import { AppProvider } from "@/context/app-context"
+import { TRPCProvider } from "@/trpc/client"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
@@ -31,11 +32,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
         suppressHydrationWarning
       >
-        <AppProvider>
-          <Navbar />
-          <Hero />
-          {children}
-        </AppProvider>
+        <TRPCProvider>
+          <AppProvider>
+            <Navbar />
+            <Hero />
+            {children}
+          </AppProvider>
+        </TRPCProvider>
       </body>
     </html>
   )

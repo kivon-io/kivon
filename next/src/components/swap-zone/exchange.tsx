@@ -12,6 +12,10 @@ const Exchange = () => {
   const pathname = usePathname()
   if (!pathname.includes("exchange")) return null
 
+  // const hello = trpc.sayHello.useQuery()
+
+  // console.log("HELLO: ", hello)
+
   return (
     <div className='flex flex-col gap-5'>
       <motion.div className='h-fit rounded-3xl bg-white p-5 flex flex-col gap-5'>
