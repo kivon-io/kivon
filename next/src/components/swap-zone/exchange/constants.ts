@@ -23,7 +23,11 @@ export const exchangeFormSchema = z
     terms_and_conditions: z.boolean(),
     refund_address: z.string().min(1, { message: "Refund address is required" }).optional(),
     fixed_rate: z.boolean().optional(),
-    estimatedExchangeAmount: z.number().optional(),
+    estimatedExchange: z.object({
+      rateId: z.string().optional(),
+      validUntil: z.string().optional(),
+      toAmount: z.number().optional(),
+    }),
     minExchangeAmount: z.number().optional(),
   })
   .refine((data) => data.sendToken !== data.receiveToken, {

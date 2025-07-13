@@ -11,6 +11,11 @@ export async function GET(request: Request) {
   const flow = searchParams.get("flow") || EXCHANGE_PARAMS_DEFAULT.FLOW
   const sendAmount = searchParams.get("sendAmount")
 
+  console.log(
+    "url: ",
+    `${CHANGE_NOW_API_URL}/exchange/estimated-amount?fromCurrency=${fromCurrency}&fromNetwork=${fromNetwork}&toCurrency=${toCurrency}&toNetwork=${toNetwork}&flow=${flow}&fromAmount=${sendAmount}`
+  )
+
   try {
     const response = await fetch(
       `${CHANGE_NOW_API_URL}/exchange/estimated-amount?fromCurrency=${fromCurrency}&fromNetwork=${fromNetwork}&toCurrency=${toCurrency}&toNetwork=${toNetwork}&flow=${flow}&fromAmount=${sendAmount}`,

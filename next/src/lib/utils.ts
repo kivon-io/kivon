@@ -7,3 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const transformer = superjson
+
+// format date to utc
+export const formatDateToUtc = (date: string) => {
+  return new Date(date).toUTCString()
+}

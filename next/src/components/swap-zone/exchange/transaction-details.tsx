@@ -10,13 +10,6 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import {
   Form,
   FormControl,
   FormField,
@@ -40,6 +33,8 @@ import { BsInfoCircle } from "react-icons/bs"
 import { HiOutlineArrowNarrowDown, HiOutlineArrowNarrowUp } from "react-icons/hi"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { EXCHANGE_STEPS, EXCHANGE_TYPE, ExchangeFormSchema } from "./constants"
+import FixedRateInfoDialog from "./fixed-rate-info"
+import { ValidFixedRate } from "./valid-fixed-rate"
 
 const TransactionDetails = () => {
   const { step, form } = useExchange()
@@ -131,7 +126,11 @@ const TransactionDetails = () => {
 
   useEffect(() => {
     if (estimatedExchangeAmount?.toAmount) {
-      form.setValue("estimatedExchangeAmount", estimatedExchangeAmount.toAmount)
+      form.setValue("estimatedExchange", {
+        rateId: estimatedExchangeAmount.rateId || undefined,
+        validUntil: estimatedExchangeAmount.validUntil || undefined,
+        toAmount: estimatedExchangeAmount.toAmount,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estimatedExchangeAmount, sendAmount, sendToken, receiveToken, fixed_rate])
@@ -143,8 +142,6 @@ const TransactionDetails = () => {
     form.setValue("receiveToken", sendToken)
   }
 
-  // console.log("Min exchange amount: ", minExchangeAmount)
-
   return (
     <div className='relative flex flex-col'>
       <div className='relative'>
@@ -154,7 +151,21 @@ const TransactionDetails = () => {
         )}
       </div>
       <div className='relative left-5 h-16 border-l border-dashed border-zinc-200 flex items-center justify-between'>
-        <p className='text-xs font-medium pl-3 text-zinc-600'>Estimated rate: 1 ETH ~ 2900 USD</p>
+        <div className='flex md:flex-row flex-col items-center gap-2'>
+          <div className='text-xs font-medium pl-3 text-zinc-600 flex items-center gap-1'>
+            <div className='flex items-center gap-1'>
+              <span className='hidden'> Estimated rate: </span> {sendAmount}{" "}
+              <Symbol className='text-xs' symbol={sendToken.ticker} />
+            </div>
+            <div className='flex items-center gap-1'>
+              ~ {estimatedExchangeAmount?.toAmount}{" "}
+              <Symbol className='text-xs' symbol={receiveToken.ticker} />
+            </div>
+          </div>
+          {estimatedExchangeAmount?.validUntil && (
+            <ValidFixedRate validUntil={estimatedExchangeAmount.validUntil} />
+          )}
+        </div>
         <div
           className='group rounded-lg relative right-10 h-10 w-10 flex items-center justify-center border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 transition duration-200 cursor-pointer'
           onClick={handleChangeSwapDirection}
@@ -240,7 +251,7 @@ const AmountDetails = ({
   }
 
   const sendAmount = form.watch("sendAmount")
-  const estimatedExchangeAmount = form.watch("estimatedExchangeAmount")
+  const estimatedExchange = form.watch("estimatedExchange")
 
   return (
     <>
@@ -300,7 +311,7 @@ const AmountDetails = ({
                   value={
                     minExchangeAmount && sendAmount < minExchangeAmount
                       ? "-"
-                      : estimatedExchangeAmount || 0
+                      : estimatedExchange.toAmount || 0
                   }
                   className='w-full select-none pointer-events-none text-right text-base md:text-lg font-medium focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none'
                 />
@@ -320,48 +331,6 @@ const AmountDetails = ({
         onOpenChange={setOpenFixedRateInfoDialog}
       />
     </>
-  )
-}
-
-const FixedRateInfoDialog = ({
-  open,
-  onOpenChange,
-}: {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}) => {
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className='
-          transition-all duration-300
-          opacity-0 scale-95
-          data-[state=open]:opacity-100 data-[state=open]:scale-100
-          md:max-w-xs w-full
-        '
-      >
-        <DialogHeader>
-          <DialogTitle>Rate</DialogTitle>
-          <DialogDescription>Estimated or fixed rate?</DialogDescription>
-        </DialogHeader>
-        <div className='flex flex-col gap-2'>
-          <div className='flex flex-col gap-1'>
-            <p className='font-medium text-sm'>Estimated Rate</p>
-            <p className='text-zinc-600 text-xs'>
-              The floating rate can change at any point due to market conditions, so you might
-              receive more or less crypto than expected
-            </p>
-          </div>
-          <div className='flex flex-col gap-1'>
-            <p className='font-medium text-sm'>Fixed Rate</p>
-            <p className='text-zinc-600 text-xs'>
-              With the fixed rate, you will receive the exact amount of crypto you see on this
-              screen
-            </p>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
   )
 }
 
