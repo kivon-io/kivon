@@ -49,6 +49,7 @@ const ExchangeProvider = ({
       },
       sendAmount: 0,
       estimatedExchangeAmount: undefined,
+      minExchangeAmount: undefined,
       destination_address: "",
       terms_and_conditions: false,
       refund_address: undefined,

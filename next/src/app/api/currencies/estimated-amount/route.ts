@@ -11,11 +11,6 @@ export async function GET(request: Request) {
   const flow = searchParams.get("flow") || EXCHANGE_PARAMS_DEFAULT.FLOW
   const sendAmount = searchParams.get("sendAmount")
 
-  console.log(
-    "URL: ",
-    `${CHANGE_NOW_API_URL}/exchange/estimated-amount?fromCurrency=${fromCurrency}&fromNetwork=${fromNetwork}&toCurrency=${toCurrency}&toNetwork=${toNetwork}&flow=${flow}&fromAmount=${sendAmount}`
-  )
-
   try {
     const response = await fetch(
       `${CHANGE_NOW_API_URL}/exchange/estimated-amount?fromCurrency=${fromCurrency}&fromNetwork=${fromNetwork}&toCurrency=${toCurrency}&toNetwork=${toNetwork}&flow=${flow}&fromAmount=${sendAmount}`,
@@ -33,7 +28,6 @@ export async function GET(request: Request) {
     }
 
     const data = await response.json()
-    console.log("DATA ESTIMATED API:  ", data)
     return NextResponse.json(data)
   } catch (error) {
     console.error("Error fetching exchange estimate:", error)

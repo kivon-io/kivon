@@ -29,6 +29,7 @@ import { Label } from "@/components/ui/label"
 import { useAppContext } from "@/context/app-context"
 import { useExchange } from "@/context/exchange-context"
 import { FLOW_TYPE } from "@/lib/shared/constants"
+import { cn } from "@/lib/utils"
 import { trpc } from "@/trpc/client"
 import { motion } from "motion/react"
 import Image from "next/image"
@@ -81,6 +82,7 @@ const TransactionDetails = () => {
     ) {
       return undefined
     }
+
     return {
       sendToken: sendToken.ticker,
       receiveToken: receiveToken.ticker,
@@ -96,10 +98,22 @@ const TransactionDetails = () => {
     retry: false,
   })
 
+  // Only fetch estimated amount if sendAmount is set and >= minExchangeAmount
+  const shouldFetchEstimatedExchangeAmount = useMemo(() => {
+    if (
+      !estimatedExchangeInput ||
+      !minExchangeAmount?.minAmount ||
+      sendAmount < minExchangeAmount.minAmount
+    ) {
+      return false
+    }
+    return true
+  }, [estimatedExchangeInput, minExchangeAmount?.minAmount, sendAmount])
+
   const { data: estimatedExchangeAmount } = trpc.getEstimatedExchangeAmount.useQuery(
     estimatedExchangeInput!,
     {
-      enabled: !!estimatedExchangeInput,
+      enabled: shouldFetchEstimatedExchangeAmount,
       retry: false,
     }
   )
@@ -109,17 +123,18 @@ const TransactionDetails = () => {
   useEffect(() => {
     if (minExchangeAmount?.minAmount && !hasSetMinAmount.current) {
       form.setValue("sendAmount", minExchangeAmount.minAmount)
+      form.setValue("minExchangeAmount", minExchangeAmount.minAmount)
       hasSetMinAmount.current = true
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [minExchangeAmount])
+  }, [minExchangeAmount, sendToken, receiveToken, fixed_rate])
 
   useEffect(() => {
     if (estimatedExchangeAmount?.toAmount) {
       form.setValue("estimatedExchangeAmount", estimatedExchangeAmount.toAmount)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [estimatedExchangeAmount, sendAmount])
+  }, [estimatedExchangeAmount, sendAmount, sendToken, receiveToken, fixed_rate])
 
   if (step !== EXCHANGE_STEPS.TRANSACTION_DETAILS) return null
 
@@ -128,9 +143,16 @@ const TransactionDetails = () => {
     form.setValue("receiveToken", sendToken)
   }
 
+  // console.log("Min exchange amount: ", minExchangeAmount)
+
   return (
     <div className='relative flex flex-col'>
-      <AmountDetails type={EXCHANGE_TYPE.SEND} token={sendToken} form={form} />
+      <div className='relative'>
+        <AmountDetails type={EXCHANGE_TYPE.SEND} token={sendToken} form={form} />
+        {minExchangeAmount?.minAmount && sendAmount < minExchangeAmount.minAmount && (
+          <SendAmountLessThanMinAmount token={sendToken} minAmount={minExchangeAmount.minAmount} />
+        )}
+      </div>
       <div className='relative left-5 h-16 border-l border-dashed border-zinc-200 flex items-center justify-between'>
         <p className='text-xs font-medium pl-3 text-zinc-600'>Estimated rate: 1 ETH ~ 2900 USD</p>
         <div
@@ -142,7 +164,12 @@ const TransactionDetails = () => {
         </div>
         <div className='absolute h-2 w-2 rounded-full -translate-x-1/2 transform -translate-y-1/2 top-1/2 bg-zinc-200' />
       </div>
-      <AmountDetails type={EXCHANGE_TYPE.RECEIVE} token={receiveToken} form={form} />
+      <AmountDetails
+        type={EXCHANGE_TYPE.RECEIVE}
+        token={receiveToken}
+        form={form}
+        minExchangeAmount={minExchangeAmount?.minAmount}
+      />
 
       <div className='mt-5 flex flex-col gap-5'>
         <Form {...form}>
@@ -191,10 +218,12 @@ const AmountDetails = ({
   type,
   token,
   form,
+  minExchangeAmount,
 }: {
   type: "send" | "receive"
   token: ExchangeFormSchema["sendToken"] | ExchangeFormSchema["receiveToken"]
   form: UseFormReturn<ExchangeFormSchema>
+  minExchangeAmount?: number
 }) => {
   const [openFixedRateInfoDialog, setOpenFixedRateInfoDialog] = useState(false)
   const { handleType, toggleTokenList } = useAppContext()
@@ -210,7 +239,9 @@ const AmountDetails = ({
     setOpenFixedRateInfoDialog(true)
   }
 
+  const sendAmount = form.watch("sendAmount")
   const estimatedExchangeAmount = form.watch("estimatedExchangeAmount")
+
   return (
     <>
       <motion.div
@@ -266,7 +297,11 @@ const AmountDetails = ({
               ) : (
                 <Input
                   readOnly
-                  value={estimatedExchangeAmount || 0}
+                  value={
+                    minExchangeAmount && sendAmount < minExchangeAmount
+                      ? "-"
+                      : estimatedExchangeAmount || 0
+                  }
                   className='w-full select-none pointer-events-none text-right text-base md:text-lg font-medium focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none'
                 />
               )}
@@ -274,7 +309,7 @@ const AmountDetails = ({
             <div className='flex items-center gap-2'>
               <TokenName name={token.name} />
               <Badge>
-                <span className='text-xs capitalize'>{token.network}</span>
+                <span className='text-xs uppercase'>{token.network}</span>
               </Badge>
             </div>
           </div>
@@ -368,5 +403,21 @@ const AdvancedSettings = ({ form }: { form: UseFormReturn<ExchangeFormSchema> })
         </AccordionContent>
       </AccordionItem>
     </Accordion>
+  )
+}
+
+const SendAmountLessThanMinAmount = ({
+  token,
+  minAmount,
+}: {
+  token: ExchangeFormSchema["sendToken"]
+  minAmount: number
+}) => {
+  return (
+    <div className={cn("absolute bottom-3 right-3")}>
+      <div className='text-xs text-red-500 font-medium flex items-center gap-1'>
+        Min is {minAmount} <Symbol className='text-xs text-red-500' symbol={token.ticker} />
+      </div>
+    </div>
   )
 }
