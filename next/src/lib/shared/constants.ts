@@ -7,3 +7,8 @@ export const EXCHANGE_PARAMS_DEFAULT = {
   SELL: false,
   ACTIVE: true,
 }
+
+export const FLOW_TYPE = {
+  FIXED: "fixed-rate",
+  STANDARD: "standard",
+} as const

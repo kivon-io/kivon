@@ -44,4 +44,83 @@ export const swapRouter = createTRPCRouter({
       const data = await response.json()
       return data as Currency[]
     }),
+
+  getMinExchangeAmount: publicProcedure
+    .input(
+      z.object({
+        sendToken: z.string(),
+        receiveToken: z.string(),
+        sendTokenNetwork: z.string(),
+        receiveTokenNetwork: z.string(),
+        flow: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const params = new URLSearchParams({
+        sendToken: input.sendToken,
+        receiveToken: input.receiveToken,
+        sendTokenNetwork: input.sendTokenNetwork,
+        receiveTokenNetwork: input.receiveTokenNetwork,
+        flow: input.flow,
+      }).toString()
+
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+        }/api/currencies/min-exchange-amount?${params}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch min exchange amount: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      return data as MinExchangeAmountResponse
+    }),
+
+  getEstimatedExchangeAmount: publicProcedure
+    .input(
+      z.object({
+        sendToken: z.string(),
+        receiveToken: z.string(),
+        sendTokenNetwork: z.string(),
+        receiveTokenNetwork: z.string(),
+        flow: z.string(),
+        sendAmount: z.coerce.number().min(0, { message: "Send amount must be greater than 0" }),
+      })
+    )
+    .query(async ({ input }) => {
+      const params = new URLSearchParams({
+        sendToken: input.sendToken,
+        receiveToken: input.receiveToken,
+        sendTokenNetwork: input.sendTokenNetwork,
+        receiveTokenNetwork: input.receiveTokenNetwork,
+        flow: input.flow,
+        sendAmount: input.sendAmount.toString(),
+      }).toString()
+
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+        }/api/currencies/estimated-amount?${params}`,
+        {
+          method: "GET",
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch estimated exchange amount: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      return data as EstimatedExchangeAmountResponse
+    }),
 })

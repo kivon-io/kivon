@@ -28,9 +28,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAppContext } from "@/context/app-context"
 import { useExchange } from "@/context/exchange-context"
+import { FLOW_TYPE } from "@/lib/shared/constants"
+import { trpc } from "@/trpc/client"
 import { motion } from "motion/react"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { AiTwotoneLock, AiTwotoneUnlock } from "react-icons/ai"
 import { BsInfoCircle } from "react-icons/bs"
@@ -40,7 +42,84 @@ import { EXCHANGE_STEPS, EXCHANGE_TYPE, ExchangeFormSchema } from "./constants"
 
 const TransactionDetails = () => {
   const { step, form } = useExchange()
-  const { sendToken, receiveToken } = form.watch()
+  const { sendToken, receiveToken, fixed_rate, sendAmount } = form.watch()
+
+  // memoized input for fetching min exchange amount
+  const minExchangeInput = useMemo(() => {
+    if (
+      !sendToken?.ticker ||
+      !receiveToken?.ticker ||
+      !sendToken?.network ||
+      !receiveToken?.network
+    ) {
+      return undefined
+    }
+
+    return {
+      sendToken: sendToken.ticker,
+      receiveToken: receiveToken.ticker,
+      sendTokenNetwork: sendToken.network,
+      receiveTokenNetwork: receiveToken.network,
+      flow: fixed_rate ? FLOW_TYPE.FIXED : FLOW_TYPE.STANDARD,
+    }
+  }, [
+    sendToken?.ticker,
+    receiveToken?.ticker,
+    sendToken?.network,
+    receiveToken?.network,
+    fixed_rate,
+  ])
+
+  const estimatedExchangeInput = useMemo(() => {
+    if (
+      !sendToken?.ticker ||
+      !receiveToken?.ticker ||
+      !sendToken?.network ||
+      !receiveToken?.network ||
+      !sendAmount ||
+      sendAmount === 0
+    ) {
+      return undefined
+    }
+    return {
+      sendToken: sendToken.ticker,
+      receiveToken: receiveToken.ticker,
+      sendTokenNetwork: sendToken.network,
+      receiveTokenNetwork: receiveToken.network,
+      flow: fixed_rate ? FLOW_TYPE.FIXED : FLOW_TYPE.STANDARD,
+      sendAmount: sendAmount || 0,
+    }
+  }, [sendToken, receiveToken, fixed_rate, sendAmount])
+
+  const { data: minExchangeAmount } = trpc.getMinExchangeAmount.useQuery(minExchangeInput!, {
+    enabled: !!minExchangeInput,
+    retry: false,
+  })
+
+  const { data: estimatedExchangeAmount } = trpc.getEstimatedExchangeAmount.useQuery(
+    estimatedExchangeInput!,
+    {
+      enabled: !!estimatedExchangeInput,
+      retry: false,
+    }
+  )
+
+  const hasSetMinAmount = useRef(false)
+
+  useEffect(() => {
+    if (minExchangeAmount?.minAmount && !hasSetMinAmount.current) {
+      form.setValue("sendAmount", minExchangeAmount.minAmount)
+      hasSetMinAmount.current = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minExchangeAmount])
+
+  useEffect(() => {
+    if (estimatedExchangeAmount?.toAmount) {
+      form.setValue("estimatedExchangeAmount", estimatedExchangeAmount.toAmount)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [estimatedExchangeAmount, sendAmount])
 
   if (step !== EXCHANGE_STEPS.TRANSACTION_DETAILS) return null
 
@@ -51,7 +130,7 @@ const TransactionDetails = () => {
 
   return (
     <div className='relative flex flex-col'>
-      <AmountDetails type='send' token={sendToken} form={form} />
+      <AmountDetails type={EXCHANGE_TYPE.SEND} token={sendToken} form={form} />
       <div className='relative left-5 h-16 border-l border-dashed border-zinc-200 flex items-center justify-between'>
         <p className='text-xs font-medium pl-3 text-zinc-600'>Estimated rate: 1 ETH ~ 2900 USD</p>
         <div
@@ -63,7 +142,7 @@ const TransactionDetails = () => {
         </div>
         <div className='absolute h-2 w-2 rounded-full -translate-x-1/2 transform -translate-y-1/2 top-1/2 bg-zinc-200' />
       </div>
-      <AmountDetails type='receive' token={receiveToken} form={form} />
+      <AmountDetails type={EXCHANGE_TYPE.RECEIVE} token={receiveToken} form={form} />
 
       <div className='mt-5 flex flex-col gap-5'>
         <Form {...form}>
@@ -131,6 +210,7 @@ const AmountDetails = ({
     setOpenFixedRateInfoDialog(true)
   }
 
+  const estimatedExchangeAmount = form.watch("estimatedExchangeAmount")
   return (
     <>
       <motion.div
@@ -186,8 +266,8 @@ const AmountDetails = ({
               ) : (
                 <Input
                   readOnly
-                  value={0.012591}
-                  className='w-full text-right text-base md:text-lg font-medium focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none'
+                  value={estimatedExchangeAmount || 0}
+                  className='w-full select-none pointer-events-none text-right text-base md:text-lg font-medium focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none'
                 />
               )}
             </div>
