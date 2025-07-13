@@ -1,1 +1,9 @@
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME
+export const CHANGE_NOW_API_URL = process.env.NEXT_PUBLIC_CHANGE_NOW_API_URL
+
+export const EXCHANGE_PARAMS_DEFAULT = {
+  FLOW: "standard",
+  BUY: false,
+  SELL: false,
+  ACTIVE: true,
+}

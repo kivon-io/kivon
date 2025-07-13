@@ -1,5 +1,6 @@
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter, mergeRouters } from "../trpc"
+import { swapRouter } from "./swap"
 
 export const helloRouter = createTRPCRouter({
   sayHello: publicProcedure.query(() => {
@@ -7,6 +8,6 @@ export const helloRouter = createTRPCRouter({
   }),
 })
 
-export const appRouter = mergeRouters(helloRouter)
+export const appRouter = mergeRouters(helloRouter, swapRouter)
 
 export type AppRouter = typeof appRouter

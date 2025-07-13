@@ -29,6 +29,7 @@ import { Label } from "@/components/ui/label"
 import { useAppContext } from "@/context/app-context"
 import { useExchange } from "@/context/exchange-context"
 import { motion } from "motion/react"
+import Image from "next/image"
 import { useState } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { AiTwotoneLock, AiTwotoneUnlock } from "react-icons/ai"
@@ -113,7 +114,7 @@ const AmountDetails = ({
   form,
 }: {
   type: "send" | "receive"
-  token: string
+  token: ExchangeFormSchema["sendToken"] | ExchangeFormSchema["receiveToken"]
   form: UseFormReturn<ExchangeFormSchema>
 }) => {
   const [openFixedRateInfoDialog, setOpenFixedRateInfoDialog] = useState(false)
@@ -140,18 +141,29 @@ const AmountDetails = ({
       >
         <p className='text-sm'>You {type === "send" ? "send" : "receive"}</p>
         <div className='flex gap-2 items-center'>
-          <div className='h-10 w-10 rounded-full bg-zinc-200 shrink-0'></div>
+          {token.image && (
+            <Image
+              src={token.image}
+              alt={token.name}
+              className='object-contain object-center w-8 h-8'
+              width={32}
+              height={32}
+            />
+          )}
           <div className='flex flex-col w-full'>
             <div className='w-full flex justify-between items-center gap-2'>
               <div className='flex items-center gap-2'>
                 <div className='flex gap-1 items-center cursor-pointer' onClick={handleSelectCoin}>
-                  <Symbol symbol='ETH' className='font-medium text-zinc-800' />
+                  <Symbol symbol={token.ticker} />
                   <MdOutlineKeyboardArrowDown className='text-zinc-600 text-lg' />
                 </div>
                 {type === EXCHANGE_TYPE.RECEIVE && (
                   <div className='cursor-pointer relative shrink-0' onClick={handleFixedRate}>
                     {fixed_rate ? (
-                      <AiTwotoneLock className='text-emerald-600 text-lg' />
+                      <div className='flex items-center gap-1'>
+                        <AiTwotoneLock className='text-emerald-600 text-lg' />
+                        <p className='text-emerald-600 text-sm'>Fixed Rate</p>
+                      </div>
                     ) : (
                       <AiTwotoneUnlock className='text-emerald-600 text-lg' />
                     )}
@@ -180,9 +192,9 @@ const AmountDetails = ({
               )}
             </div>
             <div className='flex items-center gap-2'>
-              <TokenName name={token} />
+              <TokenName name={token.name} />
               <Badge>
-                <span className='text-xs capitalize'>{token}</span>
+                <span className='text-xs capitalize'>{token.network}</span>
               </Badge>
             </div>
           </div>

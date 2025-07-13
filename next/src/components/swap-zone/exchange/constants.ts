@@ -2,8 +2,22 @@ import { z } from "zod"
 
 export const exchangeFormSchema = z
   .object({
-    sendToken: z.string().min(1, { message: "Send token is required" }),
-    receiveToken: z.string().min(1, { message: "Receive token is required" }),
+    sendToken: z.object({
+      ticker: z.string().min(1, { message: "Send token is required" }),
+      name: z.string().min(1, { message: "Send token is required" }),
+      image: z.string().min(1, { message: "Send token is required" }),
+      network: z.string().min(1, { message: "Send token is required" }),
+      isFiat: z.boolean(),
+      supportsFixedRate: z.boolean(),
+    }),
+    receiveToken: z.object({
+      ticker: z.string().min(1, { message: "Send token is required" }),
+      name: z.string().min(1, { message: "Send token is required" }),
+      image: z.string().min(1, { message: "Send token is required" }),
+      network: z.string().min(1, { message: "Send token is required" }),
+      isFiat: z.boolean(),
+      supportsFixedRate: z.boolean(),
+    }),
     sendAmount: z.number().min(0, { message: "Send amount is required" }),
     destination_address: z.string().min(1, { message: "Destination address is required" }),
     terms_and_conditions: z.boolean(),
