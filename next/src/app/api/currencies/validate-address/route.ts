@@ -9,14 +9,6 @@ export async function GET(request: Request) {
 
   const apiKey = process.env.CHANGE_NOW_API_KEY
 
-  console.log("ADDRESS: ", address)
-  console.log("NETWORK: ", network)
-
-  console.log(
-    "URL: ",
-    `${CHANGE_NOW_API_URL}/exchange/validate-address?address=${address}&network=${network}`
-  )
-
   try {
     const response = await fetch(
       `${CHANGE_NOW_API_URL}/exchange/validate-address?address=${address}&network=${network}`,

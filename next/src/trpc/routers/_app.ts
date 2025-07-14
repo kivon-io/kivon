@@ -9,9 +9,6 @@ const getTokenInfo = createTRPCRouter({
   getTokenInfo: publicProcedure.input(z.object({ ticker: z.string() })).query(async ({ input }) => {
     const { ticker } = input
 
-    console.log("ticker: ", ticker)
-    console.log("url: ", `${CHANGE_NOW_API_URL_v1}/currencies/${ticker}`)
-
     const response = await fetch(`${CHANGE_NOW_API_URL_v1}/currencies/${ticker}`, {
       method: "GET",
       headers: {

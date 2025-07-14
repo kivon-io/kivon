@@ -144,8 +144,6 @@ export const swapRouter = createTRPCRouter({
         flow: input.flow,
       }
 
-      // console.log("PAYLOAD: ", payload)
-
       const response = await fetch(`${CHANGE_NOW_API_URL}/exchange`, {
         method: "POST",
         headers: {

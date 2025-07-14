@@ -130,8 +130,6 @@ const ExchangeProvider = ({
     setStep: handleStep,
   }
 
-  console.log("EXCHANGE TRANSACTION STATUS: ", exchangeTransactionStatus)
-
   return <ExchangeContext.Provider value={values}>{children}</ExchangeContext.Provider>
 }
 
