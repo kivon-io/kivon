@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useExchange } from "@/context/exchange-context"
 import { FLOW_TYPE } from "@/lib/shared/constants"
 import { trpc } from "@/trpc/client"
+import { useRouter } from "next/navigation"
 import { useMemo } from "react"
 import { EXCHANGE_STEPS } from "./constants"
 
@@ -12,6 +13,7 @@ import { EXCHANGE_STEPS } from "./constants"
 
 const ExchangeAction = () => {
   const { step, form, setStep } = useExchange()
+  const router = useRouter()
 
   const sendToken = form.watch("sendToken")
   const receiveToken = form.watch("receiveToken")
@@ -40,6 +42,8 @@ const ExchangeAction = () => {
     })
 
     form.setValue("exchangeTransaction", response)
+    // add transaction id to the current url
+    router.push(`/exchange?id=${response.id}`)
   }
 
   const isNextStepEnabled = useMemo(() => {

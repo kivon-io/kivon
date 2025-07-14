@@ -1,15 +1,21 @@
+// import {
+//   txConfirming,
+//   txExchanging,
+//   txFinished,
+//   txSending,
+//   txWaiting,
+// } from "@/data/transactionstatus"
 import { CHANGE_NOW_API_URL } from "@/lib/shared/constants"
 import { z } from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter } from "../trpc"
 
-export const swapRouter = createTRPCRouter({
-  //  1. get list of available currencies
-  //  2. get min exchange amount
-  //  3. get estimated exchange amount
-  //  4. create exchange transaction
-  //  5. get transaction status
+// let currentStep = 0
+// let lastUpdate = Date.now()
 
+// const MOCK_STATUSES = [txWaiting, txConfirming, txExchanging, txSending, txFinished]
+
+export const swapRouter = createTRPCRouter({
   getCurrencies: publicProcedure
     .input(
       z.object({
@@ -171,6 +177,22 @@ export const swapRouter = createTRPCRouter({
       const data = await response.json()
 
       return data as ExchangeTransactionResponse
+
+      // TODO: remove this
+      // return {
+      //   fromAmount: 0.003,
+      //   toAmount: 0.052286,
+      //   flow: "standard",
+      //   type: "direct",
+      //   payinAddress: "3M7QKsJDKbVZAhFPpFSVtVQv6Nzon3Lwtv",
+      //   payoutAddress: "0x57f31ad4b64095347F87eDB1675566DAfF5EC886",
+      //   fromCurrency: "btc",
+      //   toCurrency: "eth",
+      //   refundAddress: "135Hej8p1xSKoChWu5x6LSbNn5opgpojGn",
+      //   id: "3a2360771439a3",
+      //   fromNetwork: "btc",
+      //   toNetwork: "eth",
+      // } as unknown as ExchangeTransactionResponse
     }),
 
   getExchangeTransactionStatus: publicProcedure
@@ -191,5 +213,19 @@ export const swapRouter = createTRPCRouter({
       const data = await response.json()
 
       return data as ExchangeStatusResponse
+
+      // TODO: remove this
+      // console.log("INPUT: ", input)
+
+      // // Simulate advancing every 20 seconds
+      // const now = Date.now()
+      // if (currentStep < MOCK_STATUSES.length - 1 && now - lastUpdate > 20000) {
+      //   currentStep++
+      //   lastUpdate = now
+      // }
+
+      // console.log("CURRENT STEP: ", currentStep)
+
+      // return MOCK_STATUSES[currentStep] as unknown as ExchangeStatusResponse
     }),
 })

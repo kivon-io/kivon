@@ -4,7 +4,7 @@ const Symbol = ({ symbol, className }: { symbol: string; className?: string }) =
   return (
     <p
       className={cn(
-        "text-sm text-zinc-900 font-bold uppercase select-none pointer-events-none",
+        "text-sm uppercase text-zinc-900 font-bold select-none pointer-events-none",
         className
       )}
     >

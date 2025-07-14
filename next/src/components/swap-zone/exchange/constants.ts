@@ -66,3 +66,14 @@ export const EXCHANGE_TYPE = {
   SEND: "send",
   RECEIVE: "receive",
 } as const
+
+export const EXCHANGE_STATUS = {
+  WAITING: "waiting",
+  CONFIRMING: "confirming",
+  EXCHANGING: "exchanging",
+  SENDING: "sending",
+  FINISHED: "finished",
+  FAILED: "failed",
+  REFUNDED: "refunded",
+  VERIFYING: "verifying",
+} as const

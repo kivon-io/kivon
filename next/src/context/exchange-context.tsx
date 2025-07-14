@@ -2,6 +2,7 @@
 
 import { exchangeFormSchema, ExchangeFormSchema } from "@/components/swap-zone/exchange/constants"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useSearchParams } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
 import { useForm, UseFormReturn } from "react-hook-form"
 
@@ -30,7 +31,10 @@ const ExchangeProvider = ({
   children: React.ReactNode
   currencies: Currency[]
 }) => {
-  const [step, setStep] = useState<Step>("select-coin")
+  const searchParams = useSearchParams()
+  const transactionId = searchParams.get("id")
+
+  const [step, setStep] = useState<Step>(transactionId ? "send-transaction" : "select-coin")
   const [exchangeTransactionStatus, setExchangeTransactionStatus] =
     useState<ExchangeStatusResponse>({} as ExchangeStatusResponse)
 

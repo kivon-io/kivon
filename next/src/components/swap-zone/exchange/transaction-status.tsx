@@ -1,7 +1,7 @@
 import Loader from "@/components/loader"
 import { useExchange } from "@/context/exchange-context"
 import { cn } from "@/lib/utils"
-import { BsCheckCircle } from "react-icons/bs"
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5"
 
 const STATUSES = ["waiting", "confirming", "exchanging", "sending", "finished"]
 
@@ -34,7 +34,7 @@ const TransactionStatus = ({ currentStatus }: { currentStatus?: string }) => {
         let icon = null
         if (idx < currentIndex) {
           // Passed: show check
-          icon = <BsCheckCircle className='text-emerald-600' />
+          icon = <IoCheckmarkDoneCircleSharp className='text-emerald-600 text-2xl relative z-10' />
         } else if (idx === currentIndex) {
           // Current: show loader
           icon = <Loader className='text-secondary-custom relative left-1' />
@@ -51,7 +51,8 @@ const TransactionStatus = ({ currentStatus }: { currentStatus?: string }) => {
             className={cn(
               "flex gap-4 relative",
               showLine &&
-                "after:absolute after:left-2.5 after:top-5 after:bottom-0 after:w-px after:bg-zinc-200 after:h-full"
+                "after:absolute after:left-2.5 after:top-5 after:bottom-0 after:w-px after:bg-zinc-200 after:h-full transition-all duration-200",
+              idx < currentIndex && "after:bg-emerald-600"
             )}
             key={status}
           >

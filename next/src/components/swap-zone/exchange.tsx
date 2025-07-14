@@ -6,6 +6,7 @@ import SelectCoin from "./exchange/select-coin"
 import SendTransaction from "./exchange/send-transaction"
 import { DialogTips } from "./exchange/tips"
 import TransactionDetails from "./exchange/transaction-details"
+import NewTransaction from "./new-transaction"
 
 const Exchange = () => {
   // only show if params match exchange
@@ -23,7 +24,8 @@ const Exchange = () => {
         <TransactionDetails />
         <SendTransaction />
         <ExchangeAction />
-        <div className='border-t border-zinc-200 pt-4 mt-5'>
+        <div className='border-t border-zinc-200 pt-4 mt-1 flex flex-col gap-4'>
+          <NewTransaction />
           <DialogTips />
         </div>
       </motion.div>
