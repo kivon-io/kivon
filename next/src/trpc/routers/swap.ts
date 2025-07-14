@@ -1,3 +1,4 @@
+import { CHANGE_NOW_API_URL } from "@/lib/shared/constants"
 import { z } from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter } from "../trpc"
@@ -122,5 +123,53 @@ export const swapRouter = createTRPCRouter({
       const data = await response.json()
 
       return data as EstimatedExchangeAmountResponse
+    }),
+
+  createExchangeTransaction: publicProcedure
+    .input(
+      z.object({
+        sendToken: z.string(),
+        receiveToken: z.string(),
+        sendTokenNetwork: z.string(),
+        receiveTokenNetwork: z.string(),
+        sendAmount: z.coerce.number().min(0, { message: "Send amount must be greater than 0" }),
+        destinationAddress: z.string(),
+        refundAddress: z.string().optional(),
+        flow: z.string(),
+        rateId: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const payload = {
+        fromCurrency: input.sendToken,
+        fromNetwork: input.sendTokenNetwork,
+        toCurrency: input.receiveToken,
+        toNetwork: input.receiveTokenNetwork,
+        fromAmount: input.sendAmount,
+        toAmount: input.sendAmount,
+        address: input.destinationAddress,
+        ...(input.rateId && { rateId: input.rateId }),
+        ...(input.refundAddress && { refundAddress: input.refundAddress }),
+        flow: input.flow,
+      }
+
+      console.log("PAYLOAD: ", payload)
+
+      const response = await fetch(`${CHANGE_NOW_API_URL}/exchange`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-changenow-api-key": process.env.CHANGE_NOW_API_KEY || "",
+        },
+        body: JSON.stringify(payload),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to create exchange transaction: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      return data as ExchangeTransactionResponse
     }),
 })

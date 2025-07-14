@@ -49,3 +49,18 @@ type EstimatedExchangeAmountResponse = {
   fromAmount: number
   toAmount: number
 }
+
+type ExchangeTransactionResponse = {
+  fromAmount: number
+  toAmount: number
+  flow: string
+  type: string
+  payinAddress: string
+  payoutAddress: string
+  fromCurrency: string
+  toCurrency: string
+  refundAddress: string
+  id: string
+  fromNetwork: string
+  toNetwork: string
+}
