@@ -64,3 +64,47 @@ type ExchangeTransactionResponse = {
   fromNetwork: string
   toNetwork: string
 }
+
+type ExchangeStatus =
+  | "new"
+  | "waiting"
+  | "confirming"
+  | "exchanging"
+  | "sending"
+  | "finished"
+  | "failed"
+  | "refunded"
+  | "verifying"
+
+type ExchangeStatusResponse = {
+  id: string
+  status: ExchangeStatus
+  actionsAvailable: boolean
+  fromCurrency: string
+  fromNetwork: string
+  toCurrency: string
+  toNetwork: string
+  expectedAmountFrom: number | null
+  expectedAmountTo: number | null
+  amountFrom: number | null
+  amountTo: number | null
+  payinAddress: string
+  payoutAddress: string
+  payinExtraId: string | null
+  payoutExtraId: string | null
+  refundAddress: string | null
+  refundExtraId: string | null
+  createdAt: string
+  updatedAt: string
+  depositReceivedAt: string | null
+  payinHash: string | null
+  fromLegacyTicker: string
+  toLegacyTicker: string
+  refundHash: string | null
+  refundAmount: number | null
+  userId: string | null
+  validUntil: string | null
+  relatedExchangesInfo: string | null
+  repeatedExchangesInfo: string | null
+  orginalExchangeInfo: string | null
+}

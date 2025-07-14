@@ -11,11 +11,15 @@ const ExchangeContext = createContext<{
   form: UseFormReturn<ExchangeFormSchema>
   step: Step
   currencies: Currency[]
+  exchangeTransactionStatus: ExchangeStatusResponse
+  setExchangeTransactionStatus: (status: ExchangeStatusResponse) => void
   setStep: (step: Step) => void
 }>({
   form: {} as UseFormReturn<ExchangeFormSchema>,
   step: "select-coin" as Step,
   currencies: [],
+  exchangeTransactionStatus: {} as ExchangeStatusResponse,
+  setExchangeTransactionStatus: () => {},
   setStep: () => {},
 })
 
@@ -27,6 +31,8 @@ const ExchangeProvider = ({
   currencies: Currency[]
 }) => {
   const [step, setStep] = useState<Step>("select-coin")
+  const [exchangeTransactionStatus, setExchangeTransactionStatus] =
+    useState<ExchangeStatusResponse>({} as ExchangeStatusResponse)
 
   const form = useForm<ExchangeFormSchema>({
     resolver: zodResolver(exchangeFormSchema),
@@ -63,6 +69,20 @@ const ExchangeProvider = ({
         message: undefined,
         isActivated: false,
       },
+      exchangeTransaction: {
+        id: "",
+        fromAmount: 0,
+        toAmount: 0,
+        flow: "",
+        type: "",
+        payinAddress: "",
+        payoutAddress: "",
+        fromCurrency: "",
+        toCurrency: "",
+        refundAddress: "",
+        fromNetwork: "",
+        toNetwork: "",
+      },
     },
   })
 
@@ -70,8 +90,11 @@ const ExchangeProvider = ({
     setStep(step)
   }
 
-  // set default values using currencies[0] and currencies[1]
+  const handleSetExchangeTransactionStatus = (status: ExchangeStatusResponse) => {
+    setExchangeTransactionStatus(status)
+  }
 
+  // set default values using currencies[0] and currencies[1]
   useEffect(() => {
     if (currencies.length > 0) {
       form.setValue("sendToken", {
@@ -98,8 +121,12 @@ const ExchangeProvider = ({
     form,
     step,
     currencies,
+    exchangeTransactionStatus,
+    setExchangeTransactionStatus: handleSetExchangeTransactionStatus,
     setStep: handleStep,
   }
+
+  console.log("EXCHANGE TRANSACTION STATUS: ", exchangeTransactionStatus)
 
   return <ExchangeContext.Provider value={values}>{children}</ExchangeContext.Provider>
 }

@@ -34,6 +34,20 @@ export const exchangeFormSchema = z
       message: z.string().optional(),
       isActivated: z.boolean(),
     },
+    exchangeTransaction: z.object({
+      id: z.string(),
+      fromAmount: z.number(),
+      toAmount: z.number(),
+      flow: z.string(),
+      type: z.string(),
+      payinAddress: z.string(),
+      payoutAddress: z.string(),
+      fromCurrency: z.string(),
+      toCurrency: z.string(),
+      refundAddress: z.string().optional(),
+      fromNetwork: z.string(),
+      toNetwork: z.string(),
+    }),
   })
   .refine((data) => data.sendToken !== data.receiveToken, {
     message: "Send token and receive token cannot be the same.",

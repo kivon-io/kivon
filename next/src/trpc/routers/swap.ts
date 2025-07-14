@@ -146,7 +146,7 @@ export const swapRouter = createTRPCRouter({
         toCurrency: input.receiveToken,
         toNetwork: input.receiveTokenNetwork,
         fromAmount: input.sendAmount,
-        toAmount: input.sendAmount,
+        // toAmount: input.sendAmount,
         address: input.destinationAddress,
         ...(input.rateId && { rateId: input.rateId }),
         ...(input.refundAddress && { refundAddress: input.refundAddress }),
@@ -171,5 +171,25 @@ export const swapRouter = createTRPCRouter({
       const data = await response.json()
 
       return data as ExchangeTransactionResponse
+    }),
+
+  getExchangeTransactionStatus: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      const response = await fetch(`${CHANGE_NOW_API_URL}/exchange/by-id?id=${input.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-changenow-api-key": process.env.CHANGE_NOW_API_KEY || "",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch exchange transaction status: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      return data as ExchangeStatusResponse
     }),
 })

@@ -22,6 +22,7 @@ const ExchangeAction = () => {
   const rateId = form.watch("estimatedExchange.rateId")
   const flow = form.watch("fixed_rate")
   const isAddressValid = form.watch("isAddressValid")
+
   // create exchange transaction
   const { mutateAsync: createExchangeTransaction } = trpc.createExchangeTransaction.useMutation()
 
@@ -38,7 +39,7 @@ const ExchangeAction = () => {
       rateId: rateId || undefined,
     })
 
-    console.log("CREATED EXCHANGE TRANSACTION: ", response)
+    form.setValue("exchangeTransaction", response)
   }
 
   const isNextStepEnabled = useMemo(() => {
