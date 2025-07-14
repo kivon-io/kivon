@@ -208,8 +208,8 @@ const TransactionDetails = () => {
                 <FormControl>
                   <div className='relative '>
                     <Input
-                      className='md:text-base text-sm h-12 focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none placeholder:text-sm shadow-none focus-visible:border-secondary-custom'
-                      placeholder='Enter the ETH payout address'
+                      className='md:text-base text-sm h-12 focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none placeholder:text-sm shadow-none focus-visible:border-secondary-custom placeholder:capitalize'
+                      placeholder={`Enter the ${receiveToken.ticker} payout address`}
                       {...field}
                     />
                     {isValidatingAddress && (

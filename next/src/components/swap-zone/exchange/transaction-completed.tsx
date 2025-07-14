@@ -16,10 +16,10 @@ const TransactionComplete = () => {
 
   const { data: sendTokenInfo } = trpc.getTokenInfo.useQuery(
     {
-      ticker: exchangeTransactionStatus.fromNetwork,
+      ticker: exchangeTransactionStatus.fromLegacyTicker,
     },
     {
-      enabled: !!exchangeTransactionStatus.fromNetwork,
+      enabled: !!exchangeTransactionStatus.fromLegacyTicker,
     }
   )
 

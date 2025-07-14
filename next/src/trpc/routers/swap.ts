@@ -162,20 +162,20 @@ export const swapRouter = createTRPCRouter({
       return data as ExchangeTransactionResponse
 
       // TODO: remove this
-      //   return {
-      //     fromAmount: 0.003,
-      //     toAmount: 0.052286,
-      //     flow: "standard",
-      //     type: "direct",
-      //     payinAddress: "3M7QKsJDKbVZAhFPpFSVtVQv6Nzon3Lwtv",
-      //     payoutAddress: "0x57f31ad4b64095347F87eDB1675566DAfF5EC886",
-      //     fromCurrency: "btc",
-      //     toCurrency: "eth",
-      //     refundAddress: "135Hej8p1xSKoChWu5x6LSbNn5opgpojGn",
-      //     id: "3a2360771439a3",
-      //     fromNetwork: "btc",
-      //     toNetwork: "eth",
-      //   } as unknown as ExchangeTransactionResponse
+      // return {
+      //   fromAmount: 0.003,
+      //   toAmount: 0.052286,
+      //   flow: "standard",
+      //   type: "direct",
+      //   payinAddress: "3M7QKsJDKbVZAhFPpFSVtVQv6Nzon3Lwtv",
+      //   payoutAddress: "0x57f31ad4b64095347F87eDB1675566DAfF5EC886",
+      //   fromCurrency: "btc",
+      //   toCurrency: "eth",
+      //   refundAddress: "135Hej8p1xSKoChWu5x6LSbNn5opgpojGn",
+      //   id: "3a2360771439a3",
+      //   fromNetwork: "btc",
+      //   toNetwork: "eth",
+      // } as unknown as ExchangeTransactionResponse
     }),
 
   getExchangeTransactionStatus: publicProcedure
@@ -194,13 +194,14 @@ export const swapRouter = createTRPCRouter({
       }
 
       const data = await response.json()
+      // console.log("DATA: ", data)
 
       return data as ExchangeStatusResponse
 
       // TODO: remove this
       // console.log("INPUT: ", input)
 
-      // Simulate advancing every 20 seconds
+      // // Simulate advancing every 20 seconds
       // const now = Date.now()
       // if (currentStep < MOCK_STATUSES.length - 1 && now - lastUpdate > 20000) {
       //   currentStep++

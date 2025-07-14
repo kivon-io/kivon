@@ -13,7 +13,7 @@ const statusTitles = {
 }
 
 const statusDescriptions = {
-  waiting: "Please send the funds to the address below",
+  waiting: "Please send the funds to the address above",
   confirming: "Transaction is being confirmed",
   exchanging: "Exchanging the requested tokens",
   sending: "Sending the exchanged tokens to your wallet",
