@@ -17,8 +17,8 @@ const NavbarItem = ({ href, children, active, className, target }: Props) => {
     <Link
       href={href}
       className={cn(
-        "flex items-center justify-center text-sm leading-[110%] px-2.5 py-2 hover:text-zinc-900 font-semibold border border-transparent text-zinc-500 hover:shadow-[0px_1px_0px_0px_var(--neutral-600)_inset] transition duration-200",
-        (active || pathname?.includes(href)) && "text-zinc-900",
+        "flex items-center justify-center text-sm leading-[110%] px-2.5 py-2 hover:text-zinc-900 dark:hover:text-zinc-200 font-semibold border border-transparent text-zinc-500 dark:text-white hover:shadow-[0px_1px_0px_0px_var(--neutral-600)_inset] transition duration-200",
+        (active || pathname?.includes(href)) && "text-zinc-900 dark:text-white",
         className
       )}
       target={target}

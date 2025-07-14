@@ -26,7 +26,10 @@ const AdvancedSettings = ({ form }: { form: UseFormReturn<ExchangeFormSchema> })
 
   return (
     <Accordion type='single' collapsible>
-      <AccordionItem value='advanced-settings' className='border-t border-zinc-100'>
+      <AccordionItem
+        value='advanced-settings'
+        className='border-t border-zinc-200 dark:border-zinc-800'
+      >
         <AccordionTrigger className='uppercase text-xs text-zinc-500  hover:no-underline flex justify-center'>
           Advanced Settings
         </AccordionTrigger>
@@ -63,7 +66,7 @@ const AdvancedSettings = ({ form }: { form: UseFormReturn<ExchangeFormSchema> })
             <Alert variant='info'>
               <BsInfoCircle />
               <AlertTitle className='text-sm'>Refund Address</AlertTitle>
-              <AlertDescription className='text-blue-900 text-sm'>
+              <AlertDescription className='text-blue-900 dark:text-blue-200 text-sm'>
                 To receive a refund in case of an issue, add this address. This is an optional
                 field.
               </AlertDescription>

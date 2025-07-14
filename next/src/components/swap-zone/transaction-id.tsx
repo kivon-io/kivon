@@ -23,17 +23,17 @@ const TransactionId = ({
   return (
     <div
       className={cn(
-        "w-fit ml-auto flex items-center gap-2 bg-zinc-100 rounded-lg px-2 relative right-5 border border-zinc-200 py-1",
+        "w-fit ml-auto flex items-center gap-2 bg-zinc-100 dark:bg-neutral-900 rounded-lg px-2 relative right-5 border border-zinc-200 dark:border-zinc-800 py-1",
         className
       )}
     >
-      <p className='text-xs text-zinc-500'>Transaction ID:</p>
+      <p className='text-xs text-zinc-500 dark:text-zinc-400'>Transaction ID:</p>
       <div className='flex items-center gap-2'>
-        <p className='text-xs text-zinc-900 font-medium'>{transactionId}</p>
+        <p className='text-xs text-zinc-900 dark:text-zinc-100 font-medium'>{transactionId}</p>
         <Button
           size='icon'
           variant='ghost'
-          className='h-5 w-5 hover:bg-transparent'
+          className='h-5 w-5 hover:bg-transparent dark:hover:bg-transparent'
           onClick={handleCopy}
         >
           {isCopied ? <Check /> : <Copy />}

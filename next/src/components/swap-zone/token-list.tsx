@@ -88,7 +88,7 @@ const TokenList = () => {
             {filteredCurrencies?.map((currency, index) => (
               <div
                 key={index}
-                className='w-full bg-zinc-100 flex gap-2 items-center px-3 py-2 rounded-xl hover:bg-zinc-200 cursor-pointer transition-all duration-300'
+                className='mb-2 w-full border border-zinc-200 dark:border-zinc-900 bg-zinc-100 dark:bg-neutral-950 flex gap-2 items-center px-3 py-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-neutral-900 cursor-pointer transition-all duration-300'
                 onClick={() => handleClick(currency)}
               >
                 {currency.image && <TokenLogo src={currency.image} alt={currency.ticker} />}

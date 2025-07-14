@@ -14,7 +14,7 @@ const Logo = () => {
           className='h-full w-full object-contain object-center rounded-sm'
         />
       </div>
-      <p className='text-base font-medium text-zinc-900'>{APP_NAME}</p>
+      <p className='text-base font-medium text-zinc-900 dark:text-white'>{APP_NAME}</p>
     </Link>
   )
 }

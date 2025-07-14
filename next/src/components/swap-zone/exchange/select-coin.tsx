@@ -35,10 +35,10 @@ const SelectCoin = () => {
         <CoinCard type={EXCHANGE_TYPE.SEND} className='col-span-5' token={sendToken} />
         <div className='col-span-2 flex items-center justify-center'>
           <div
-            className='rounded-xl border border-zinc-200 h-10 w-10 flex items-center justify-center cursor-pointer'
+            className='rounded-xl border border-zinc-200 dark:border-zinc-800 h-10 w-10 flex items-center justify-center cursor-pointer'
             onClick={handleSwitchTokens}
           >
-            <HiOutlineArrowSmRight className='text-zinc-500' />
+            <HiOutlineArrowSmRight className='text-zinc-500 dark:text-zinc-300' />
           </div>
         </div>
         <CoinCard type={EXCHANGE_TYPE.RECEIVE} className='col-span-5' token={receiveToken} />
@@ -74,7 +74,7 @@ const CoinCard = ({
       viewport={{ once: true }}
       whileHover={{ scale: 1.05 }}
       className={cn(
-        "border border-zinc-200 bg-zinc-100 rounded-xl p-5 relative cursor-pointer",
+        "border border-zinc-200 dark:border-zinc-800 bg-gradient-to-b from-zinc-50 to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 rounded-xl p-5 relative cursor-pointer",
         className
       )}
       onClick={() => handleClick()}
@@ -92,7 +92,7 @@ const CoinCard = ({
             />
           )}
           <div className='flex flex-col gap-1 items-center justify-center'>
-            <Symbol className='text-sm font-bold uppercase text-zinc-900' symbol={token.ticker} />
+            <Symbol symbol={token.ticker} />
             <TokenName className='text-xs md:text-sm capitalize text-center' name={token.name} />
             <Badge>
               <p className='text-xs uppercase font-medium'>{token.network}</p>
@@ -100,8 +100,8 @@ const CoinCard = ({
           </div>
         </div>
       </div>
-      <div className='absolute -top-3.5 h-2 w-4/5 left-1/2 -translate-x-1/2 translate-y-1/2 bg-zinc-50 border-t border-l border-r border-zinc-200 rounded-t-xl opacity-80' />
-      <div className='absolute -top-[22px] left-1/2 -translate-x-1/2 bg-zinc-50 h-2 w-3/5 translate-y-1/2 border-t border-l border-r border-zinc-200 rounded-t-xl opacity-50' />
+      <div className='absolute -top-3.5 h-2 w-4/5 left-1/2 -translate-x-1/2 translate-y-1/2 bg-zinc-50 dark:bg-neutral-900 border-t border-l border-r border-zinc-200 dark:border-zinc-800 rounded-t-xl opacity-80' />
+      <div className='absolute -top-[22px] left-1/2 -translate-x-1/2 bg-zinc-50 dark:bg-neutral-800 h-2 w-3/5 translate-y-1/2 border-t border-l border-r border-zinc-200 dark:border-zinc-700 rounded-t-xl opacity-50' />
     </motion.div>
   )
 }

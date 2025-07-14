@@ -36,7 +36,7 @@ const TransactionStatus = ({ currentStatus }: { currentStatus?: string }) => {
         } else {
           // Not reached: show empty circle
           icon = (
-            <div className='h-5 w-5 rounded-full relative z-10 bg-zinc-100 border border-zinc-300'></div>
+            <div className='h-5 w-5 rounded-full relative z-10 bg-zinc-100 dark:bg-neutral-950 border border-zinc-300 dark:border-zinc-800'></div>
           )
         }
         const showLine = idx < STATUSES.length - 1

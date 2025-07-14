@@ -70,7 +70,10 @@ export const DialogTips = () => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant='outline' className='w-full h-12 rounded-lg'>
+        <Button
+          variant='outline'
+          className='w-full h-12 rounded-lg dark:bg-neutral-950 dark:text-white dark:border-zinc-800'
+        >
           <BsInfoCircleFill className='w-4 h-4 mr-1' />
           Transaction tips
         </Button>
@@ -119,7 +122,7 @@ const TipsContent = () => {
             ))}
           </div>
           {tip.note && (
-            <p className='mt-2 text-xs md:text-sm text-start text-zinc-700 border border-zinc-200 p-4 rounded-lg'>
+            <p className='mt-2 text-xs md:text-sm text-start text-zinc-700 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-neutral-950 p-4 rounded-lg'>
               {tip.note}
             </p>
           )}

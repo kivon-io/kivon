@@ -10,7 +10,7 @@ import { z } from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter } from "../trpc"
 
-// let currentStep = 1
+// let currentStep = 0
 // let lastUpdate = Date.now()
 
 // const MOCK_STATUSES = [txWaiting, txConfirming, txExchanging, txSending, txFinished]

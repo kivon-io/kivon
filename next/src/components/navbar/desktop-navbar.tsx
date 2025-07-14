@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react"
 import { useState } from "react"
 import Logo from "../logo"
+import { ModeToggle } from "../toggle-theme"
 import { Button } from "../ui/button"
 import NavbarItem from "./navbar-item"
 
@@ -49,7 +50,7 @@ const DesktopNavbar = ({ items }: Props) => {
               duration: 1,
             }}
             className={cn(
-              "absolute inset-0 h-full w-full bg-white pointer-events-none [mask-image:linear-gradient(to_bottom,white,white,white)]"
+              "absolute inset-0 h-full w-full bg-white dark:bg-neutral-900 pointer-events-none [mask-image:linear-gradient(to_bottom,white,white,white)]"
             )}
           />
         )}
@@ -72,9 +73,10 @@ const DesktopNavbar = ({ items }: Props) => {
           ))}
         </div>
         <div className='flex space-x-2 items-center'>
-          <Button className='rounded-lg bg-primary text-white' size='lg'>
+          <Button className='rounded-lg bg-primary dark:bg-white dark:text-black' size='lg'>
             Connect Wallet
           </Button>
+          <ModeToggle />
         </div>
       </motion.div>
     </motion.div>

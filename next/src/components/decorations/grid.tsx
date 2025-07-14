@@ -20,18 +20,18 @@ export const Grid = ({
   return (
     <div
       className={cn(
-        "pointer-events-none absolute top-20 left-0 right-0 bottom-0 h-full w-full [mask-image:linear-gradient(white,white)]",
+        "pointer-events-none absolute top-20 left-0 right-0 bottom-0 h-full w-full [mask-image:linear-gradient(white,white)] dark:[mask-image:linear-gradient(neutral-950,neutral-950)]",
         className
       )}
     >
-      <div className='absolute inset-0 bg-gradient-to-b from-zinc-100/50 to-zinc-300/50 opacity-100 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-zinc-900/30 dark:to-zinc-900/30'>
+      <div className='absolute inset-0 bg-gradient-to-b from-zinc-100/50 to-zinc-300/50 opacity-100 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-neutral-900/50 dark:via-neutral-900/50 dark:to-neutral-900/50'>
         <GridPattern
           width={size ?? 20}
           height={size ?? 20}
           x='-12'
           y='4'
           squares={p}
-          className='fill-zinc-500/50 stroke-zinc-500/50 dark:fill-zinc-500/50 dark:stroke-zinc-500/50 absolute inset-0 h-full w-full mix-blend-overlay'
+          className='fill-zinc-500/50 stroke-zinc-500/50 dark:fill-neutral-500/50 dark:stroke-neutral-500/50 absolute inset-0 h-full w-full mix-blend-overlay'
         />
       </div>
     </div>

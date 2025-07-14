@@ -165,9 +165,9 @@ const TransactionDetails = () => {
           <SendAmountLessThanMinAmount token={sendToken} minAmount={minExchangeAmount.minAmount} />
         )}
       </div>
-      <div className='relative left-5 h-16 border-l border-dashed border-zinc-200 flex items-center justify-between'>
+      <div className='relative left-5 h-16 border-l border-dashed border-zinc-200 dark:border-zinc-700 flex items-center justify-between'>
         <div className='flex md:flex-row flex-col items-center gap-2'>
-          <div className='text-xs font-medium pl-3 text-zinc-600 flex items-center gap-1'>
+          <div className='text-xs font-medium pl-3 text-zinc-600 dark:text-zinc-400 flex items-center gap-1'>
             <div className='flex items-center gap-1'>
               <span className='hidden'> Estimated rate: </span> {sendAmount}{" "}
               <Symbol className='text-xs' symbol={sendToken.ticker} />
@@ -188,7 +188,7 @@ const TransactionDetails = () => {
           <HiOutlineArrowNarrowDown className='text-zinc-600 text-sm group-hover:translate-y-0.5 duration-200 transition-all' />
           <HiOutlineArrowNarrowUp className='text-zinc-600 text-sm group-hover:-translate-y-0.5 duration-200 transition-all' />
         </div>
-        <div className='absolute h-2 w-2 rounded-full -translate-x-1/2 transform -translate-y-1/2 top-1/2 bg-zinc-200' />
+        <div className='absolute h-2 w-2 rounded-full -translate-x-1/2 transform -translate-y-1/2 top-1/2 bg-zinc-200 dark:bg-zinc-700' />
       </div>
       <AmountDetails
         type={EXCHANGE_TYPE.RECEIVE}
@@ -226,7 +226,9 @@ const TransactionDetails = () => {
                   </div>
                 </FormControl>
                 {validatedAddress?.message && (
-                  <p className='text-xs text-red-500'>{validatedAddress.message}</p>
+                  <p className='text-xs text-red-500 dark:text-red-400'>
+                    {validatedAddress.message}
+                  </p>
                 )}
                 <FormMessage />
               </FormItem>
@@ -290,7 +292,7 @@ const AmountDetails = ({
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className='bg-zinc-100 relative border border-zinc-200 rounded-xl p-4 flex flex-col gap-2'
+        className='bg-zinc-100 dark:bg-neutral-900 relative border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col gap-2'
       >
         <p className='text-sm'>You {type === "send" ? "send" : "receive"}</p>
         <div className='flex gap-2 items-center'>
@@ -366,8 +368,9 @@ const SendAmountLessThanMinAmount = ({
 }) => {
   return (
     <div className={cn("absolute bottom-3 right-3")}>
-      <div className='text-xs text-red-500 font-medium flex items-center gap-1'>
-        Min is {minAmount} <Symbol className='text-xs text-red-500' symbol={token.ticker} />
+      <div className='text-xs text-red-500 dark:text-red-400 font-medium flex items-center gap-1'>
+        Min is {minAmount}{" "}
+        <Symbol className='text-xs text-red-500 dark:text-red-400' symbol={token.ticker} />
       </div>
     </div>
   )

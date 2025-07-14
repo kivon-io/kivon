@@ -1,5 +1,6 @@
 import Hero from "@/components/dynamic-zone/hero"
 import Navbar from "@/components/navbar"
+import { ThemeProvider } from "@/components/theme-provider"
 import { AppProvider } from "@/context/app-context"
 import { TRPCProvider } from "@/trpc/client"
 import type { Metadata } from "next"
@@ -27,16 +28,23 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' className='bg-background' suppressHydrationWarning>
+    <html lang='en' className='bg-background dark:bg-neutral-950' suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
         suppressHydrationWarning
       >
         <TRPCProvider>
           <AppProvider>
-            <Navbar />
-            <Hero />
-            {children}
+            <ThemeProvider
+              attribute='class'
+              defaultTheme='system'
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navbar />
+              <Hero />
+              {children}
+            </ThemeProvider>
           </AppProvider>
         </TRPCProvider>
       </body>

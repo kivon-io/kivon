@@ -10,7 +10,7 @@ const heading = "Exchange any Web3 Crypto limitlessly, instantly, securely and e
 
 const Hero = () => {
   const pathname = usePathname()
-  const heroRoutes = ["/", "/exchange", "/buy", "/sell", "/defi"]
+  const heroRoutes = ["/", "/exchange", "/buy", "/sell", "/bridge"]
   // show hero only on these routes
   if (!heroRoutes.includes(pathname)) return null
 
@@ -41,7 +41,7 @@ const Hero = () => {
           </Subheading>
         </motion.div>
       </div>
-      <Grid size={60} className='top-20 left-0 right-0 bottom-0 opacity-80' />
+      <Grid size={60} className=' top-20 left-0 right-0 bottom-0 opacity-80 h-[700px] w-full' />
     </div>
   )
 }
