@@ -5,7 +5,7 @@
 //   txSending,
 //   txWaiting,
 // } from "@/data/transactionstatus"
-import { CHANGE_NOW_API_URL } from "@/lib/shared/constants"
+import { APP_URL, CHANGE_NOW_API_URL } from "@/lib/shared/constants"
 import { z } from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter } from "../trpc"
@@ -32,17 +32,12 @@ export const swapRouter = createTRPCRouter({
       if (input.buy) params.append("buy", input.buy.toString())
       if (input.sell) params.append("sell", input.sell.toString())
 
-      const response = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-        }/api/currencies?${params.toString()}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      const response = await fetch(`${APP_URL}/api/currencies?${params.toString()}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
       if (!response.ok) {
         throw new Error(`Failed to fetch currencies: ${response.status}`)
@@ -71,17 +66,12 @@ export const swapRouter = createTRPCRouter({
         flow: input.flow,
       }).toString()
 
-      const response = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-        }/api/currencies/min-exchange-amount?${params}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      const response = await fetch(`${APP_URL}/api/currencies/min-exchange-amount?${params}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
       if (!response.ok) {
         throw new Error(`Failed to fetch min exchange amount: ${response.status}`)
@@ -113,14 +103,9 @@ export const swapRouter = createTRPCRouter({
         sendAmount: input.sendAmount.toString(),
       }).toString()
 
-      const response = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-        }/api/currencies/estimated-amount?${params}`,
-        {
-          method: "GET",
-        }
-      )
+      const response = await fetch(`${APP_URL}/api/currencies/estimated-amount?${params}`, {
+        method: "GET",
+      })
 
       if (!response.ok) {
         throw new Error(`Failed to fetch estimated exchange amount: ${response.status}`)
