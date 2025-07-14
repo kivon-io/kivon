@@ -23,6 +23,7 @@ const TokenList = () => {
   const { form, currencies } = useExchange()
   const open = state.tokenListOpen
   const [filteredCurrencies, setFilteredCurrencies] = useState<Currency[]>(currencies)
+
   const onOpenChange = () => {
     toggleTokenList()
   }
@@ -49,6 +50,7 @@ const TokenList = () => {
     }
 
     toggleTokenList()
+    setFilteredCurrencies(currencies)
   }
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
