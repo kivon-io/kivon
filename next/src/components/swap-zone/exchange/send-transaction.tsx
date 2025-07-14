@@ -60,63 +60,65 @@ const SendTransaction = () => {
 
   if (step !== EXCHANGE_STEPS.SEND_TRANSACTION) return null
 
-  return transaction?.status === EXCHANGE_STATUS.FINISHED ? (
+  return transaction && transaction.status === EXCHANGE_STATUS.FINISHED ? (
     <TransactionComplete />
   ) : (
-    <div className='relative flex flex-col gap-8'>
-      <div className='flex flex-col gap-2'>
-        <h1 className='text-sm font-medium'>Please send the funds you would like to exchange</h1>
-        <div className='flex flex-col gap-2 relative'>
-          <div className='rounded-xl p-5 bg-zinc-100 border border-zinc-300 flex flex-col gap-5'>
-            <div className='flex flex-col gap-1'>
-              <p className='text-xs text-zinc-700'>Amount</p>
-              <div className='flex items-center gap-2'>
-                <div className='flex items-center gap-1 font-bold text-xl md:text-2xl'>
-                  {transaction?.expectedAmountFrom}{" "}
-                  <Symbol
-                    className='text-zinc-800 text-lg md:text-xl'
-                    symbol={transaction?.fromCurrency || ""}
-                  />
+    transaction && (
+      <div className='relative flex flex-col gap-8'>
+        <div className='flex flex-col gap-2'>
+          <h1 className='text-sm font-medium'>Please send the funds you would like to exchange</h1>
+          <div className='flex flex-col gap-2 relative'>
+            <div className='rounded-xl p-5 bg-zinc-100 border border-zinc-300 flex flex-col gap-5'>
+              <div className='flex flex-col gap-1'>
+                <p className='text-xs text-zinc-700'>Amount</p>
+                <div className='flex items-center gap-2'>
+                  <div className='flex items-center gap-1 font-bold text-xl md:text-2xl'>
+                    {transaction?.expectedAmountFrom}{" "}
+                    <Symbol
+                      className='text-zinc-800 text-lg md:text-xl'
+                      symbol={transaction?.fromCurrency || ""}
+                    />
+                  </div>
+                  <Badge>
+                    <span className='text-xs uppercase'>{transaction?.fromNetwork || ""}</span>
+                  </Badge>
                 </div>
-                <Badge>
-                  <span className='text-xs uppercase'>{transaction?.fromNetwork || ""}</span>
-                </Badge>
+              </div>
+              <div className='flex flex-col'>
+                {isPendingTransactionStatus ? (
+                  <Loader className='text-black' />
+                ) : (
+                  <>
+                    <p className='text-xs text-zinc-700'>To this address</p>
+
+                    <div className='flex flex-col md:flex-row gap-2 md:items-center relative w-full'>
+                      <p className='text-zinc-700 font-medium max-w-[350px] w-full break-words'>
+                        {transaction?.payinAddress || ""}
+                      </p>
+                      <Button size='icon' variant='outline' onClick={handleCopyAddress}>
+                        {isCopied ? <Check /> : <Copy />}
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
-            <div className='flex flex-col'>
-              {isPendingTransactionStatus ? (
-                <Loader className='text-black' />
-              ) : (
-                <>
-                  <p className='text-xs text-zinc-700'>To this address</p>
-
-                  <div className='flex flex-col md:flex-row gap-2 md:items-center relative w-full'>
-                    <p className='text-zinc-700 font-medium max-w-[350px] w-full break-words'>
-                      {transaction?.payinAddress || ""}
-                    </p>
-                    <Button size='icon' variant='outline' onClick={handleCopyAddress}>
-                      {isCopied ? <Check /> : <Copy />}
-                    </Button>
-                  </div>
-                </>
-              )}
-            </div>
+            {transaction?.status === EXCHANGE_STATUS.CONFIRMING ||
+            transaction?.status === EXCHANGE_STATUS.EXCHANGING ||
+            transaction?.status === EXCHANGE_STATUS.SENDING ? (
+              <ProcessingTransaction />
+            ) : null}
           </div>
-          {transaction?.status === EXCHANGE_STATUS.CONFIRMING ||
-          transaction?.status === EXCHANGE_STATUS.EXCHANGING ||
-          transaction?.status === EXCHANGE_STATUS.SENDING ? (
-            <ProcessingTransaction />
-          ) : null}
         </div>
-      </div>
 
-      <TransactionStatus currentStatus={transaction?.status} />
-      {isPendingTransactionStatus ? (
-        <Loader className='text-black' />
-      ) : (
-        transaction && <ReceiveDetails exchangeTransaction={transaction} />
-      )}
-    </div>
+        <TransactionStatus currentStatus={transaction?.status} />
+        {isPendingTransactionStatus ? (
+          <Loader className='text-black' />
+        ) : (
+          transaction && <ReceiveDetails exchangeTransaction={transaction} />
+        )}
+      </div>
+    )
   )
 }
 

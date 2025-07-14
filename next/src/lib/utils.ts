@@ -12,3 +12,15 @@ export const transformer = superjson
 export const formatDateToUtc = (date: string) => {
   return new Date(date).toUTCString()
 }
+
+export const formatDate = (date: string) => {
+  if (!date) return ""
+
+  return new Date(date).toLocaleString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+}

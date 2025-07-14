@@ -1,5 +1,4 @@
 import Loader from "@/components/loader"
-import { useExchange } from "@/context/exchange-context"
 import { cn } from "@/lib/utils"
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5"
 
@@ -22,11 +21,7 @@ const statusDescriptions = {
 }
 
 const TransactionStatus = ({ currentStatus }: { currentStatus?: string }) => {
-  const { exchangeTransactionStatus } = useExchange()
-
   const currentIndex = STATUSES.indexOf(currentStatus || "waiting")
-
-  console.log("EXCHANGE TRANSACTION STATUS: ", exchangeTransactionStatus)
 
   return (
     <div className='flex flex-col gap-5 relative'>

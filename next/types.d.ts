@@ -98,6 +98,7 @@ type ExchangeStatusResponse = {
   updatedAt: string
   depositReceivedAt: string | null
   payinHash: string | null
+  payoutHash: string | null
   fromLegacyTicker: string
   toLegacyTicker: string
   refundHash: string | null

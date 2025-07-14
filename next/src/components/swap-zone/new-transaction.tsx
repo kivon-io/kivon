@@ -21,7 +21,6 @@ const NewTransaction = () => {
     router.push("/exchange")
   }
 
-  console.log("EXCHANGE TRANSACTION STATUS: ", exchangeTransactionStatus)
   return isFinished ? (
     <Button onClick={handleNewTransaction} className='w-full h-12'>
       New Transaction

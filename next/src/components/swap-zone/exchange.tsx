@@ -1,4 +1,5 @@
 "use client"
+import { useExchange } from "@/context/exchange-context"
 import { motion } from "motion/react"
 import { usePathname } from "next/navigation"
 import ExchangeAction from "./exchange/action"
@@ -7,18 +8,17 @@ import SendTransaction from "./exchange/send-transaction"
 import { DialogTips } from "./exchange/tips"
 import TransactionDetails from "./exchange/transaction-details"
 import NewTransaction from "./new-transaction"
+import TransactionId from "./transaction-id"
 
 const Exchange = () => {
-  // only show if params match exchange
+  const { exchangeTransactionStatus } = useExchange()
+
   const pathname = usePathname()
   if (!pathname.includes("exchange")) return null
 
-  // const hello = trpc.sayHello.useQuery()
-
-  // console.log("HELLO: ", hello)
-
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex flex-col gap-1'>
+      <TransactionId transactionId={exchangeTransactionStatus.id} />
       <motion.div className='h-fit rounded-3xl bg-white p-5 flex flex-col gap-5'>
         <SelectCoin />
         <TransactionDetails />
