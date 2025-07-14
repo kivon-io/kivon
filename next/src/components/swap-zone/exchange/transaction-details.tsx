@@ -1,13 +1,7 @@
 import Badge from "@/components/decorations/badge"
 import Symbol from "@/components/elements/symbol"
 import TokenName from "@/components/elements/token-name"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import Loader from "@/components/loader"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Form,
@@ -29,16 +23,28 @@ import Image from "next/image"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { AiTwotoneLock, AiTwotoneUnlock } from "react-icons/ai"
-import { BsInfoCircle } from "react-icons/bs"
+import { BsCheckCircle, BsXCircle } from "react-icons/bs"
 import { HiOutlineArrowNarrowDown, HiOutlineArrowNarrowUp } from "react-icons/hi"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
+import AdvancedSettings from "./advanced-settings"
 import { EXCHANGE_STEPS, EXCHANGE_TYPE, ExchangeFormSchema } from "./constants"
 import FixedRateInfoDialog from "./fixed-rate-info"
 import { ValidFixedRate } from "./valid-fixed-rate"
 
 const TransactionDetails = () => {
+  const hasSetMinAmount = useRef(false)
   const { step, form } = useExchange()
-  const { sendToken, receiveToken, fixed_rate, sendAmount } = form.watch()
+  const { sendToken, receiveToken, fixed_rate, sendAmount, destination_address } = form.watch()
+
+  const { data: validatedAddress, isLoading: isValidatingAddress } = trpc.validateAddress.useQuery(
+    {
+      address: form.watch("destination_address") || "",
+      network: form.watch("receiveToken.network") || "",
+    },
+    {
+      enabled: !!form.watch("destination_address") && !!form.watch("receiveToken.network"),
+    }
+  )
 
   // memoized input for fetching min exchange amount
   const minExchangeInput = useMemo(() => {
@@ -113,8 +119,6 @@ const TransactionDetails = () => {
     }
   )
 
-  const hasSetMinAmount = useRef(false)
-
   useEffect(() => {
     if (minExchangeAmount?.minAmount && !hasSetMinAmount.current) {
       form.setValue("sendAmount", minExchangeAmount.minAmount)
@@ -134,6 +138,17 @@ const TransactionDetails = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estimatedExchangeAmount, sendAmount, sendToken, receiveToken, fixed_rate])
+
+  useEffect(() => {
+    if (validatedAddress) {
+      form.setValue("isAddressValid", {
+        result: validatedAddress.result,
+        message: validatedAddress.message,
+        isActivated: validatedAddress.isActivated,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [validatedAddress, destination_address])
 
   if (step !== EXCHANGE_STEPS.TRANSACTION_DETAILS) return null
 
@@ -191,12 +206,28 @@ const TransactionDetails = () => {
               <FormItem>
                 <FormLabel>Receipiant Address</FormLabel>
                 <FormControl>
-                  <Input
-                    className='md:text-base text-sm h-12 focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none placeholder:text-sm shadow-none focus-visible:border-secondary-custom'
-                    placeholder='Enter the ETH payout address'
-                    {...field}
-                  />
+                  <div className='relative '>
+                    <Input
+                      className='md:text-base text-sm h-12 focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none placeholder:text-sm shadow-none focus-visible:border-secondary-custom'
+                      placeholder='Enter the ETH payout address'
+                      {...field}
+                    />
+                    {isValidatingAddress && (
+                      <div className='absolute right-2 top-1/2 -translate-y-1/2'>
+                        <Loader />
+                      </div>
+                    )}
+                    {validatedAddress?.result && destination_address && (
+                      <BsCheckCircle className='absolute right-2 top-1/2 -translate-y-1/2 text-emerald-600' />
+                    )}
+                    {validatedAddress?.message && (
+                      <BsXCircle className='absolute right-2 top-1/2 -translate-y-1/2 text-red-500' />
+                    )}
+                  </div>
                 </FormControl>
+                {validatedAddress?.message && (
+                  <p className='text-xs text-red-500'>{validatedAddress.message}</p>
+                )}
                 <FormMessage />
               </FormItem>
             )}
@@ -331,47 +362,6 @@ const AmountDetails = ({
         onOpenChange={setOpenFixedRateInfoDialog}
       />
     </>
-  )
-}
-
-const AdvancedSettings = ({ form }: { form: UseFormReturn<ExchangeFormSchema> }) => {
-  return (
-    <Accordion type='single' collapsible>
-      <AccordionItem value='advanced-settings' className='border-t border-zinc-100'>
-        <AccordionTrigger className='uppercase text-xs text-zinc-500  hover:no-underline flex justify-center'>
-          Advanced Settings
-        </AccordionTrigger>
-        <AccordionContent>
-          <div className='flex flex-col gap-2'>
-            <FormField
-              control={form.control}
-              name='refund_address'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Refund Address</FormLabel>
-                  <FormControl>
-                    <Input
-                      className='md:text-base text-sm h-12 focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none placeholder:text-sm shadow-none'
-                      placeholder='Refund address (optional)'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Alert variant='info'>
-              <BsInfoCircle />
-              <AlertTitle className='text-sm'>Refund Address</AlertTitle>
-              <AlertDescription className='text-blue-900 text-sm'>
-                To receive a refund in case of an issue, add this address. This is an optional
-                field.
-              </AlertDescription>
-            </Alert>
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
   )
 }
 

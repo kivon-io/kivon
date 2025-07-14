@@ -58,6 +58,11 @@ const ExchangeProvider = ({
       terms_and_conditions: true,
       refund_address: undefined,
       fixed_rate: undefined,
+      isAddressValid: {
+        result: false,
+        message: undefined,
+        isActivated: false,
+      },
     },
   })
 

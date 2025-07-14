@@ -29,6 +29,11 @@ export const exchangeFormSchema = z
       toAmount: z.number().optional(),
     }),
     minExchangeAmount: z.number().optional(),
+    isAddressValid: {
+      result: z.boolean(),
+      message: z.string().optional(),
+      isActivated: z.boolean(),
+    },
   })
   .refine((data) => data.sendToken !== data.receiveToken, {
     message: "Send token and receive token cannot be the same.",
