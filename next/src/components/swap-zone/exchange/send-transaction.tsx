@@ -60,9 +60,11 @@ const SendTransaction = () => {
 
   if (step !== EXCHANGE_STEPS.SEND_TRANSACTION) return null
 
-  console.log("transaction: ", transaction)
+  if (isPendingTransactionStatus) {
+    return <Loader className='text-secondary-custom mx-auto text-center text-lg' />
+  }
 
-  return transaction && transaction.status === EXCHANGE_STATUS.FINISHED ? (
+  return transaction?.status === EXCHANGE_STATUS.FINISHED ? (
     <TransactionComplete />
   ) : (
     transaction && (

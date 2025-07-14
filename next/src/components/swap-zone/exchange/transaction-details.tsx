@@ -19,13 +19,13 @@ import { FLOW_TYPE } from "@/lib/shared/constants"
 import { cn } from "@/lib/utils"
 import { trpc } from "@/trpc/client"
 import { motion } from "motion/react"
-import Image from "next/image"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { AiTwotoneLock, AiTwotoneUnlock } from "react-icons/ai"
 import { BsCheckCircle, BsXCircle } from "react-icons/bs"
 import { HiOutlineArrowNarrowDown, HiOutlineArrowNarrowUp } from "react-icons/hi"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
+import TokenLogo from "../token-logo"
 import AdvancedSettings from "./advanced-settings"
 import { EXCHANGE_STEPS, EXCHANGE_TYPE, ExchangeFormSchema } from "./constants"
 import FixedRateInfoDialog from "./fixed-rate-info"
@@ -294,15 +294,7 @@ const AmountDetails = ({
       >
         <p className='text-sm'>You {type === "send" ? "send" : "receive"}</p>
         <div className='flex gap-2 items-center'>
-          {token.image && (
-            <Image
-              src={token.image}
-              alt={token.name}
-              className='object-contain object-center w-8 h-8'
-              width={32}
-              height={32}
-            />
-          )}
+          {token.image && <TokenLogo src={token.image} alt={token.ticker} />}
           <div className='flex flex-col w-full'>
             <div className='w-full flex justify-between items-center gap-2'>
               <div className='flex items-center gap-2'>
@@ -351,7 +343,7 @@ const AmountDetails = ({
             <div className='flex items-center gap-2'>
               <TokenName name={token.name} />
               <Badge>
-                <span className='text-xs uppercase'>{token.network}</span>
+                <span className='text-xs uppercase font-medium'>{token.network}</span>
               </Badge>
             </div>
           </div>

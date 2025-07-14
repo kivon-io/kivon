@@ -95,7 +95,7 @@ const CoinCard = ({
             <Symbol className='text-sm font-bold uppercase text-zinc-900' symbol={token.ticker} />
             <TokenName className='text-xs md:text-sm capitalize text-center' name={token.name} />
             <Badge>
-              <p className='text-xs uppercase'>{token.network}</p>
+              <p className='text-xs uppercase font-medium'>{token.network}</p>
             </Badge>
           </div>
         </div>

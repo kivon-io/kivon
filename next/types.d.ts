@@ -109,3 +109,60 @@ type ExchangeStatusResponse = {
   repeatedExchangesInfo: string | null
   orginalExchangeInfo: string | null
 }
+
+type TokenInfoResponse = {
+  ticker: string
+  name: string
+  image: string
+  warnings: {
+    to: string
+    from: string
+  }
+  hasExternalId: boolean
+  isFiat: boolean
+  isAnonymous: boolean
+  wallets: {
+    primary: {
+      name: string
+      url: string
+      imageUrl: string
+      platforms: {
+        android: boolean
+        ios: boolean
+        linux: boolean
+        chromeos: boolean
+        windows: boolean
+        macos: boolean
+        web: boolean
+      }
+      properties: {
+        anonymity: string
+        security: string
+        weight: string
+      }
+      multi: boolean
+    }[]
+    secondary: {
+      name: string
+      url: string
+      imageUrl: string
+      platforms: {
+        android: boolean
+        ios: boolean
+        linux: boolean
+        chromeos: boolean
+        windows: boolean
+        macos: boolean
+        web: boolean
+      }
+      properties: {
+        anonymity: string
+        security: string
+        weight: string
+      }
+      multi: boolean
+    }[]
+  }
+  addressExplorerMask: string
+  transactionExplorerMask: string
+}

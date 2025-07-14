@@ -24,3 +24,8 @@ export const formatDate = (date: string) => {
     minute: "2-digit",
   })
 }
+
+export const appendUrlToTxHash = (url: string, txHash: string) => {
+  // example: "https://www.oklink.com/base/tx/$$" replace $$ with txHash
+  return url.replace("$$", txHash)
+}

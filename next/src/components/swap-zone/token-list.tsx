@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog"
 import { useAppContext } from "@/context/app-context"
 import { useExchange } from "@/context/exchange-context"
-import Image from "next/image"
 import { useState } from "react"
 import Badge from "../decorations/badge"
 import Symbol from "../elements/symbol"
@@ -17,6 +16,7 @@ import TokenName from "../elements/token-name"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
 import { EXCHANGE_TYPE } from "./exchange/constants"
+import TokenLogo from "./token-logo"
 
 const TokenList = () => {
   const { state, type, toggleTokenList } = useAppContext()
@@ -89,26 +89,15 @@ const TokenList = () => {
                 className='w-full bg-zinc-100 flex gap-2 items-center px-3 py-2 rounded-xl hover:bg-zinc-200 cursor-pointer transition-all duration-300'
                 onClick={() => handleClick(currency)}
               >
-                {currency.image && (
-                  <Image
-                    src={currency.image}
-                    alt={currency.name}
-                    className='object-contain object-center w-8 h-8'
-                    width={32}
-                    height={32}
-                  />
-                )}
+                {currency.image && <TokenLogo src={currency.image} alt={currency.ticker} />}
                 <div className='flex flex-col gap-1'>
                   <div className='flex gap-2 items-center'>
-                    <Symbol
-                      className='text-sm font-bold uppercase text-zinc-900'
-                      symbol={currency.ticker}
-                    />
+                    <Symbol symbol={currency.ticker} />
                     <Badge>
-                      <span className='text-xs uppercase'>{currency.network}</span>
+                      <span className='text-xs uppercase font-medium'>{currency.network}</span>
                     </Badge>
                   </div>
-                  <TokenName className='text-sm capitalize' name={currency.name} />
+                  <TokenName name={currency.name} />
                 </div>
               </div>
             ))}

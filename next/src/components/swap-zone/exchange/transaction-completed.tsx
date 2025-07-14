@@ -4,13 +4,33 @@ import Symbol from "@/components/elements/symbol"
 import { Button } from "@/components/ui/button"
 import { useExchange } from "@/context/exchange-context"
 import { APP_NAME } from "@/lib/shared/constants"
-import { formatDate } from "@/lib/utils"
+import { appendUrlToTxHash, formatDate } from "@/lib/utils"
+import { trpc } from "@/trpc/client"
 import { motion } from "motion/react"
 import { FiCheckCircle } from "react-icons/fi"
 import { HiOutlineArrowNarrowRight } from "react-icons/hi"
+import TokenLogo from "../token-logo"
 
 const TransactionComplete = () => {
   const { exchangeTransactionStatus } = useExchange()
+
+  const { data: sendTokenInfo } = trpc.getTokenInfo.useQuery(
+    {
+      ticker: exchangeTransactionStatus.fromNetwork,
+    },
+    {
+      enabled: !!exchangeTransactionStatus.fromNetwork,
+    }
+  )
+
+  const { data: receiveTokenInfo } = trpc.getTokenInfo.useQuery(
+    {
+      ticker: exchangeTransactionStatus.toLegacyTicker,
+    },
+    {
+      enabled: !!exchangeTransactionStatus.toLegacyTicker,
+    }
+  )
 
   return (
     <div className='relative'>
@@ -36,7 +56,9 @@ const TransactionComplete = () => {
           <div className='grid grid-cols-12 items-center gap-4 border-t border-dashed border-zinc-300  pt-5'>
             <div className='col-span-5 flex items-center justify-center'>
               <div className='flex items-center gap-2'>
-                <div className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-zinc-500'></div>
+                {sendTokenInfo?.image && (
+                  <TokenLogo src={sendTokenInfo?.image} alt={sendTokenInfo?.ticker} />
+                )}
                 <div className='flex items-center gap-1 text-sm'>
                   <Symbol symbol={exchangeTransactionStatus.fromCurrency} />
                   <p className='text-zinc-700'>{exchangeTransactionStatus.amountFrom}</p>
@@ -48,7 +70,9 @@ const TransactionComplete = () => {
             </div>
             <div className='col-span-5 flex items-center justify-center'>
               <div className='flex items-center gap-2'>
-                <div className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-zinc-500'></div>
+                {receiveTokenInfo?.image && (
+                  <TokenLogo src={receiveTokenInfo?.image} alt={receiveTokenInfo?.ticker} />
+                )}
                 <div className='flex items-center gap-1 text-sm'>
                   <Symbol symbol={exchangeTransactionStatus.toCurrency} />
                   <p className='text-zinc-700'>{exchangeTransactionStatus.expectedAmountTo}</p>
@@ -94,7 +118,20 @@ const TransactionComplete = () => {
               {
                 label: "Tx Hash",
                 value: {
-                  text: <TransactionHash hash={exchangeTransactionStatus.payinHash || ""} />,
+                  text: (
+                    <TransactionHash
+                      hash={
+                        sendTokenInfo?.transactionExplorerMask &&
+                        exchangeTransactionStatus.payinHash
+                          ? appendUrlToTxHash(
+                              sendTokenInfo?.transactionExplorerMask,
+                              exchangeTransactionStatus.payinHash
+                            )
+                          : ""
+                      }
+                      text={exchangeTransactionStatus.payinHash || ""}
+                    />
+                  ),
                 },
               },
               {
@@ -127,13 +164,39 @@ const TransactionComplete = () => {
               {
                 label: "Tx Hash",
                 value: {
-                  text: <TransactionHash hash={exchangeTransactionStatus.payoutHash || ""} />,
+                  text: (
+                    <TransactionHash
+                      hash={
+                        receiveTokenInfo?.transactionExplorerMask &&
+                        exchangeTransactionStatus.payoutHash
+                          ? appendUrlToTxHash(
+                              receiveTokenInfo?.transactionExplorerMask,
+                              exchangeTransactionStatus.payoutHash
+                            )
+                          : ""
+                      }
+                      text={exchangeTransactionStatus.payoutHash || ""}
+                    />
+                  ),
                 },
               },
               {
                 label: "Your address",
                 value: {
-                  text: <TransactionText text={exchangeTransactionStatus.payoutAddress || ""} />,
+                  text: (
+                    <TransactionHash
+                      hash={
+                        receiveTokenInfo?.addressExplorerMask &&
+                        exchangeTransactionStatus.payoutAddress
+                          ? appendUrlToTxHash(
+                              receiveTokenInfo?.addressExplorerMask,
+                              exchangeTransactionStatus.payoutAddress
+                            )
+                          : ""
+                      }
+                      text={exchangeTransactionStatus.payoutAddress || ""}
+                    />
+                  ),
                 },
               },
               {
@@ -176,7 +239,7 @@ const TransactionInfo = ({
       <p className='text-sm text-zinc-500'>{subheading}</p>
       <div className='flex flex-col gap-1'>
         {details.map((detail) => (
-          <div key={detail.label} className='grid grid-cols-12 items-center gap-2'>
+          <div key={detail.label} className='grid grid-cols-12 items-start gap-2'>
             <p className='text-xs text-zinc-600 font-medium col-span-4'>{detail.label}</p>
             <div className='col-span-8'>
               {/* {detail.value.isUrl ? (
@@ -200,8 +263,17 @@ const TransactionInfo = ({
   )
 }
 
-const TransactionHash = ({ hash }: { hash: string }) => {
-  return <p className='text-xs text-secondary-custom font-medium break-words'>{hash}</p>
+const TransactionHash = ({ hash, text }: { hash: string; text?: string }) => {
+  return (
+    <a
+      href={hash}
+      target='_blank'
+      rel='noopener noreferrer'
+      className='text-xs text-secondary-custom hover:underline font-medium break-words'
+    >
+      {text || hash}
+    </a>
+  )
 }
 
 const TransactionAmount = ({
