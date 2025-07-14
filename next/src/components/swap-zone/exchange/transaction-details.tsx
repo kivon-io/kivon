@@ -39,10 +39,10 @@ const TransactionDetails = () => {
   const { data: validatedAddress, isLoading: isValidatingAddress } = trpc.validateAddress.useQuery(
     {
       address: form.watch("destination_address") || "",
-      network: form.watch("receiveToken.network") || "",
+      network: form.watch("receiveToken.ticker") || "",
     },
     {
-      enabled: !!form.watch("destination_address") && !!form.watch("receiveToken.network"),
+      enabled: !!form.watch("destination_address") && !!form.watch("receiveToken.ticker"),
     }
   )
 

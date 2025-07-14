@@ -60,6 +60,8 @@ const SendTransaction = () => {
 
   if (step !== EXCHANGE_STEPS.SEND_TRANSACTION) return null
 
+  console.log("transaction: ", transaction)
+
   return transaction && transaction.status === EXCHANGE_STATUS.FINISHED ? (
     <TransactionComplete />
   ) : (

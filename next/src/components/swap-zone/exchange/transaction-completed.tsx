@@ -12,8 +12,6 @@ import { HiOutlineArrowNarrowRight } from "react-icons/hi"
 const TransactionComplete = () => {
   const { exchangeTransactionStatus } = useExchange()
 
-  console.log("EXCHANGE TRANSACTION STATUS: ", exchangeTransactionStatus)
-
   return (
     <div className='relative'>
       <div className='flex flex-col gap-4 '>
@@ -41,7 +39,7 @@ const TransactionComplete = () => {
                 <div className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-zinc-500'></div>
                 <div className='flex items-center gap-1 text-sm'>
                   <Symbol symbol={exchangeTransactionStatus.fromCurrency} />
-                  <p className='text-zinc-700'>{exchangeTransactionStatus.expectedAmountFrom}</p>
+                  <p className='text-zinc-700'>{exchangeTransactionStatus.amountFrom}</p>
                 </div>
               </div>
             </div>
@@ -78,13 +76,14 @@ const TransactionComplete = () => {
             details={[
               {
                 label: "Transaction ID",
-                value: { text: exchangeTransactionStatus.id },
+                value: {
+                  text: <TransactionText text={exchangeTransactionStatus.id} />,
+                },
               },
               {
                 label: "Created at",
                 value: {
-                  text: formatDate(exchangeTransactionStatus.createdAt),
-                  isUrl: false,
+                  text: <TransactionText text={formatDate(exchangeTransactionStatus.createdAt)} />,
                 },
               },
             ]}
@@ -95,22 +94,29 @@ const TransactionComplete = () => {
               {
                 label: "Tx Hash",
                 value: {
-                  text: exchangeTransactionStatus.payinHash || "",
-                  isUrl: true,
+                  text: <TransactionHash hash={exchangeTransactionStatus.payinHash || ""} />,
                 },
               },
               {
                 label: "Sent amount",
                 value: {
-                  text: `${exchangeTransactionStatus.expectedAmountFrom} ${exchangeTransactionStatus.fromCurrency}`,
-                  isUrl: false,
+                  text: (
+                    <TransactionAmount
+                      amount={exchangeTransactionStatus.amountFrom || 0}
+                      currency={exchangeTransactionStatus.fromCurrency}
+                      network={exchangeTransactionStatus.fromNetwork}
+                    />
+                  ),
                 },
               },
               {
                 label: "Received at",
                 value: {
-                  text: formatDate(exchangeTransactionStatus.depositReceivedAt || ""),
-                  isUrl: false,
+                  text: (
+                    <TransactionText
+                      text={formatDate(exchangeTransactionStatus.depositReceivedAt || "")}
+                    />
+                  ),
                 },
               },
             ]}
@@ -121,22 +127,25 @@ const TransactionComplete = () => {
               {
                 label: "Tx Hash",
                 value: {
-                  text: exchangeTransactionStatus.payoutHash || "",
-                  isUrl: true,
+                  text: <TransactionHash hash={exchangeTransactionStatus.payoutHash || ""} />,
                 },
               },
               {
                 label: "Your address",
                 value: {
-                  text: exchangeTransactionStatus.payoutAddress || "",
-                  isUrl: false,
+                  text: <TransactionText text={exchangeTransactionStatus.payoutAddress || ""} />,
                 },
               },
               {
                 label: "Amount",
                 value: {
-                  text: `${exchangeTransactionStatus.expectedAmountTo} ${exchangeTransactionStatus.toCurrency}`,
-                  isUrl: false,
+                  text: (
+                    <TransactionAmount
+                      amount={exchangeTransactionStatus.amountTo || 0}
+                      currency={exchangeTransactionStatus.toCurrency}
+                      network={exchangeTransactionStatus.toNetwork}
+                    />
+                  ),
                 },
               },
             ]}
@@ -157,7 +166,7 @@ const TransactionInfo = ({
   details: {
     label: string
     value: {
-      text: string
+      text: React.ReactNode
       isUrl?: boolean
     }
   }[]
@@ -170,7 +179,7 @@ const TransactionInfo = ({
           <div key={detail.label} className='grid grid-cols-12 items-center gap-2'>
             <p className='text-xs text-zinc-600 font-medium col-span-4'>{detail.label}</p>
             <div className='col-span-8'>
-              {detail.value.isUrl ? (
+              {/* {detail.value.isUrl ? (
                 <a
                   href={detail.value.text}
                   target='_blank'
@@ -181,11 +190,38 @@ const TransactionInfo = ({
                 </a>
               ) : (
                 <p className='text-xs text-zinc-900 font-medium break-words'>{detail.value.text}</p>
-              )}
+              )} */}
+              {detail.value.text}
             </div>
           </div>
         ))}
       </div>
     </div>
   )
+}
+
+const TransactionHash = ({ hash }: { hash: string }) => {
+  return <p className='text-xs text-secondary-custom font-medium break-words'>{hash}</p>
+}
+
+const TransactionAmount = ({
+  amount,
+  currency,
+  network,
+}: {
+  amount: number
+  currency: string
+  network: string
+}) => {
+  return (
+    <div className='flex items-center gap-1'>
+      <p className='text-xs text-zinc-900 font-medium break-words'>{amount || 0}</p>
+      <Symbol className='text-xs' symbol={currency} />
+      <span className='text-xs text-zinc-500 font-medium break-words uppercase'>({network})</span>
+    </div>
+  )
+}
+
+const TransactionText = ({ text }: { text: string }) => {
+  return <p className='text-xs text-zinc-900 font-medium break-words'>{text}</p>
 }
