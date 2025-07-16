@@ -1,4 +1,4 @@
-import Hero from "@/components/dynamic-zone/hero"
+import Footer from "@/components/footer"
 import Navbar from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppProvider } from "@/context/app-context"
@@ -42,8 +42,8 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <Navbar />
-              <Hero />
               {children}
+              <Footer />
             </ThemeProvider>
           </AppProvider>
         </TRPCProvider>

@@ -6,7 +6,7 @@ import SwapZoneContainer from "./swap-zone-container"
 
 const Swap = () => {
   return (
-    <SwapZoneContainer>
+    <SwapZoneContainer className='relative z-10'>
       <Exchange />
       <Buy />
       <Sell />

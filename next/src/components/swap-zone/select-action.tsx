@@ -37,12 +37,12 @@ const SelectSwapType = () => {
   if (pathname !== "/") return null
 
   return (
-    <SwapZoneContainer className='bg-white dark:bg-neutral-950 p-5 lg:p-6 border border-zinc-200 dark:border-zinc-800 rounded-3xl'>
+    <SwapZoneContainer className='relative z-10 bg-white dark:bg-neutral-950 p-5 lg:p-6 border border-zinc-200 dark:border-zinc-800 rounded-3xl w-full'>
       <div className='grid grid-cols-2 gap-5 lg:gap-6'>
         {actions.map((action) => (
           <div
             key={action.id}
-            className='flex flex-col items-center justify-center h-44 bg-zinc-100 dark:bg-neutral-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm cursor-pointer'
+            className='flex flex-col items-center justify-center h-32 md:h-44 bg-zinc-100 dark:bg-neutral-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm cursor-pointer'
             onClick={() => handleSelectSwapType(action.key)}
           >
             <div className='w-10 h-10 bg-zinc-50 dark:bg-neutral-950 rounded-full'></div>

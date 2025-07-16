@@ -1,6 +1,8 @@
 "use client"
+import { cn } from "@/lib/utils"
 import { motion } from "motion/react"
 import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
 import { Cover } from "../decorations/cover"
 import { Grid } from "../decorations/grid"
 import { Heading } from "../elements/heading"
@@ -8,14 +10,27 @@ import { Subheading } from "../elements/sub_heading"
 
 const heading = "Exchange any Web3 Crypto limitlessly, instantly, securely and easily"
 
-const Hero = () => {
+const Hero = ({ className }: { className?: string }) => {
   const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
+
   const heroRoutes = ["/", "/exchange", "/buy", "/sell", "/bridge"]
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null // Prevents hydration mismatch
   // show hero only on these routes
   if (!heroRoutes.includes(pathname)) return null
 
+  console.log("pathname: ", pathname)
+
   return (
-    <div className='relative max-w-screen-2xl mx-auto py-10 mt-20'>
+    <div
+      key={pathname}
+      className={cn("relative max-w-screen-2xl mx-auto py-10 mt-20 w-full", className)}
+    >
       <div className='relative z-20 '>
         <motion.div
           initial={{ opacity: 0, y: 100 }}
@@ -41,7 +56,7 @@ const Hero = () => {
           </Subheading>
         </motion.div>
       </div>
-      <Grid size={60} className=' top-20 left-0 right-0 bottom-0 opacity-80 h-[700px] w-full' />
+      <Grid size={60} className=' left-0 right-0 bottom-0 opacity-80 h-[800px] w-full' />
     </div>
   )
 }

@@ -166,3 +166,10 @@ type TokenInfoResponse = {
   addressExplorerMask: string
   transactionExplorerMask: string
 }
+
+type FooterItem = {
+  id: number
+  text: string
+  URL: string
+  target?: string
+}
