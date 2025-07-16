@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { IoIosClose, IoIosMenu } from "react-icons/io"
 import Logo from "../logo"
+import { ModeToggle } from "../toggle-theme"
 import { Button } from "../ui/button"
 
 type Props = {
@@ -42,7 +43,10 @@ const MobileNavbar = ({ items }: Props) => {
     >
       <Logo />
 
-      <IoIosMenu className='text-black dark:text-white h-6 w-6' onClick={() => setOpen(!open)} />
+      <div className='flex items-center gap-2'>
+        <ModeToggle />
+        <IoIosMenu className='text-black dark:text-white h-6 w-6' onClick={() => setOpen(!open)} />
+      </div>
 
       {open && (
         <div className='fixed inset-0 bg-white dark:bg-neutral-900 z-50 flex flex-col items-start justify-start space-y-10  pt-5  text-xl text-zinc-600  transition duration-200 hover:text-zinc-800'>
