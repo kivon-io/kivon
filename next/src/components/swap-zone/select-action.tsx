@@ -1,5 +1,6 @@
 "use client"
 import { usePathname, useRouter } from "next/navigation"
+import { Heading } from "../elements/heading"
 import SwapZoneContainer from "./swap-zone-container"
 
 const actions = [
@@ -38,6 +39,9 @@ const SelectSwapType = () => {
 
   return (
     <SwapZoneContainer className='relative z-10 bg-white dark:bg-neutral-950 p-5 lg:p-6 border border-zinc-200 dark:border-zinc-800 rounded-3xl w-full'>
+      <Heading as='h2' className='text-sm md:text-base font-medium mb-5'>
+        Select an action to get started
+      </Heading>
       <div className='grid grid-cols-2 gap-5 lg:gap-6'>
         {actions.map((action) => (
           <div

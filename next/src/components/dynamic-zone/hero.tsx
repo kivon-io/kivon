@@ -24,13 +24,8 @@ const Hero = ({ className }: { className?: string }) => {
   // show hero only on these routes
   if (!heroRoutes.includes(pathname)) return null
 
-  console.log("pathname: ", pathname)
-
   return (
-    <div
-      key={pathname}
-      className={cn("relative max-w-screen-2xl mx-auto py-10 mt-20 w-full", className)}
-    >
+    <div key={pathname} className={cn("relative max-w-screen-2xl mx-auto mt-20 w-full", className)}>
       <div className='relative z-20 '>
         <motion.div
           initial={{ opacity: 0, y: 100 }}
@@ -56,7 +51,7 @@ const Hero = ({ className }: { className?: string }) => {
           </Subheading>
         </motion.div>
       </div>
-      <Grid size={60} className=' left-0 right-0 bottom-0 opacity-80 h-[800px] w-full' />
+      <Grid size={60} className='left-0 right-0 bottom-0 opacity-80 h-[950px] w-full' />
     </div>
   )
 }
