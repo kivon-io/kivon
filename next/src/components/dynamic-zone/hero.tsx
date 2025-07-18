@@ -14,7 +14,7 @@ const Hero = ({ className }: { className?: string }) => {
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
 
-  const heroRoutes = ["/", "/exchange", "/buy", "/sell", "/bridge"]
+  const heroRoutes = ["/", "/swap", "/buy", "/sell", "/bridge"]
 
   useEffect(() => {
     setMounted(true)

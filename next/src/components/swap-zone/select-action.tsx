@@ -50,8 +50,8 @@ const SelectSwapType = () => {
       <Heading as='h2' className='text-sm md:text-base font-medium mb-5'>
         Select an action to get started
       </Heading>
-      <div className='grid grid-cols-2 gap-4'>
-        {actions.map((action) => (
+      <div className='grid grid-cols-2 gap-2 md:gap-4'>
+        {actions.map((action, index) => (
           <motion.div
             key={action.id}
             whileHover={{ scale: 1.05 }}
@@ -60,8 +60,19 @@ const SelectSwapType = () => {
             className='flex flex-col items-center justify-center h-32 md:h-44 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 cursor-pointer overflow-hidden relative'
             onClick={() => handleSelectSwapType(action.key)}
           >
-            <div className='relative z-10 flex flex-col items-center justify-center gap-3'>
-              <div className={cn(" w-10 h-10 md:w-20 md:h-20 relative")}>
+            <div className='relative z-10'>
+              <p className='text-sm md:text-lg font-bold absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 '>
+                {action.title}
+              </p>
+              <div
+                className={cn(
+                  "w-20 h-20 md:w-32 md:h-32 absolute",
+                  index === 0 && "-bottom-22 -right-22  md:-bottom-30 md:-right-32",
+                  index === 1 && "-bottom-22 -left-22  md:-bottom-30 md:-left-32",
+                  index === 2 && "-top-22 -right-22  md:-top-30 md:-right-32",
+                  index === 3 && "-top-22 -left-22  md:-top-30 md:-left-32"
+                )}
+              >
                 <Image
                   src={action.image}
                   alt='swap'
@@ -69,7 +80,6 @@ const SelectSwapType = () => {
                   fill
                 />
               </div>
-              <p className='text-sm md:text-lg font-bold text-center'>{action.title}</p>
             </div>
             <Grid size={20} className='absolute top-0 right-0 ' />
           </motion.div>
@@ -89,19 +99,8 @@ export default SelectSwapType
 //   className='flex flex-col items-center justify-center h-32 md:h-44 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 cursor-pointer overflow-hidden relative'
 //   onClick={() => handleSelectSwapType(action.key)}
 // >
-//   <div className='relative z-10'>
-//     <p className='text-lg font-bold absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 '>
-//       {action.title}
-//     </p>
-//     <div
-//       className={cn(
-//         " w-10 h-10 md:w-32 md:h-32 absolute",
-//         index === 0 && "-bottom-30 -right-32",
-//         index === 1 && "-bottom-30 -left-32",
-//         index === 2 && "-top-30 -right-32",
-//         index === 3 && "-top-30 -left-32"
-//       )}
-//     >
+//   <div className='relative z-10 flex flex-col items-center justify-center gap-3'>
+//     <div className={cn("w-16 h-16 md:w-20 md:h-20 relative")}>
 //       <Image
 //         src={action.image}
 //         alt='swap'
@@ -109,6 +108,7 @@ export default SelectSwapType
 //         fill
 //       />
 //     </div>
+//     <p className='text-sm md:text-lg font-bold text-center'>{action.title}</p>
 //   </div>
 //   <Grid size={20} className='absolute top-0 right-0 ' />
 // </motion.div>
