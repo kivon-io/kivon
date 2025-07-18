@@ -14,7 +14,7 @@ const Exchange = () => {
   const { exchangeTransactionStatus } = useExchange()
 
   const pathname = usePathname()
-  if (!pathname.includes("exchange")) return null
+  if (!pathname.includes("swap")) return null
 
   return (
     <div className='flex flex-col gap-1'>

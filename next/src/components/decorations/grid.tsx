@@ -5,10 +5,12 @@ export const Grid = ({
   pattern,
   size,
   className,
+  gridFillClassName,
 }: {
   pattern?: number[][]
   size?: number
   className?: string
+  gridFillClassName?: string
 }) => {
   const p = pattern ?? [
     [Math.floor(Math.random() * 4) + 7, Math.floor(Math.random() * 6) + 1],
@@ -31,7 +33,10 @@ export const Grid = ({
           x='-12'
           y='4'
           squares={p}
-          className='fill-zinc-500/50 stroke-zinc-500/50 dark:fill-neutral-500/50 dark:stroke-neutral-500/50 absolute inset-0 h-full w-full mix-blend-overlay'
+          className={cn(
+            "fill-zinc-500/50 stroke-zinc-500/50 dark:fill-neutral-500/50 dark:stroke-neutral-500/50 absolute inset-0 h-full w-full mix-blend-overlay",
+            gridFillClassName
+          )}
         />
       </div>
     </div>
