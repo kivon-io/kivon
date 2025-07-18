@@ -1,3 +1,4 @@
+import Coins from "@/components/dynamic-zone/coins"
 import Services from "@/components/dynamic-zone/services"
 import Steps from "@/components/dynamic-zone/steps"
 import Testimonials from "@/components/dynamic-zone/testimonials"
@@ -28,6 +29,7 @@ export default async function SwapPage() {
         <TokenList />
         <Steps />
         <Services />
+        <Coins />
         <Testimonials />
       </ExchangeProvider>
     </HydrateClient>

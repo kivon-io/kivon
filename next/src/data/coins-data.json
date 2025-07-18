@@ -1,0 +1,57 @@
+{
+  "id": 1,
+  "heading": "Discover all the coins you can trade",
+  "description": "The only crypto exchange that you will ever need, explore over 1400+ coins and tokens.",
+  "coins": [
+    {
+      "id": 1,
+      "name": "Bitcoin",
+      "image": "/images/coins/bitcoin.svg"
+    },
+    {
+      "id": 2,
+      "name": "Ethereum",
+      "image": "/images/coins/ethereum.svg"
+    },
+    {
+      "id": 3,
+      "name": "Tether",
+      "image": "/images/coins/tether.svg"
+    },
+    {
+      "id": 4,
+      "name": "Binance Coin",
+      "image": "/images/coins/binance-coin.svg"
+    },
+    {
+      "id": 5,
+      "name": "Solana",
+      "image": "/images/coins/solana.svg"
+    },
+    {
+      "id": 6,
+      "name": "Cardano",
+      "image": "/images/coins/cardano.svg"
+    },
+    {
+      "id": 7,
+      "name": "Dogecoin",
+      "image": "/images/coins/dogecoin.svg"
+    },
+    {
+      "id": 8,
+      "name": "Polkadot",
+      "image": "/images/coins/polkadot.svg"
+    },
+    {
+      "id": 9,
+      "name": "Shiba Inu",
+      "image": "/images/coins/shiba-inu.svg"
+    },
+    {
+      "id": 10,
+      "name": "Litecoin",
+      "image": "/images/coins/litecoin.svg"
+    }
+  ]
+}
