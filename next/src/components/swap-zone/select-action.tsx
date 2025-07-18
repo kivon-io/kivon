@@ -9,25 +9,25 @@ import SwapZoneContainer from "./swap-zone-container"
 const actions = [
   {
     id: 1,
-    title: "Swap/Bridge",
+    title: "Swap-Bridge",
     key: "swap",
     image: "/images/badges/swap.png",
   },
   {
     id: 4,
-    title: "Buy/Sell",
+    title: "Buy-Sell",
     key: "buy-sell",
     image: "/images/badges/bridge.png",
   },
   {
     id: 2,
-    title: "Limit/Perpetual/DCA",
+    title: "Limit-Futures-DCA",
     key: "limit-perpetual-dca",
     image: "/images/badges/buy.png",
   },
   {
     id: 3,
-    title: "P2P",
+    title: "OTC-P2P",
     key: "p2p",
     image: "/images/badges/sell.png",
   },

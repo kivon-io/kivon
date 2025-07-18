@@ -1,0 +1,26 @@
+{
+  "title": "Swap Steps",
+  "description": "The steps below are the process of how to swap your crypto on our platform",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Select Exchange pair",
+      "description": "Select the exchange pair you want to swap"
+    },
+    {
+      "id": 2,
+      "title": "Enter your wallet address",
+      "description": "Enter your wallet address to which your currency will be sent to"
+    },
+    {
+      "id": 3,
+      "title": "Make deposit",
+      "description": "Confirm your details and send the payment to the generated address"
+    },
+    {
+      "id": 4,
+      "title": "Receive your crypto",
+      "description": "Track the progress of your exchange and receive your crypto with the best possible rate"
+    }
+  ]
+}

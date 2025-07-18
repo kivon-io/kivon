@@ -1,3 +1,4 @@
+import Steps from "@/components/dynamic-zone/steps"
 import Swap from "@/components/swap-zone"
 import TokenList from "@/components/swap-zone/token-list"
 import ExchangeProvider from "@/context/exchange-context"
@@ -23,6 +24,7 @@ export default async function SwapPage() {
       <ExchangeProvider currencies={currencies}>
         <Swap />
         <TokenList />
+        <Steps />
       </ExchangeProvider>
     </HydrateClient>
   )
