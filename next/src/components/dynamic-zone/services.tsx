@@ -190,7 +190,7 @@ const Market = () => {
 
 const Fast = () => {
   return (
-    <div className='relative flex w-full h-32 md:h-full overflow-hidden'>
+    <div className='relative flex w-full h-32 md:h-full overflow-hidden select-none'>
       <FastService />
       <Grid size={20} className='absolute -top-5 left-0' />
     </div>

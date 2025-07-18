@@ -17,7 +17,7 @@ export function AnimatedNumberRandom({ value, diff }: { value: number; diff: num
       <span className='flex items-center justify-center gap-2'>
         <NumberFlow
           value={value}
-          className='text-5xl font-semibold'
+          className='text-3xl font-semibold'
           format={{ style: "currency", currency: "USD" }}
         />
         <motion.span

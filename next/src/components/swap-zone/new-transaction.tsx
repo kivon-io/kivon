@@ -18,7 +18,7 @@ const NewTransaction = () => {
     setStep(EXCHANGE_STEPS.SELECT_COIN)
     form.reset()
     setExchangeTransactionStatus({} as ExchangeStatusResponse)
-    router.push("/exchange")
+    router.push("/swap")
   }
 
   return isFinished ? (

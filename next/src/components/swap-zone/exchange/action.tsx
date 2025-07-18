@@ -43,7 +43,7 @@ const ExchangeAction = () => {
 
     form.setValue("exchangeTransaction", response)
     // add transaction id to the current url
-    router.push(`/exchange?id=${response.id}`)
+    router.push(`/swap?id=${response.id}`)
   }
 
   const isNextStepEnabled = useMemo(() => {
