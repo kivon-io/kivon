@@ -5,7 +5,9 @@ import SocialLinks from "./social-links"
 
 const Footer = ({ className }: { className?: string }) => {
   return (
-    <div className={cn("w-full bg-white dark:bg-neutral-900 h-full mt-20", className)}>
+    <div
+      className={cn("w-full bg-white dark:bg-neutral-900 h-full mt-20 relative z-20", className)}
+    >
       <div className='max-w-6xl mx-auto px-4 md:px-10 pt-10 pb-32'>
         <div className='flex justify-between items-center border-b border-zinc-200 dark:border-zinc-800 pb-5'>
           <Logo />
