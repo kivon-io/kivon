@@ -1,0 +1,33 @@
+{
+  "id": 1,
+  "tag": "Kivon",
+  "heading": "Why choose Kivon",
+  "description": "Kivon is a platform that allows you to buy and sell cryptocurrencies with ease. We are a team of experienced traders and developers who are dedicated to providing the best possible service to our users.",
+  "items": [
+    {
+      "id": 1,
+      "title": "24/7 live support",
+      "description": "Our dedicated support team is around the corner to offer you personal support",
+      "key": "support"
+    },
+    {
+      "id": 2,
+      "title": "Best market rates",
+      "description": "We offer the best market rates for all your crypto needs",
+      "key": "market"
+    },
+
+    {
+      "id": 4,
+      "title": "Secure and reliable",
+      "description": "Your cryptocurrencies is not stored , they are instantly sent to your wallet after exchange occurs. - Try it now ",
+      "key": "secure"
+    },
+    {
+      "id": 3,
+      "title": "Fast transactions",
+      "description": "With an average exchange time of 2 mins, this helps you take advantage of market opportunities ",
+      "key": "fast"
+    }
+  ]
+}
