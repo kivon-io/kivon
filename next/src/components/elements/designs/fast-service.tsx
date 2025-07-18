@@ -6,7 +6,7 @@ const FastService = () => {
       <div className='relative'>
         <div className='relative w-40'>
           <ContainerTextFlip
-            className='text-sm md:text-xl font-medium w-full relative bg-gradient-to-b from-secondary-custom to-secondary-custom/20'
+            className='rounded-md py-1.5 text-sm md:text-sm font-medium w-full relative bg-gradient-to-b from-zinc-200 to-zinc-300 dark:from-zinc-800 dark:to-zinc-900 border border-zinc-300 dark:border-zinc-700'
             textClassName='w-full'
             words={["Swap", "Buy", "Sell", "Bridge", "Futures", "Limit"]}
           />
@@ -26,7 +26,7 @@ const FastService = () => {
             d='M305.354 155.646a.502.502 0 0 1 0 .708l-3.182 3.182a.502.502 0 0 1-.708-.708l2.829-2.828-2.829-2.828a.502.502 0 0 1 .708-.708l3.182 3.182ZM0 80h223.5v1H0v-1Zm248 24.5V132h-1v-27.5h1Zm23.5 51H305v1h-33.5v-1ZM248 132c0 12.979 10.521 23.5 23.5 23.5v1c-13.531 0-24.5-10.969-24.5-24.5h1Zm-24.5-52c13.531 0 24.5 10.969 24.5 24.5h-1c0-12.979-10.521-23.5-23.5-23.5v-1Z'
           ></path>
           <path
-            fill='#f9c0cd'
+            fill='#404040'
             d='M305.354 117.646a.502.502 0 0 1 0 .708l-3.182 3.182a.502.502 0 0 1-.708-.708l2.829-2.828-2.829-2.828a.502.502 0 0 1 .708-.708l3.182 3.182ZM263 117.5h42v1h-42v-1Zm-15-15c0 8.284 6.716 15 15 15v1c-8.837 0-16-7.163-16-16h1ZM305.354 41.854a.5.5 0 0 0 0-.708l-3.182-3.181a.501.501 0 0 0-.708.707l2.829 2.828-2.829 2.828a.5.5 0 0 0 .708.707l3.182-3.181ZM263 42h42v-1h-42v1Zm-15 15c0-8.284 6.716-15 15-15v-1c-8.837 0-16 7.163-16 16h1Z'
           ></path>
           <defs>
@@ -38,8 +38,8 @@ const FastService = () => {
               y2='42.25'
               gradientUnits='userSpaceOnUse'
             >
-              <stop offset='.246' stop-color='#f9c0cd'></stop>
-              <stop offset='1' stop-color='#f9c0cd' stop-opacity='0'></stop>
+              <stop offset='.246' stop-color='#404040'></stop>
+              <stop offset='1' stop-color='#404040' stop-opacity='0'></stop>
             </linearGradient>
             <linearGradient
               id='paint1_linear_591_5220'
@@ -49,8 +49,8 @@ const FastService = () => {
               y2='118.25'
               gradientUnits='userSpaceOnUse'
             >
-              <stop offset='.246' stop-color='#f9c0cd'></stop>
-              <stop offset='1' stop-color='#f9c0cd' stop-opacity='0'></stop>
+              <stop offset='.246' stop-color='#404040'></stop>
+              <stop offset='1' stop-color='#404040' stop-opacity='0'></stop>
             </linearGradient>
           </defs>
         </svg>
@@ -99,7 +99,7 @@ const FastService = () => {
               y2='29.5'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#2F3037' stop-opacity='0'></stop>
+              <stop stop-color='#404040' stop-opacity='0'></stop>
               <stop offset='.18' stop-color='#2F3037'></stop>
             </linearGradient>
             <linearGradient
@@ -110,7 +110,7 @@ const FastService = () => {
               y2='44.5'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#f9c0cd' stop-opacity='0'></stop>
+              <stop stop-color='#404040' stop-opacity='0'></stop>
               <stop offset='1' stop-color='#f9c0cd'></stop>
             </linearGradient>
             <linearGradient
@@ -121,8 +121,8 @@ const FastService = () => {
               y2='86.5'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#2F3037' stop-opacity='0'></stop>
-              <stop offset='.18' stop-color='#2F3037'></stop>
+              <stop stop-color='#404040' stop-opacity='0'></stop>
+              <stop offset='.18' stop-color='#404040'></stop>
             </linearGradient>
             <linearGradient
               id='paint3_linear_591_5229'
@@ -132,8 +132,8 @@ const FastService = () => {
               y2='67.5'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#2F3037' stop-opacity='0'></stop>
-              <stop offset='.18' stop-color='#2F3037'></stop>
+              <stop stop-color='#404040' stop-opacity='0'></stop>
+              <stop offset='.18' stop-color='#404040'></stop>
             </linearGradient>
             <linearGradient
               id='paint4_linear_591_5229'
@@ -143,8 +143,8 @@ const FastService = () => {
               y2='48.5'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#2F3037' stop-opacity='0'></stop>
-              <stop offset='.18' stop-color='#2F3037'></stop>
+              <stop stop-color='#404040' stop-opacity='0'></stop>
+              <stop offset='.18' stop-color='#404040'></stop>
             </linearGradient>
             <linearGradient
               id='paint5_linear_591_5229'

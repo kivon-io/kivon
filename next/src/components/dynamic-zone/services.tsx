@@ -101,8 +101,8 @@ const Support = () => {
           style={{ opacity: 1 }}
         >
           <g filter='url(#filter0_f_664_1362)'>
-            <circle cx='202.5' cy='21.5' fill='#E53232' fillOpacity='0.42' r='84.5'></circle>
-            <circle cx='202.5' cy='21.5' r='81.5' stroke='#E53232' strokeWidth='6'></circle>
+            <circle cx='202.5' cy='21.5' fill='#404040' fillOpacity='0.42' r='84.5'></circle>
+            <circle cx='202.5' cy='21.5' r='81.5' stroke='#404040' strokeWidth='6'></circle>
           </g>
           <defs>
             <filter
@@ -143,7 +143,7 @@ const Support = () => {
           <span className='text-sm font-medium'>support@kivon.io</span>
         </div>
         <div className='relative -mt-1 flex w-full items-center justify-start gap-2.5 pl-11 md:mt-0 md:w-[unset] md:shrink-1 md:grow md:basis-0 md:justify-end md:p-0'>
-          <span className='rounded-[.2813rem] dark:bg-[#2B0000] bg-[#FF7C62] px-2 py-1.5 text-xs font-medium leading-none dark:text-[#FF7C62] text-[#2B0000]'>
+          <span className='rounded-[.2813rem] bg-zinc-300 dark:bg-zinc-800 px-2 py-1.5 text-xs font-medium leading-none dark:text-[#FF7C62] text-[#2B0000]'>
             Support
           </span>
           <span className='text-slate-8 text-xs'>19 minutes ago</span>
