@@ -576,7 +576,7 @@ const Secure = () => {
           ></path>
           <path
             fill='url(#paint1_radial_599_187)'
-            fill-opacity='.5'
+            fillOpacity='.5'
             d='m50.145 9.603-38 12.356A6 6 0 0 0 8 27.665v37.412a38 38 0 0 0 18.442 32.581l22.47 13.488a6 6 0 0 0 6.176 0l22.47-13.488A38 38 0 0 0 96 65.078V27.664a6 6 0 0 0-4.145-5.706l-38-12.356a6 6 0 0 0-3.71 0Z'
             style={{ mixBlendMode: "plus-lighter" }}
           ></path>
@@ -584,7 +584,7 @@ const Secure = () => {
         <g filter='url(#filter1_d_599_187)' shape-rendering='crispEdges'>
           <path
             fill='#000'
-            fill-opacity='.08'
+            fillOpacity='.08'
             d='m51.052 15.316-35 11.657A3 3 0 0 0 14 29.819v35.024a33.616 33.616 0 0 0 16.008 28.635l20.944 12.878a2 2 0 0 0 2.096 0l20.944-12.878A33.615 33.615 0 0 0 90 64.843V29.819a3 3 0 0 0-2.052-2.846l-35-11.657a3 3 0 0 0-1.896 0Z'
           ></path>
           <path
@@ -604,7 +604,7 @@ const Secure = () => {
         <g filter='url(#filter3_f_599_187)'>
           <path
             fill='url(#paint3_linear_599_187)'
-            fill-opacity='.16'
+            fillOpacity='.16'
             d='m50.145 9.603-38 12.356A6 6 0 0 0 8 27.665v37.412a38 38 0 0 0 18.442 32.581l22.47 13.488a6 6 0 0 0 6.176 0l22.47-13.488A38 38 0 0 0 96 65.078V27.664a6 6 0 0 0-4.145-5.706l-38-12.356a6 6 0 0 0-3.71 0Z'
             style={{ mixBlendMode: "plus-lighter" }}
           ></path>

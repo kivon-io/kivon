@@ -119,7 +119,7 @@ const CoinsList = () => {
           style={arcStyles[i]}
           className='group hover:opacity-100 transition-all duration-300'
         >
-          <div className='relative isolate flex items-center justify-center rounded-full p-3 backdrop-blur-[3px] bg-neutral-800/40 bg-gradient-to-b from-white/5 to-65% text-gray-400 shadow-[0_2px_13px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)] ring-1 ring-inset ring-white/5'>
+          <div className='shrink-0 relative isolate flex items-center justify-center rounded-full p-3 backdrop-blur-[3px] bg-neutral-300/40 dark:bg-neutral-800/40 bg-gradient-to-b from-white/5 to-65% text-gray-400 shadow-[0_2px_13px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)] ring-1 ring-inset ring-white/5'>
             <Image
               src={coin.image}
               alt={coin.name}
@@ -138,7 +138,7 @@ const CoinsList = () => {
       </li>
       {coins.slice(5).map((coin, i) => (
         <li key={coin.id} style={arcStyles[i + 5]} className='group'>
-          <div className='relative isolate flex items-center justify-center rounded-full p-3 backdrop-blur-[3px] bg-neutral-800/40 bg-gradient-to-b from-white/5 to-65% text-gray-400 shadow-[0_2px_13px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)] ring-1 ring-inset ring-white/5'>
+          <div className='shrink-0 relative isolate flex items-center justify-center rounded-full p-3 backdrop-blur-[3px] bg-neutral-300/40 dark:bg-neutral-800/40 bg-gradient-to-b from-white/5 to-65% text-gray-400 shadow-[0_2px_13px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)] ring-1 ring-inset ring-white/5'>
             <Image
               src={coin.image}
               alt={coin.name}
