@@ -117,7 +117,7 @@ const CoinsList = () => {
         <li
           key={coin.id}
           style={arcStyles[i]}
-          className='group hover:opacity-100 transition-all duration-300'
+          className='group hover:opacity-100 transition-all duration-300 shrink-0'
         >
           <div className='shrink-0 relative isolate flex items-center justify-center rounded-full p-3 backdrop-blur-[3px] bg-neutral-300/40 dark:bg-neutral-800/40 bg-gradient-to-b from-white/5 to-65% text-gray-400 shadow-[0_2px_13px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)] ring-1 ring-inset ring-white/5'>
             <Image
@@ -137,7 +137,11 @@ const CoinsList = () => {
         </div>
       </li>
       {coins.slice(5).map((coin, i) => (
-        <li key={coin.id} style={arcStyles[i + 5]} className='group'>
+        <li
+          key={coin.id}
+          style={arcStyles[i + 5]}
+          className='group hover:opacity-100 transition-all duration-300 shrink-0'
+        >
           <div className='shrink-0 relative isolate flex items-center justify-center rounded-full p-3 backdrop-blur-[3px] bg-neutral-300/40 dark:bg-neutral-800/40 bg-gradient-to-b from-white/5 to-65% text-gray-400 shadow-[0_2px_13px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)] ring-1 ring-inset ring-white/5'>
             <Image
               src={coin.image}
