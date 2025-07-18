@@ -1,0 +1,56 @@
+{
+  "id": 1,
+  "heading": "Users choose us",
+  "description": "What our users say about us, see what they think about us",
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Elena Kovacs",
+      "country": "Spain",
+      "testimonial": "Kivon completely changed how I move assets across chains. I transferred ETH from Arbitrum to zkSync in under 20 seconds—and paid almost nothing in gas. It's fast, cheap, and actually works.",
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 2,
+      "name": "Jason McAllister",
+      "country": "Canada",
+      "testimonial": "The fiat on-ramp is seamless. I bought BTC with my debit card in minutes. No hidden fees, and I didn’t have to leave the app. Kivon is now my go-to for buying crypto with fiat.",
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 3,
+      "name": "Adaeze Umeh",
+      "country": "Nigeria",
+      "testimonial": "Most apps don’t support Nigeria well, but Kivon worked flawlessly. I used Apple Pay to buy USDT and bridged it to Base without touching a CEX. Everything felt smooth and secure.",
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 4,
+      "name": "Tobias Lehmann",
+      "country": "Germany",
+      "testimonial": "I’ve tried many exchanges, but Kivon stands out for one reason—zero custody risk. I connected my Ledger, swapped tokens instantly, and never gave up control of my funds. That’s real trust.",
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 5,
+      "name": "Mariana Ferreira",
+      "country": "Brazil",
+      "testimonial": "Kivon’s KYC process was surprisingly smooth. I submitted my ID and had full access in under 15 minutes. The transparency and ease made me feel safe using it as my main trading hub.",
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 6,
+      "name": "Marcelo Silva",
+      "country": "Brazil",
+      "testimonial": "I’ve been using Kivon for a few months now, and I’ve been really happy with the service. The platform is easy to use, and the transactions are fast. I’ve recommended it to my friends and family.",
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 7,
+      "name": "Javier Rodriguez",
+      "country": "Mexico",
+      "testimonial": "I am extremely delighted with the exceptional service provided by the Changelly crypto swap app.",
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ]
+}
