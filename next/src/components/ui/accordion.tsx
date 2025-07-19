@@ -2,7 +2,7 @@
 
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import * as React from "react"
-import { MdKeyboardDoubleArrowDown } from "react-icons/md"
+import { MdKeyboardArrowDown } from "react-icons/md"
 
 import { cn } from "@/lib/utils"
 
@@ -39,7 +39,7 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <MdKeyboardDoubleArrowDown className='text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200' />
+        <MdKeyboardArrowDown className='text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200' />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )

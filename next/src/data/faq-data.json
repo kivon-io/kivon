@@ -1,0 +1,27 @@
+{
+  "id": 1,
+  "heading": "Frequently Asked Questions",
+  "description": "Find answers to common questions about our platform and services.",
+  "faqs": [
+    {
+      "id": 1,
+      "question": "What is Kivon Exchange?",
+      "answer": "Kivon Exchange is a platform for buying and selling cryptocurrencies."
+    },
+    {
+      "id": 2,
+      "question": "How do I create an account?",
+      "answer": "To create an account, you need to sign up with your email address and create a password."
+    },
+    {
+      "id": 3,
+      "question": "How can I swap my coins?",
+      "answer": "You can swap your coins by clicking the 'Swap' button on the home page."
+    },
+    {
+      "id": 4,
+      "question": "How can I swap my coins?",
+      "answer": "You can swap your coins by clicking the 'Swap' button on the home page."
+    }
+  ]
+}
