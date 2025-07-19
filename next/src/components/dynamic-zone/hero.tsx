@@ -25,7 +25,14 @@ const Hero = ({ className }: { className?: string }) => {
   if (!heroRoutes.includes(pathname)) return null
 
   return (
-    <div key={pathname} className={cn("relative max-w-screen-2xl mx-auto mt-20 w-full", className)}>
+    <div
+      key={pathname}
+      className={cn(
+        "relative max-w-screen-2xl mx-auto mt-20 w-full",
+        pathname !== "/" && "hidden md:block",
+        className
+      )}
+    >
       <div className='relative z-20 '>
         <motion.div
           initial={{ opacity: 0, y: 100 }}
