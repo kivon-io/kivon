@@ -23,6 +23,7 @@ const Services = () => {
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
         className='relative max-w-7xl mx-auto px-4 md:px-0'
       >
         <Heading as='h2' className='text-xl md:text-2xl font-medium text-left w-full max-w-full'>

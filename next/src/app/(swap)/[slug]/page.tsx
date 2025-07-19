@@ -1,3 +1,4 @@
+import Blog from "@/components/dynamic-zone/blog"
 import Coins from "@/components/dynamic-zone/coins"
 import Faq from "@/components/dynamic-zone/faq"
 import Services from "@/components/dynamic-zone/services"
@@ -33,6 +34,7 @@ export default async function SwapPage() {
         <Coins />
         <Testimonials />
         <Faq />
+        <Blog />
       </ExchangeProvider>
     </HydrateClient>
   )

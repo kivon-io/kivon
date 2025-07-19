@@ -1,0 +1,35 @@
+{
+  "id": 1,
+  "heading": "Latest Articles",
+  "description": "Stay updated with the latest news and insights from the crypto world",
+  "articles": [
+    {
+      "id": 1,
+      "title": "How to swap crypto",
+      "description": "Learn how to swap crypto on our platform, with step by step guide",
+      "image": "https://images.unsplash.com/photo-1639322537138-5e513100b36e?q=80&w=3840&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-01-01"
+    },
+    {
+      "id": 2,
+      "title": "How to buy crypto",
+      "description": "Learn how to buy crypto on our platform, with step by step guide",
+      "image": "https://images.unsplash.com/photo-1639322537138-5e513100b36e?q=80&w=3840&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-01-01"
+    },
+    {
+      "id": 3,
+      "title": "How to sell crypto",
+      "description": "Learn how to sell crypto on our platform, with step by step guide",
+      "image": "https://images.unsplash.com/photo-1639322537138-5e513100b36e?q=80&w=3840&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-01-01"
+    },
+    {
+      "id": 4,
+      "title": "How to bridge crypto",
+      "description": "Learn how to bridge crypto on our platform, with step by step guide",
+      "image": "https://images.unsplash.com/photo-1639322537138-5e513100b36e?q=80&w=3840&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "date": "2025-07-19"
+    }
+  ]
+}
