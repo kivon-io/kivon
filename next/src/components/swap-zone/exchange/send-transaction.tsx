@@ -151,7 +151,7 @@ const ReceiveDetails = ({
         </div>
       </div>
       <div className='flex flex-col'>
-        <p className='text-xs text-zinc-700 dark:text-zinc-400'>Recepient Address</p>
+        <p className='text-xs text-zinc-700 dark:text-zinc-400'>Recipient Address</p>
         <div className='flex gap-2 items-center relative w-full'>
           <p className='text-zinc-700 dark:text-zinc-400 font-medium w-full break-words text-sm'>
             {exchangeTransaction.payoutAddress}

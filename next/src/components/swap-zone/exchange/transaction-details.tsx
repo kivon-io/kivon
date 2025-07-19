@@ -204,7 +204,7 @@ const TransactionDetails = () => {
             name='destination_address'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Receipiant Address</FormLabel>
+                <FormLabel>Recipient Address</FormLabel>
                 <FormControl>
                   <div className='relative '>
                     <Input
