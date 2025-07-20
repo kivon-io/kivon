@@ -1,12 +1,43 @@
-import { useRouter, useSearchParams } from "next/navigation"
+// import { useRouter, useSearchParams } from "next/navigation"
+
+// export function useUpdateTokenParam() {
+//   const router = useRouter()
+//   const searchParams = useSearchParams()
+
+//   return (key: "from" | "to", value: string) => {
+//     const params = new URLSearchParams(searchParams.toString())
+//     params.set(key, value)
+//     router.replace(`?${params.toString()}`, { scroll: false })
+//   }
+// }
+
+import { useParams, useRouter } from "next/navigation"
 
 export function useUpdateTokenParam() {
   const router = useRouter()
-  const searchParams = useSearchParams()
+  const params = useParams() as { params?: string[] }
 
   return (key: "from" | "to", value: string) => {
-    const params = new URLSearchParams(searchParams.toString())
-    params.set(key, value)
-    router.replace(`?${params.toString()}`, { scroll: false })
+    // Get current values from the URL
+    const current = params?.params || []
+    let from = current[0] || ""
+    let to = current[1] || ""
+
+    if (key === "from") {
+      from = value
+      // If from and to are the same, clear to
+      if (from === to) to = ""
+    } else {
+      to = value
+      // If from and to are the same, clear from
+      if (from === to) from = ""
+    }
+
+    // Build the new path
+    let newPath = "/swap"
+    if (from) newPath += `/${from}`
+    if (to) newPath += `/${to}`
+
+    router.replace(newPath, { scroll: false })
   }
 }

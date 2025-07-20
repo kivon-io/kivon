@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog"
 import { useAppContext } from "@/context/app-context"
 import { useExchange } from "@/context/exchange-context"
-import { useUpdateTokenParam } from "@/lib/shared/urlParams"
 import { useState } from "react"
 import Badge from "../decorations/badge"
 import Symbol from "../elements/symbol"
@@ -22,7 +21,7 @@ import TokenLogo from "./token-logo"
 const TokenList = () => {
   const { state, type, toggleTokenList } = useAppContext()
   const { form, currencies } = useExchange()
-  const updateTokenParam = useUpdateTokenParam()
+  // const updateTokenParam = useUpdateTokenParam()
 
   const open = state.tokenListOpen
   const [filteredCurrencies, setFilteredCurrencies] = useState<Currency[]>(currencies)
@@ -41,7 +40,7 @@ const TokenList = () => {
         isFiat: token.isFiat,
         supportsFixedRate: token.supportsFixedRate,
       })
-      updateTokenParam("from", token.ticker)
+      // updateTokenParam("from", token.ticker)
     } else {
       form.setValue("receiveToken", {
         ticker: token.ticker,
@@ -51,7 +50,7 @@ const TokenList = () => {
         isFiat: token.isFiat,
         supportsFixedRate: token.supportsFixedRate,
       })
-      updateTokenParam("to", token.ticker)
+      // updateTokenParam("to", token.ticker)
     }
 
     toggleTokenList()
