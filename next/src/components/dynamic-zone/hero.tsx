@@ -14,15 +14,22 @@ const Hero = ({ className }: { className?: string }) => {
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
 
-  const heroRoutes = ["/", "/swap", "/buy", "/sell", "/bridge"]
-
   useEffect(() => {
     setMounted(true)
   }, [])
 
   if (!mounted) return null // Prevents hydration mismatch
   // show hero only on these routes
-  if (!heroRoutes.includes(pathname)) return null
+  if (
+    !(
+      pathname === "/" ||
+      pathname.startsWith("/swap") ||
+      pathname === "/fiat" ||
+      pathname === "/limit-futures-dca" ||
+      pathname === "/otc-p2p"
+    )
+  )
+    return null
 
   return (
     <div

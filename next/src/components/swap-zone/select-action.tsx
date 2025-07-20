@@ -16,19 +16,19 @@ const actions = [
   {
     id: 4,
     title: "Buy-Sell",
-    key: "buy-sell",
+    key: "fiat",
     image: "/images/badges/bridge.png",
   },
   {
     id: 2,
     title: "Limit-Futures-DCA",
-    key: "limit-perpetual-dca",
+    key: "limit-futures-dca",
     image: "/images/badges/buy.png",
   },
   {
     id: 3,
     title: "OTC-P2P",
-    key: "p2p",
+    key: "otc-p2p",
     image: "/images/badges/sell.png",
   },
 ]

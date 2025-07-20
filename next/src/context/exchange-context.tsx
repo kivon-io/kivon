@@ -13,6 +13,8 @@ const ExchangeContext = createContext<{
   step: Step
   currencies: Currency[]
   exchangeTransactionStatus: ExchangeStatusResponse
+  from: string
+  to: string
   setExchangeTransactionStatus: (status: ExchangeStatusResponse) => void
   setStep: (step: Step) => void
 }>({
@@ -20,6 +22,8 @@ const ExchangeContext = createContext<{
   step: "select-coin" as Step,
   currencies: [],
   exchangeTransactionStatus: {} as ExchangeStatusResponse,
+  from: "",
+  to: "",
   setExchangeTransactionStatus: () => {},
   setStep: () => {},
 })
@@ -27,9 +31,13 @@ const ExchangeContext = createContext<{
 const ExchangeProvider = ({
   children,
   currencies,
+  from,
+  to,
 }: {
   children: React.ReactNode
   currencies: Currency[]
+  from: string
+  to: string
 }) => {
   const searchParams = useSearchParams()
   const transactionId = searchParams.get("id")
@@ -121,11 +129,60 @@ const ExchangeProvider = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies])
 
+  // set the form values if the from and to search params exist find the currency from the currencies array that matches the from and to search params and set the form values
+  useEffect(() => {
+    if (from) {
+      const fromCurrency = currencies.find((currency) => currency.ticker === from)
+      if (!fromCurrency) return
+
+      form.setValue("sendToken", {
+        ticker: fromCurrency.ticker,
+        name: fromCurrency.name,
+        image: fromCurrency.image,
+        network: fromCurrency.network,
+        isFiat: fromCurrency.isFiat,
+        supportsFixedRate: fromCurrency.supportsFixedRate,
+      })
+
+      // Check if receiveToken is the same as from, and fix if needed
+      const currentReceiveToken = form.getValues("receiveToken")?.ticker
+      if (currentReceiveToken === from) {
+        // Pick the first currency that is not 'from'
+        const newToCurrency = currencies.find((currency) => currency.ticker !== from)
+        if (newToCurrency) {
+          form.setValue("receiveToken", {
+            ticker: newToCurrency.ticker,
+            name: newToCurrency.name,
+            image: newToCurrency.image,
+            network: newToCurrency.network,
+            isFiat: newToCurrency.isFiat,
+            supportsFixedRate: newToCurrency.supportsFixedRate,
+          })
+        }
+      }
+    }
+    if (to) {
+      const toCurrency = currencies.find((currency) => currency.ticker === to)
+      if (!toCurrency) return
+
+      form.setValue("receiveToken", {
+        ticker: toCurrency.ticker,
+        name: toCurrency.name,
+        image: toCurrency.image,
+        network: toCurrency.network,
+        isFiat: toCurrency.isFiat,
+        supportsFixedRate: toCurrency.supportsFixedRate,
+      })
+    }
+  }, [from, to, currencies, form])
+
   const values = {
     form,
     step,
     currencies,
     exchangeTransactionStatus,
+    from,
+    to,
     setExchangeTransactionStatus: handleSetExchangeTransactionStatus,
     setStep: handleStep,
   }

@@ -10,19 +10,19 @@
     {
       "id": 2,
       "text": "Buy",
-      "URL": "/buy",
+      "URL": "/fiat",
       "target": null
     },
     {
       "id": 3,
       "text": "Sell",
-      "URL": "/sell",
+      "URL": "/fiat",
       "target": null
     },
     {
       "id": 4,
       "text": "Bridge",
-      "URL": "/bridge",
+      "URL": "/swap",
       "target": null
     }
   ]

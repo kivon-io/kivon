@@ -200,22 +200,22 @@ const SwapOptions = {
     {
       id: 1,
       text: "Bitcoin (BTC)",
-      URL: "/currencies/bitcoin",
+      URL: "/swap/btc",
     },
     {
       id: 2,
       text: "Ethereum (ETH)",
-      URL: "/currencies/ethereum",
+      URL: "/swap/eth",
     },
     {
       id: 3,
       text: "Tether (USDT)",
-      URL: "/currencies/tether",
+      URL: "/swap/usdt",
     },
     {
       id: 4,
       text: "USDC",
-      URL: "/currencies/usdc",
+      URL: "/swap/usdc",
     },
   ],
 }
@@ -226,32 +226,32 @@ const SwapPairs = {
     {
       id: 1,
       text: "BTC to USDT",
-      URL: "/currencies/bitcoin/usdt",
+      URL: "/swap/btc/usdt",
     },
     {
       id: 2,
       text: "ETH to USDT",
-      URL: "/currencies/ethereum/usdt",
+      URL: "/swap/eth/usdt",
     },
     {
       id: 3,
       text: "USDT to BTC",
-      URL: "/currencies/usdt/bitcoin",
+      URL: "/swap/usdt/btc",
     },
     {
       id: 4,
       text: "ETH to USDC",
-      URL: "/currencies/ethereum/usdc",
+      URL: "/swap/eth/usdc",
     },
     {
       id: 5,
       text: "USDC to BTC",
-      URL: "/currencies/usdc/bitcoin",
+      URL: "/swap/usdc/btc",
     },
     {
       id: 6,
       text: "USDC to ETH",
-      URL: "/currencies/usdc/ethereum",
+      URL: "/swap/usdc/eth",
     },
   ],
 }
