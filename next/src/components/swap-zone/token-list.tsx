@@ -23,7 +23,9 @@ const TokenList = () => {
   const { form, currencies } = useExchange()
 
   const open = state.tokenListOpen
-  const [filteredCurrencies, setFilteredCurrencies] = useState<Currency[]>(currencies)
+  const [filteredCurrencies, setFilteredCurrencies] = useState<Currency[]>(currencies || [])
+
+  if (!currencies) return null
 
   const onOpenChange = () => {
     toggleTokenList()
