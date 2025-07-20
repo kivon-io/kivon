@@ -2,6 +2,7 @@
 import { useUrlRoute } from "@/lib/shared/urlParams"
 import { cn } from "@/lib/utils"
 import { trpc } from "@/trpc/client"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { HiOutlineExternalLink } from "react-icons/hi"
 import { PiArrowsLeftRightFill } from "react-icons/pi"
@@ -9,11 +10,13 @@ import { TbLockCheck, TbLockX } from "react-icons/tb"
 import { DotButton } from "../dot-button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion"
 import { Badge } from "../ui/badge"
+import { Button } from "../ui/button"
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "../ui/carousel"
 import TokenLogo from "./token-logo"
 
 const AvailablePairs = () => {
   const { from } = useUrlRoute()
+  const router = useRouter()
 
   const { data: availablePairs } = trpc.getAvailablePairs.useQuery(
     { from },
@@ -40,9 +43,13 @@ const AvailablePairs = () => {
     return { ...tokenInfo, pair: matchingPair, tokenInfoFrom }
   })
 
-  if (!from) return null
+  const handleSwap = (from: string, to: string) => {
+    // set the from and to in the url
+    router.push(`/swap/${from}/${to}?step=transaction-details`)
+    // set the step to transaction-details
+  }
 
-  console.log("tokenInfosWithPairDetails: ", tokenInfosWithPairDetails)
+  if (!from) return null
 
   return (
     <div className='relative mt-10 px-2 md:px-5 max-w-2xl mx-auto'>
@@ -93,7 +100,7 @@ const AvailablePairs = () => {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className='grid grid-cols-1 md:grid-cols-1 gap-5'>
+            <AccordionContent className='grid grid-cols-1 md:grid-cols-1 gap-2'>
               <div className='border border-zinc-200 dark:border-zinc-700 p-4 rounded-lg bg-white dark:bg-neutral-900'>
                 <div className='flex gap-2 items-center'>
                   <TokenLogo
@@ -136,13 +143,16 @@ const AvailablePairs = () => {
                   ]}
                 />
               </div>
+              <Button
+                className='w-fit'
+                onClick={() => handleSwap(tokenInfo.tokenInfoFrom?.ticker || "", tokenInfo.ticker)}
+              >
+                Swap {tokenInfo.tokenInfoFrom?.name} - {tokenInfo.name}
+              </Button>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       ))}
-      {/* <div className='flex justify-center'>
-        =
-      </div> */}
     </div>
   )
 }
@@ -246,7 +256,9 @@ const WalletCard = ({ className, wallet }: { className?: string; wallet: Wallet 
             return (
               <div className='flex flex-col gap-1' key={key}>
                 <p className='text-zinc-500 text-xs font-medium capitalize'>{key}</p>
-                <Badge className='rounded-sm'>{value}</Badge>
+                <Badge className='rounded-sm bg-secondary-custom/20 border border-secondary-custom text-secondary-custom'>
+                  {value}
+                </Badge>
               </div>
             )
           })}

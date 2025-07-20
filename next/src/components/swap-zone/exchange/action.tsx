@@ -69,10 +69,14 @@ const ExchangeAction = () => {
   const handleNextStep = () => {
     if (step === EXCHANGE_STEPS.SELECT_COIN) {
       setStep(EXCHANGE_STEPS.TRANSACTION_DETAILS)
+      // set step to transaction-details in the url
+      router.push(`/swap?step=transaction-details`)
     }
 
     if (step === EXCHANGE_STEPS.TRANSACTION_DETAILS) {
       setStep(EXCHANGE_STEPS.SEND_TRANSACTION)
+      // set step to send-transaction in the url
+      router.push(`/swap?step=send-transaction`)
       handleCreateExchangeTransaction()
     }
   }

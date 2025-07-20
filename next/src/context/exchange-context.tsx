@@ -41,8 +41,11 @@ const ExchangeProvider = ({
 }) => {
   const searchParams = useSearchParams()
   const transactionId = searchParams.get("id")
+  const stepParam = searchParams.get("step")
 
-  const [step, setStep] = useState<Step>(transactionId ? "send-transaction" : "select-coin")
+  const [step, setStep] = useState<Step>(
+    stepParam ? (stepParam as Step) : transactionId ? "send-transaction" : "select-coin"
+  )
   const [exchangeTransactionStatus, setExchangeTransactionStatus] =
     useState<ExchangeStatusResponse>({} as ExchangeStatusResponse)
 
