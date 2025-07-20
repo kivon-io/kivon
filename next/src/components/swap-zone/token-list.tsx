@@ -21,7 +21,6 @@ import TokenLogo from "./token-logo"
 const TokenList = () => {
   const { state, type, toggleTokenList } = useAppContext()
   const { form, currencies } = useExchange()
-  // const updateTokenParam = useUpdateTokenParam()
 
   const open = state.tokenListOpen
   const [filteredCurrencies, setFilteredCurrencies] = useState<Currency[]>(currencies)
@@ -40,7 +39,6 @@ const TokenList = () => {
         isFiat: token.isFiat,
         supportsFixedRate: token.supportsFixedRate,
       })
-      // updateTokenParam("from", token.ticker)
     } else {
       form.setValue("receiveToken", {
         ticker: token.ticker,
@@ -50,7 +48,6 @@ const TokenList = () => {
         isFiat: token.isFiat,
         supportsFixedRate: token.supportsFixedRate,
       })
-      // updateTokenParam("to", token.ticker)
     }
 
     toggleTokenList()

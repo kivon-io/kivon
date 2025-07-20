@@ -2,6 +2,7 @@ import Swap from "@/components/swap-zone"
 import { EXCHANGE_PARAMS_DEFAULT } from "@/lib/shared/constants"
 import { trpc } from "@/trpc/server"
 import { Metadata } from "next"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "Swap",
@@ -16,5 +17,9 @@ export default async function SwapPage() {
     sell: EXCHANGE_PARAMS_DEFAULT.SELL,
   })
 
-  return <Swap currencies={currencies} from={""} to={""} />
+  return (
+    <Suspense>
+      <Swap currencies={currencies} from={""} to={""} />
+    </Suspense>
+  )
 }
