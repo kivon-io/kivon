@@ -1,3 +1,5 @@
+"use client"
+
 import ExchangeProvider from "@/context/exchange-context"
 import Exchange from "./exchange"
 import SwapZoneContainer from "./swap-zone-container"
