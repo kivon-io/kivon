@@ -8,11 +8,11 @@ export const metadata: Metadata = {
   description: "Swap",
 }
 
-export default async function SwapPage({ params }: { params: { slug: string[] } }) {
+export default async function SwapPage({ params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params
 
-  const from = slug[0]
-  const to = slug[1]
+  const from = slug[0] || ""
+  const to = slug[1] || ""
 
   const currencies = await trpc.getCurrencies({
     active: EXCHANGE_PARAMS_DEFAULT.ACTIVE,
