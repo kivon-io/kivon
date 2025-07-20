@@ -41,3 +41,12 @@ export function useUpdateTokenParam() {
     router.replace(newPath, { scroll: false })
   }
 }
+
+export function useUrlRoute() {
+  const params = useParams() as { slug?: string[] }
+
+  const from = params?.slug?.[0] || ""
+  const to = params?.slug?.[1] || ""
+
+  return { from, to }
+}

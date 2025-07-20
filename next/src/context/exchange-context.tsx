@@ -11,19 +11,19 @@ type Step = "select-coin" | "transaction-details" | "send-transaction"
 const ExchangeContext = createContext<{
   form: UseFormReturn<ExchangeFormSchema>
   step: Step
-  currencies: Currency[]
+  currencies?: Currency[]
   exchangeTransactionStatus: ExchangeStatusResponse
-  from: string
-  to: string
+  from?: string
+  to?: string
   setExchangeTransactionStatus: (status: ExchangeStatusResponse) => void
   setStep: (step: Step) => void
 }>({
   form: {} as UseFormReturn<ExchangeFormSchema>,
   step: "select-coin" as Step,
-  currencies: [],
+  currencies: undefined,
   exchangeTransactionStatus: {} as ExchangeStatusResponse,
-  from: "",
-  to: "",
+  from: undefined,
+  to: undefined,
   setExchangeTransactionStatus: () => {},
   setStep: () => {},
 })
@@ -35,9 +35,9 @@ const ExchangeProvider = ({
   to,
 }: {
   children: React.ReactNode
-  currencies: Currency[]
-  from: string
-  to: string
+  currencies?: Currency[]
+  from?: string
+  to?: string
 }) => {
   const searchParams = useSearchParams()
   const transactionId = searchParams.get("id")
@@ -108,7 +108,7 @@ const ExchangeProvider = ({
 
   // set default values using currencies[0] and currencies[1]
   useEffect(() => {
-    if (currencies.length > 0) {
+    if (currencies && currencies.length > 0) {
       form.setValue("sendToken", {
         ticker: currencies[0].ticker,
         name: currencies[0].name,
@@ -131,7 +131,7 @@ const ExchangeProvider = ({
 
   // set the form values if the from and to search params exist find the currency from the currencies array that matches the from and to search params and set the form values
   useEffect(() => {
-    if (from) {
+    if (from && currencies && currencies.length > 0) {
       const fromCurrency = currencies.find((currency) => currency.ticker === from)
       if (!fromCurrency) return
 
@@ -161,7 +161,7 @@ const ExchangeProvider = ({
         }
       }
     }
-    if (to) {
+    if (to && currencies && currencies.length > 0) {
       const toCurrency = currencies.find((currency) => currency.ticker === to)
       if (!toCurrency) return
 

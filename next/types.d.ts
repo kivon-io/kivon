@@ -173,3 +173,35 @@ type FooterItem = {
   URL: string
   target?: string
 }
+
+type AvailablePairsResponse = {
+  fromCurrency: string
+  fromNetwork: string
+  toCurrency: string
+  toNetwork: string
+  flow: {
+    standard: boolean
+    "fixed-rate": boolean
+  }
+}
+
+type Wallet = {
+  name: string
+  url: string
+  imageUrl: string
+  platforms: {
+    android: boolean
+    ios: boolean
+    linux: boolean
+    chromeos: boolean
+    windows: boolean
+    macos: boolean
+    web: boolean
+  }
+  properties: {
+    anonymity: string
+    security: string
+    weight: string
+  }
+  multi: boolean
+}

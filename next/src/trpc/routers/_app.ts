@@ -25,5 +25,38 @@ const getTokenInfo = createTRPCRouter({
     return data as TokenInfoResponse
   }),
 })
-export const appRouter = mergeRouters(swapRouter, validateAddressRouter, getTokenInfo)
+const getTokenInfos = createTRPCRouter({
+  getTokenInfos: publicProcedure
+    .input(z.object({ tickers: z.array(z.string()) }))
+    .query(async ({ input }) => {
+      const { tickers } = input
+
+      const results = await Promise.all(
+        tickers.map(async (ticker) => {
+          const response = await fetch(`${CHANGE_NOW_API_URL_v1}/currencies/${ticker}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "x-changenow-api-key": process.env.CHANGE_NOW_API_KEY || "",
+            },
+          })
+
+          if (!response.ok) {
+            throw new Error(`Failed to fetch token info: ${response.status}`)
+          }
+
+          const data = await response.json()
+          return data as TokenInfoResponse
+        })
+      )
+
+      return results as TokenInfoResponse[]
+    }),
+})
+export const appRouter = mergeRouters(
+  swapRouter,
+  validateAddressRouter,
+  getTokenInfo,
+  getTokenInfos
+)
 export type AppRouter = typeof appRouter

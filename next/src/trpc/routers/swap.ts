@@ -212,4 +212,36 @@ export const swapRouter = createTRPCRouter({
 
       // return MOCK_STATUSES[currentStep] as unknown as ExchangeStatusResponse
     }),
+
+  getAvailablePairs: publicProcedure
+    .input(
+      z.object({
+        from: z.string(),
+        to: z.string().optional(),
+        flow: z.string().optional(),
+      })
+    )
+    .query(async ({ input }) => {
+      const paramsObj: Record<string, string> = { fromCurrency: input.from }
+      if (input.to) paramsObj.toCurrency = input.to
+      if (input.flow) paramsObj.flow = input.flow
+
+      const params = new URLSearchParams(paramsObj).toString()
+
+      const response = await fetch(`${CHANGE_NOW_API_URL}/exchange/available-pairs?${params}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-changenow-api-key": process.env.CHANGE_NOW_API_KEY || "",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch available pairs: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      return data as AvailablePairsResponse[]
+    }),
 })

@@ -19,7 +19,7 @@ export default async function SwapPage() {
 
   return (
     <Suspense>
-      <Swap currencies={currencies} from={""} to={""} />
+      <Swap currencies={currencies} />
     </Suspense>
   )
 }

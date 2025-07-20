@@ -6,6 +6,7 @@ import Image from "next/image"
 import { Heading } from "../elements/heading"
 import { Subheading } from "../elements/sub_heading"
 import Section from "../section"
+import AvailablePairs from "../swap-zone/available-pairs"
 
 const Coins = () => {
   const { heading, description } = coinsData
@@ -43,6 +44,7 @@ const Coins = () => {
             </div>
             <CoinsList />
           </div>
+          <AvailablePairs />
         </div>
         {/* <Grid size={30} className='absolute top-0 right-0' /> */}
         <div

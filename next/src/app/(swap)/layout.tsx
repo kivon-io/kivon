@@ -14,8 +14,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <Hero className='mt-40' />
         {children}
         <Steps />
-        <Services />
         <Coins />
+        <Services />
         <Testimonials />
         <Faq />
         <Blog />
