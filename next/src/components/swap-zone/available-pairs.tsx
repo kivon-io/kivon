@@ -61,7 +61,7 @@ const AvailablePairs = () => {
           className='mb-2 border border-zinc-200 dark:border-zinc-800 bg-gradient-to-r from-zinc-50 to-zinc-100 dark:from-neutral-950 dark:to-neutral-900 rounded-lg p-2'
         >
           <AccordionItem value={`item-${index}`} key={index}>
-            <AccordionTrigger className=''>
+            <AccordionTrigger className='hover:no-underline group'>
               <div className='w-full flex flex-col gap-2 md:flex-row md:gap-4 md:items-center  md:justify-between'>
                 <div className='flex items-center gap-2 shrink-0'>
                   <div className='flex -space-x-2'>
@@ -81,7 +81,7 @@ const AvailablePairs = () => {
                   </p>
                 </div>
                 <div className='flex gap-2 w-full md:justify-end'>
-                  <div className='flex flex-col gap-1 md:items-end '>
+                  <div className='flex flex-col gap-1 md:items-end'>
                     <p className='text-xs text-zinc-500 dark:text-zinc-400 font-medium'>
                       Available for swap
                     </p>
@@ -97,6 +97,16 @@ const AvailablePairs = () => {
                       <TbLockX className='w-4 h-4 text-zinc-500' />
                     )}
                   </div>
+                  <Button
+                    className='w-fit ml-auto md:ml-0 flex md:hidden md:group-hover:block transition-all duration-300'
+                    size='sm'
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSwap(tokenInfo.tokenInfoFrom?.ticker || "", tokenInfo.ticker)
+                    }}
+                  >
+                    Swap
+                  </Button>
                 </div>
               </div>
             </AccordionTrigger>
@@ -143,12 +153,12 @@ const AvailablePairs = () => {
                   ]}
                 />
               </div>
-              <Button
-                className='w-fit'
+              {/* <Button
+                className='w-fit flex md:hidden'
                 onClick={() => handleSwap(tokenInfo.tokenInfoFrom?.ticker || "", tokenInfo.ticker)}
               >
                 Swap {tokenInfo.tokenInfoFrom?.name} - {tokenInfo.name}
-              </Button>
+              </Button> */}
             </AccordionContent>
           </AccordionItem>
         </Accordion>
