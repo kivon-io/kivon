@@ -17,6 +17,7 @@ import TokenLogo from "./token-logo"
 const AvailablePairs = () => {
   const { from } = useUrlRoute()
   const router = useRouter()
+  const [showMore, setShowMore] = useState(false)
 
   const { data: availablePairs } = trpc.getAvailablePairs.useQuery(
     { from },
@@ -44,125 +45,136 @@ const AvailablePairs = () => {
   })
 
   const handleSwap = (from: string, to: string) => {
-    // set the from and to in the url
     router.push(`/swap/${from}/${to}?step=transaction-details`)
-    // set the step to transaction-details
+  }
+
+  const handleShowMore = () => {
+    setShowMore(!showMore)
   }
 
   if (!from) return null
 
   return (
     <div className='relative mt-10 px-2 md:px-5 max-w-2xl mx-auto'>
-      {tokenInfosWithPairDetails?.slice(0, 5).map((tokenInfo, index) => (
-        <Accordion
-          type='single'
-          collapsible
-          key={index}
-          className='mb-2 border border-zinc-200 dark:border-zinc-800 bg-gradient-to-r from-zinc-50 to-zinc-100 dark:from-neutral-950 dark:to-neutral-900 rounded-lg p-2'
-        >
-          <AccordionItem value={`item-${index}`} key={index}>
-            <AccordionTrigger className='hover:no-underline group'>
-              <div className='w-full flex flex-col gap-2 md:flex-row md:gap-4 md:items-center  md:justify-between'>
-                <div className='flex items-center gap-2 shrink-0'>
-                  <div className='flex -space-x-2'>
+      {tokenInfosWithPairDetails
+        ?.slice(0, showMore ? tokenInfosWithPairDetails.length : 5)
+        .map((tokenInfo, index) => (
+          <Accordion
+            type='single'
+            collapsible
+            key={index}
+            className='mb-2 border border-zinc-200 dark:border-zinc-800 bg-gradient-to-r from-zinc-50 to-zinc-100 dark:from-neutral-950 dark:to-neutral-900 rounded-lg p-2'
+          >
+            <AccordionItem value={`item-${index}`} key={index}>
+              <AccordionTrigger className='hover:no-underline group'>
+                <div className='w-full flex flex-col gap-2 md:flex-row md:gap-4 md:items-center  md:justify-between'>
+                  <div className='flex items-center gap-2 shrink-0'>
+                    <div className='flex -space-x-2'>
+                      <TokenLogo
+                        src={tokenInfo.tokenInfoFrom?.image || ""}
+                        alt={tokenInfo.tokenInfoFrom?.name || ""}
+                        className='w-7 h-7 '
+                      />
+                      <TokenLogo
+                        src={tokenInfo.image || ""}
+                        alt={tokenInfo.name || ""}
+                        className='w-7 h-7 '
+                      />
+                    </div>
+                    <p className='text-sm font-medium'>
+                      {tokenInfo.tokenInfoFrom?.name} - {tokenInfo.name}
+                    </p>
+                  </div>
+                  <div className='flex gap-2 w-full md:justify-end'>
+                    <div className='flex flex-col gap-1 md:items-end'>
+                      <p className='text-xs text-zinc-500 dark:text-zinc-400 font-medium'>
+                        Available for swap
+                      </p>
+                      <PiArrowsLeftRightFill className='w-4 h-4 text-emerald-500' />
+                    </div>
+                    <div className='flex flex-col gap-1 md:items-end '>
+                      <p className='text-xs text-zinc-500 dark:text-zinc-400 font-medium'>
+                        Fixed rate
+                      </p>
+                      {tokenInfo.pair?.flow["fixed-rate"] ? (
+                        <TbLockCheck className='w-4 h-4 text-emerald-500' />
+                      ) : (
+                        <TbLockX className='w-4 h-4 text-zinc-500' />
+                      )}
+                    </div>
+                    <Button
+                      className='w-fit ml-auto md:ml-0 flex md:hidden md:group-hover:block transition-all duration-300'
+                      size='sm'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleSwap(tokenInfo.tokenInfoFrom?.ticker || "", tokenInfo.ticker)
+                      }}
+                    >
+                      Swap
+                    </Button>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className='grid grid-cols-1 md:grid-cols-1 gap-2'>
+                <div className='border border-zinc-200 dark:border-zinc-700 p-4 rounded-lg bg-white dark:bg-neutral-900'>
+                  <div className='flex gap-2 items-center'>
                     <TokenLogo
                       src={tokenInfo.tokenInfoFrom?.image || ""}
                       alt={tokenInfo.tokenInfoFrom?.name || ""}
-                      className='w-7 h-7 '
+                      className='w-7 h-7'
                     />
+                    <p className='text-sm font-medium'>
+                      {tokenInfo.tokenInfoFrom?.name}
+                      <span className='text-zinc-500 uppercase text-xs ml-1'>
+                        ({tokenInfo.tokenInfoFrom?.ticker})
+                      </span>
+                    </p>
+                  </div>
+                  <WalletCarousel
+                    wallets={[
+                      ...(tokenInfoFrom?.wallets.primary || []),
+                      ...(tokenInfoFrom?.wallets.secondary || []),
+                    ]}
+                  />
+                </div>
+                <div className='border border-zinc-200 dark:border-zinc-700 p-4 rounded-lg bg-white dark:bg-zinc-900'>
+                  <div className='flex gap-2 items-center'>
                     <TokenLogo
                       src={tokenInfo.image || ""}
                       alt={tokenInfo.name || ""}
-                      className='w-7 h-7 '
+                      className='w-7 h-7'
                     />
-                  </div>
-                  <p className='text-sm font-medium'>
-                    {tokenInfo.tokenInfoFrom?.name} - {tokenInfo.name}
-                  </p>
-                </div>
-                <div className='flex gap-2 w-full md:justify-end'>
-                  <div className='flex flex-col gap-1 md:items-end'>
-                    <p className='text-xs text-zinc-500 dark:text-zinc-400 font-medium'>
-                      Available for swap
+                    <p className='text-sm font-medium'>
+                      {tokenInfo.name}
+                      <span className='text-zinc-500 uppercase text-xs ml-1'>
+                        ({tokenInfo.ticker})
+                      </span>
                     </p>
-                    <PiArrowsLeftRightFill className='w-4 h-4 text-emerald-500' />
                   </div>
-                  <div className='flex flex-col gap-1 md:items-end '>
-                    <p className='text-xs text-zinc-500 dark:text-zinc-400 font-medium'>
-                      Fixed rate
-                    </p>
-                    {tokenInfo.pair?.flow["fixed-rate"] ? (
-                      <TbLockCheck className='w-4 h-4 text-emerald-500' />
-                    ) : (
-                      <TbLockX className='w-4 h-4 text-zinc-500' />
-                    )}
-                  </div>
-                  <Button
-                    className='w-fit ml-auto md:ml-0 flex md:hidden md:group-hover:block transition-all duration-300'
-                    size='sm'
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleSwap(tokenInfo.tokenInfoFrom?.ticker || "", tokenInfo.ticker)
-                    }}
-                  >
-                    Swap
-                  </Button>
-                </div>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className='grid grid-cols-1 md:grid-cols-1 gap-2'>
-              <div className='border border-zinc-200 dark:border-zinc-700 p-4 rounded-lg bg-white dark:bg-neutral-900'>
-                <div className='flex gap-2 items-center'>
-                  <TokenLogo
-                    src={tokenInfo.tokenInfoFrom?.image || ""}
-                    alt={tokenInfo.tokenInfoFrom?.name || ""}
-                    className='w-7 h-7'
+                  <WalletCarousel
+                    wallets={[
+                      ...(tokenInfo?.wallets.primary || []),
+                      ...(tokenInfo?.wallets.secondary || []),
+                    ]}
                   />
-                  <p className='text-sm font-medium'>
-                    {tokenInfo.tokenInfoFrom?.name}
-                    <span className='text-zinc-500 uppercase text-xs ml-1'>
-                      ({tokenInfo.tokenInfoFrom?.ticker})
-                    </span>
-                  </p>
                 </div>
-                <WalletCarousel
-                  wallets={[
-                    ...(tokenInfoFrom?.wallets.primary || []),
-                    ...(tokenInfoFrom?.wallets.secondary || []),
-                  ]}
-                />
-              </div>
-              <div className='border border-zinc-200 dark:border-zinc-700 p-4 rounded-lg bg-white dark:bg-zinc-900'>
-                <div className='flex gap-2 items-center'>
-                  <TokenLogo
-                    src={tokenInfo.image || ""}
-                    alt={tokenInfo.name || ""}
-                    className='w-7 h-7'
-                  />
-                  <p className='text-sm font-medium'>
-                    {tokenInfo.name}
-                    <span className='text-zinc-500 uppercase text-xs ml-1'>
-                      ({tokenInfo.ticker})
-                    </span>
-                  </p>
-                </div>
-                <WalletCarousel
-                  wallets={[
-                    ...(tokenInfo?.wallets.primary || []),
-                    ...(tokenInfo?.wallets.secondary || []),
-                  ]}
-                />
-              </div>
-              {/* <Button
+                {/* <Button
                 className='w-fit flex md:hidden'
                 onClick={() => handleSwap(tokenInfo.tokenInfoFrom?.ticker || "", tokenInfo.ticker)}
               >
                 Swap {tokenInfo.tokenInfoFrom?.name} - {tokenInfo.name}
               </Button> */}
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      ))}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ))}
+      {tokenInfosWithPairDetails && (
+        <div className='flex justify-center'>
+          <Button className='w-fit mx-auto font-medium' variant='ghost' onClick={handleShowMore}>
+            {showMore ? "View less" : "View more"}
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
