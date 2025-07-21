@@ -5,14 +5,14 @@ import { createTRPCRouter } from "../trpc"
 
 export const validateAddressRouter = createTRPCRouter({
   validateAddress: publicProcedure
-    .input(z.object({ address: z.string(), network: z.string() }))
+    .input(z.object({ address: z.string(), ticker: z.string() }))
     .query(async ({ input }) => {
-      const { address, network } = input
+      const { address, ticker } = input
 
       const apiKey = process.env.CHANGE_NOW_API_KEY
 
       const response = await fetch(
-        `${CHANGE_NOW_API_URL}/validate/address?currency=${network}&address=${address}`,
+        `${CHANGE_NOW_API_URL}/validate/address?currency=${ticker}&address=${address}`,
         {
           method: "GET",
           headers: {

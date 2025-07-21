@@ -210,7 +210,7 @@ const SwapOptions = {
     {
       id: 3,
       text: "Tether (USDT)",
-      URL: "/swap/usdt",
+      URL: "/swap/usdterc20",
     },
     {
       id: 4,
@@ -226,17 +226,17 @@ const SwapPairs = {
     {
       id: 1,
       text: "BTC to USDT",
-      URL: "/swap/btc/usdt",
+      URL: "/swap/btc/usdterc20",
     },
     {
       id: 2,
       text: "ETH to USDT",
-      URL: "/swap/eth/usdt",
+      URL: "/swap/eth/usdterc20",
     },
     {
       id: 3,
       text: "USDT to BTC",
-      URL: "/swap/usdt/btc",
+      URL: "/swap/usdterc20/btc",
     },
     {
       id: 4,

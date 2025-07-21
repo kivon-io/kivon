@@ -4,6 +4,7 @@ export const exchangeFormSchema = z
   .object({
     sendToken: z.object({
       ticker: z.string().min(1, { message: "Send token is required" }),
+      legacyTicker: z.string().min(1, { message: "Send token is required" }),
       name: z.string().min(1, { message: "Send token is required" }),
       image: z.string().min(1, { message: "Send token is required" }),
       network: z.string().min(1, { message: "Send token is required" }),
@@ -12,6 +13,7 @@ export const exchangeFormSchema = z
     }),
     receiveToken: z.object({
       ticker: z.string().min(1, { message: "Send token is required" }),
+      legacyTicker: z.string().min(1, { message: "Send token is required" }),
       name: z.string().min(1, { message: "Send token is required" }),
       image: z.string().min(1, { message: "Send token is required" }),
       network: z.string().min(1, { message: "Send token is required" }),

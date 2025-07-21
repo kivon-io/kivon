@@ -27,6 +27,7 @@ const Exchange = () => {
         <ExchangeAction />
         <div className='border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-1 flex flex-col gap-4'>
           <NewTransaction />
+          {/* <CancelTransaction /> */}
           <DialogTips />
         </div>
       </motion.div>

@@ -46,7 +46,7 @@ const TransactionStatus = ({ currentStatus }: { currentStatus?: string }) => {
             className={cn(
               "flex gap-4 relative",
               showLine &&
-                "after:absolute after:left-2.5 after:top-5 after:bottom-0 after:w-px after:bg-zinc-200 after:h-full transition-all duration-200",
+                "after:absolute after:left-2.5 after:top-5 after:bottom-0 after:w-px after:bg-zinc-200 dark:after:bg-zinc-700 after:h-full transition-all duration-200",
               idx < currentIndex && "after:bg-emerald-600"
             )}
             key={status}

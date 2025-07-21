@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { useAppContext } from "@/context/app-context"
 import { useExchange } from "@/context/exchange-context"
+import { useUpdateSwapUrl } from "@/lib/shared/urlParams"
 import { useState } from "react"
 import Badge from "../decorations/badge"
 import Symbol from "../elements/symbol"
@@ -19,6 +20,8 @@ import { EXCHANGE_TYPE } from "./exchange/constants"
 import TokenLogo from "./token-logo"
 
 const TokenList = () => {
+  const updateSwapUrl = useUpdateSwapUrl()
+
   const { state, type, toggleTokenList } = useAppContext()
   const { form, currencies } = useExchange()
 
@@ -31,25 +34,31 @@ const TokenList = () => {
     toggleTokenList()
   }
 
+  // set from and to in the url only if exist if not don't set it
+
   const handleClick = (token: Currency) => {
     if (type === EXCHANGE_TYPE.SEND) {
       form.setValue("sendToken", {
         ticker: token.ticker,
+        legacyTicker: token.legacyTicker,
         name: token.name,
         image: token.image,
         network: token.network,
         isFiat: token.isFiat,
         supportsFixedRate: token.supportsFixedRate,
       })
+      updateSwapUrl("from", token.legacyTicker || token.ticker)
     } else {
       form.setValue("receiveToken", {
         ticker: token.ticker,
+        legacyTicker: token.legacyTicker,
         name: token.name,
         image: token.image,
         network: token.network,
         isFiat: token.isFiat,
         supportsFixedRate: token.supportsFixedRate,
       })
+      updateSwapUrl("to", token.legacyTicker || token.ticker)
     }
 
     toggleTokenList()

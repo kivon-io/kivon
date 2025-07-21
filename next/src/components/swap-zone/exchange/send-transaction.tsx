@@ -17,6 +17,7 @@ const SendTransaction = () => {
   const searchParams = useSearchParams()
   const transactionId = searchParams.get("id") || ""
   const [isCopied, setIsCopied] = useState(false)
+  const [isCopiedAmount, setIsCopiedAmount] = useState(false)
   const { step, form, setExchangeTransactionStatus } = useExchange()
 
   const exchangeTransaction = form.watch("exchangeTransaction")
@@ -48,6 +49,14 @@ const SendTransaction = () => {
     setIsCopied(true)
     setTimeout(() => {
       setIsCopied(false)
+    }, 2000)
+  }
+
+  const handleCopyAmount = () => {
+    navigator.clipboard.writeText(transaction?.expectedAmountFrom?.toString() || "")
+    setIsCopiedAmount(true)
+    setTimeout(() => {
+      setIsCopiedAmount(false)
     }, 2000)
   }
 
@@ -86,6 +95,9 @@ const SendTransaction = () => {
                   <Badge>
                     <span className='text-xs uppercase'>{transaction?.fromNetwork || ""}</span>
                   </Badge>
+                  <Button variant='outline' size='icon' onClick={handleCopyAmount}>
+                    {isCopiedAmount ? <Check /> : <Copy />}
+                  </Button>
                 </div>
               </div>
               <div className='flex flex-col'>

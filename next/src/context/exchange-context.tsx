@@ -42,7 +42,6 @@ const ExchangeProvider = ({
   const searchParams = useSearchParams()
   const transactionId = searchParams.get("id")
   const stepParam = searchParams.get("step")
-
   const [step, setStep] = useState<Step>(
     stepParam ? (stepParam as Step) : transactionId ? "send-transaction" : "select-coin"
   )
@@ -112,22 +111,31 @@ const ExchangeProvider = ({
   // set default values using currencies[0] and currencies[1]
   useEffect(() => {
     if (currencies && currencies.length > 0) {
-      form.setValue("sendToken", {
-        ticker: currencies[0].ticker,
-        name: currencies[0].name,
-        image: currencies[0].image,
-        network: currencies[0].network,
-        isFiat: currencies[0].isFiat,
-        supportsFixedRate: currencies[0].supportsFixedRate,
-      })
-      form.setValue("receiveToken", {
-        ticker: currencies[1].ticker,
-        name: currencies[1].name,
-        image: currencies[1].image,
-        network: currencies[1].network,
-        isFiat: currencies[1].isFiat,
-        supportsFixedRate: currencies[1].supportsFixedRate,
-      })
+      const currentSendToken = form.getValues("sendToken")?.ticker
+      const currentReceiveToken = form.getValues("receiveToken")?.ticker
+
+      if (!currentSendToken) {
+        form.setValue("sendToken", {
+          ticker: currencies[0].ticker,
+          legacyTicker: currencies[0].legacyTicker,
+          name: currencies[0].name,
+          image: currencies[0].image,
+          network: currencies[0].network,
+          isFiat: currencies[0].isFiat,
+          supportsFixedRate: currencies[0].supportsFixedRate,
+        })
+      }
+      if (!currentReceiveToken) {
+        form.setValue("receiveToken", {
+          ticker: currencies[1].ticker,
+          legacyTicker: currencies[1].legacyTicker,
+          name: currencies[1].name,
+          image: currencies[1].image,
+          network: currencies[1].network,
+          isFiat: currencies[1].isFiat,
+          supportsFixedRate: currencies[1].supportsFixedRate,
+        })
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies])
@@ -135,11 +143,12 @@ const ExchangeProvider = ({
   // set the form values if the from and to search params exist find the currency from the currencies array that matches the from and to search params and set the form values
   useEffect(() => {
     if (from && currencies && currencies.length > 0) {
-      const fromCurrency = currencies.find((currency) => currency.ticker === from)
+      const fromCurrency = currencies.find((currency) => currency.legacyTicker === from)
       if (!fromCurrency) return
 
       form.setValue("sendToken", {
         ticker: fromCurrency.ticker,
+        legacyTicker: fromCurrency.legacyTicker,
         name: fromCurrency.name,
         image: fromCurrency.image,
         network: fromCurrency.network,
@@ -148,13 +157,14 @@ const ExchangeProvider = ({
       })
 
       // Check if receiveToken is the same as from, and fix if needed
-      const currentReceiveToken = form.getValues("receiveToken")?.ticker
+      const currentReceiveToken = form.getValues("receiveToken")?.legacyTicker
       if (currentReceiveToken === from) {
         // Pick the first currency that is not 'from'
-        const newToCurrency = currencies.find((currency) => currency.ticker !== from)
+        const newToCurrency = currencies.find((currency) => currency.legacyTicker !== from)
         if (newToCurrency) {
           form.setValue("receiveToken", {
             ticker: newToCurrency.ticker,
+            legacyTicker: newToCurrency.legacyTicker,
             name: newToCurrency.name,
             image: newToCurrency.image,
             network: newToCurrency.network,
@@ -165,11 +175,12 @@ const ExchangeProvider = ({
       }
     }
     if (to && currencies && currencies.length > 0) {
-      const toCurrency = currencies.find((currency) => currency.ticker === to)
+      const toCurrency = currencies.find((currency) => currency.legacyTicker === to)
       if (!toCurrency) return
 
       form.setValue("receiveToken", {
         ticker: toCurrency.ticker,
+        legacyTicker: toCurrency.legacyTicker,
         name: toCurrency.name,
         image: toCurrency.image,
         network: toCurrency.network,

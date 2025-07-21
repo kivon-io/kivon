@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useExchange } from "@/context/exchange-context"
 import { FLOW_TYPE } from "@/lib/shared/constants"
 import { trpc } from "@/trpc/client"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useMemo } from "react"
 import { EXCHANGE_STEPS } from "./constants"
 
@@ -14,6 +14,7 @@ import { EXCHANGE_STEPS } from "./constants"
 const ExchangeAction = () => {
   const { step, form, setStep } = useExchange()
   const router = useRouter()
+  const pathname = usePathname()
 
   const sendToken = form.watch("sendToken")
   const receiveToken = form.watch("receiveToken")
@@ -70,13 +71,14 @@ const ExchangeAction = () => {
     if (step === EXCHANGE_STEPS.SELECT_COIN) {
       setStep(EXCHANGE_STEPS.TRANSACTION_DETAILS)
       // set step to transaction-details in the url
-      router.push(`/swap?step=transaction-details`)
+      // i need to preserve the route and just change the step
+      router.push(`${pathname}?step=transaction-details`)
     }
 
     if (step === EXCHANGE_STEPS.TRANSACTION_DETAILS) {
       setStep(EXCHANGE_STEPS.SEND_TRANSACTION)
       // set step to send-transaction in the url
-      router.push(`/swap?step=send-transaction`)
+      router.push(`${pathname}?step=send-transaction`)
       handleCreateExchangeTransaction()
     }
   }
