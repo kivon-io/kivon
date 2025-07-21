@@ -16,7 +16,7 @@ const AdvancedSettings = ({ form }: { form: UseFormReturn<ExchangeFormSchema> })
   const { data: validatedAddress } = trpc.validateAddress.useQuery(
     {
       address: form.watch("refund_address") || "",
-      network: form.watch("sendToken.ticker") || "",
+      ticker: form.watch("sendToken.legacyTicker") || "",
     },
     {
       enabled: !!form.watch("refund_address") && !!form.watch("sendToken.ticker"),
