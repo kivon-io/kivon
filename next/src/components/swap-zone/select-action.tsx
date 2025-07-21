@@ -2,6 +2,10 @@
 import { cn } from "@/lib/utils"
 import { motion } from "motion/react"
 import { usePathname, useRouter } from "next/navigation"
+import { AiOutlineSwap } from "react-icons/ai"
+import { RiP2pLine, RiVisaLine } from "react-icons/ri"
+import { RxLapTimer } from "react-icons/rx"
+import { BorderBeam } from "../decorations/border-beam"
 import { Grid } from "../decorations/grid"
 import { Heading } from "../elements/heading"
 import SwapZoneContainer from "./swap-zone-container"
@@ -11,27 +15,34 @@ const actions = [
     id: 1,
     title: "Swap-Bridge",
     key: "swap",
-    image: "/images/badges/swap.png",
+    icon: "AiOutlineSwap",
   },
   {
     id: 4,
     title: "Buy-Sell",
     key: "fiat",
-    image: "/images/badges/bridge.png",
+    icon: "RiVisaLine",
   },
   {
     id: 2,
     title: "Limit-Futures-DCA",
     key: "limit-futures-dca",
-    image: "/images/badges/buy.png",
+    icon: "RxLapTimer",
   },
   {
     id: 3,
     title: "OTC-P2P",
     key: "otc-p2p",
-    image: "/images/badges/sell.png",
+    icon: "RiP2pLine",
   },
 ]
+
+const iconsMap = {
+  swap: <AiOutlineSwap className='text-black dark:text-white w-6 h-6 z-10' />,
+  fiat: <RiVisaLine className='text-black dark:text-white w-6 h-6 z-10' />,
+  "limit-futures-dca": <RxLapTimer className='text-black dark:text-white w-6 h-6 z-10' />,
+  "otc-p2p": <RiP2pLine className='text-black dark:text-white w-6 h-6 z-10' />,
+}
 
 const SelectSwapType = () => {
   const pathname = usePathname()
@@ -56,15 +67,30 @@ const SelectSwapType = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
             whileTap={{ scale: 0.95 }}
-            className='flex flex-col items-center justify-center h-32 md:h-44 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 cursor-pointer overflow-hidden relative'
+            className='group flex flex-col items-center justify-center h-32 md:h-44 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 cursor-pointer overflow-hidden relative'
             onClick={() => handleSelectSwapType(action.key)}
           >
-            <div className='relative z-10 flex flex-col items-center justify-center gap-3'>
+            <div className=' relative z-10 flex flex-col items-center justify-center gap-3'>
               <div
                 className={cn(
-                  "w-16 h-16 md:w-20 md:h-20 relative bg-zinc-200 dark:bg-neutral-800 rounded-full"
+                  "flex items-center justify-center w-16 h-16 md:w-20 md:h-20 relative bg-gradient-to-br from-zinc-50 to-zinc-200 dark:from-neutral-800 dark:to-black rounded-full overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-lg shadow-zinc-200 dark:shadow-neutral-800/50"
                 )}
-              ></div>
+              >
+                {iconsMap[action.key as keyof typeof iconsMap]}
+                <div className='absolute bg-zinc-200 dark:bg-neutral-800 w-8 h-8 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2' />
+
+                <div className='hidden md:flex absolute top-0 left-6 w-[1px] h-full bg-zinc-300 dark:bg-zinc-700/50' />
+                <div className='hidden md:flex absolute top-0 right-6 w-[1px] h-full bg-zinc-300 dark:bg-zinc-700/50' />
+                <div className='hidden md:flex absolute top-6 left-0 w-full h-[1px] bg-zinc-300 dark:bg-zinc-700/50' />
+                <div className='hidden md:flex absolute bottom-6 left-0 w-full h-[1px] bg-zinc-300 dark:bg-zinc-700/50' />
+
+                {/* only show on hover */}
+                <BorderBeam
+                  duration={8}
+                  size={100}
+                  className='md:opacity-0 group-hover:opacity-100 transition-opacity duration-300'
+                />
+              </div>
               <p className='text-sm font-bold text-center'>{action.title}</p>
             </div>
             <Grid size={20} className='absolute top-0 right-0 ' />
