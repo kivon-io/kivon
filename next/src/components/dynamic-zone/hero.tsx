@@ -8,9 +8,15 @@ import { Grid } from "../decorations/grid"
 import { Heading } from "../elements/heading"
 import { Subheading } from "../elements/sub_heading"
 
-const heading = "Exchange any Web3 Crypto limitlessly, instantly, securely and easily"
-
-const Hero = ({ className }: { className?: string }) => {
+const Hero = ({
+  heading,
+  sub_heading,
+  className,
+}: {
+  heading: string
+  sub_heading: string
+  className?: string
+}) => {
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
 
@@ -60,8 +66,7 @@ const Hero = ({ className }: { className?: string }) => {
           className='mb-10'
         >
           <Subheading as='p' className='text-sm md:text-base lg:text-lg'>
-            Exchange bitcoin and over 1,400+ crypto currencies with ease. No Wallet. No Tracking. No
-            KYC. Swap multichain in seconds.
+            {sub_heading}
           </Subheading>
         </motion.div>
       </div>

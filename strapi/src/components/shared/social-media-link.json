@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_social_media_links",
+  "info": {
+    "displayName": "Social_Media_Link"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string"
+    },
+    "URL": {
+      "type": "string"
+    },
+    "target": {
+      "type": "enumeration",
+      "enum": [
+        "_blank",
+        "_self",
+        "_parent",
+        "_top"
+      ]
+    }
+  },
+  "config": {}
+}

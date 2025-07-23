@@ -1,16 +1,28 @@
-import faqData from "@/data/faq-data.json"
 import Section from "../section"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion"
 
-const Faq = () => {
-  const { heading, description, faqs } = faqData
+interface Faq {
+  id: number
+  question: string
+  answer: string
+}
+
+const Faq = ({
+  heading,
+  sub_heading,
+  faqs,
+}: {
+  heading: string
+  sub_heading: string
+  faqs: Faq[]
+}) => {
   return (
     <Section className='max-w-7xl'>
       <div className='relative overflow-hidden md:overflow-visible p-5'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
           <div>
             <h2 className='text-2xl font-bold'>{heading}</h2>
-            <p className='text-gray-500'>{description}</p>
+            <p className='text-gray-500'>{sub_heading}</p>
           </div>
           <Accordion type='single' collapsible>
             {faqs.map((faq) => (

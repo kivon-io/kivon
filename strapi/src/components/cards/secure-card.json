@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_cards_secure_cards",
+  "info": {
+    "displayName": "Secure_Card"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "span": {
+      "type": "enumeration",
+      "enum": [
+        "one",
+        "two",
+        "three"
+      ]
+    }
+  },
+  "config": {}
+}

@@ -205,3 +205,23 @@ type Wallet = {
   }
   multi: boolean
 }
+
+type ImageType = {
+  alternativeText: string
+  url: string
+  id: number
+  name: string
+}
+
+type Seo = {
+  metaTitle: string
+  metaDescription: string
+  keywords: string
+  ogTitle: string
+  ogDescription: string
+  metaImage: { url: string }
+  twitterCard: string
+  twitterTitle: string
+  twitterDescription: string
+  twitterImage: string
+}

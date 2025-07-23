@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "services",
+  "info": {
+    "singularName": "service",
+    "pluralName": "services",
+    "displayName": "Service"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heading": {
+      "type": "string"
+    },
+    "sub_heading": {
+      "type": "text"
+    },
+    "live_support_card": {
+      "type": "component",
+      "component": "cards.live-support",
+      "repeatable": false
+    },
+    "market_rate_card": {
+      "type": "component",
+      "component": "cards.market-rate",
+      "repeatable": false
+    },
+    "secure_card": {
+      "type": "component",
+      "component": "cards.secure-card",
+      "repeatable": false
+    },
+    "transaction_card": {
+      "type": "component",
+      "component": "cards.transaction-card",
+      "repeatable": false
+    }
+  }
+}

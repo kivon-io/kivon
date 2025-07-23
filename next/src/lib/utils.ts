@@ -29,3 +29,29 @@ export const appendUrlToTxHash = (url: string, txHash: string) => {
   // example: "https://www.oklink.com/base/tx/$$" replace $$ with txHash
   return url.replace("$$", txHash)
 }
+
+export const getProperUrl = (url: string) => {
+  if (!url) return "/"
+
+  // If it's an external URL, return as-is
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url
+  }
+
+  // Handle internal URLs
+  let finalUrl = url
+
+  // If URL doesn't start with /, add it
+  if (!finalUrl.startsWith("/")) {
+    finalUrl = `/${finalUrl}`
+  }
+
+  // Remove double slashes
+  finalUrl = finalUrl.replace(/\/+/g, "/")
+
+  return finalUrl
+}
+
+export const getHeroData = (data: any) => {
+  return data.dynamic_zone[0].hero
+}

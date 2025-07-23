@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_global_footers",
+  "info": {
+    "displayName": "Footer"
+  },
+  "options": {},
+  "attributes": {
+    "logo": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::logo.logo"
+    },
+    "description": {
+      "type": "text"
+    },
+    "copyright": {
+      "type": "string"
+    },
+    "columns": {
+      "type": "component",
+      "component": "shared.navigation-column",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

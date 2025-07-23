@@ -1,13 +1,14 @@
 import { APP_NAME } from "@/lib/shared/constants"
+import { strapiImage } from "@/lib/strapi/strapiImage"
 import Link from "next/link"
 import { BlurImage } from "./blur-image"
 
-const Logo = () => {
+const Logo = ({ logo }: { logo?: ImageType }) => {
   return (
     <Link href={`/`} className='font-normal flex space-x-2 items-center text-sm mr-4 relative z-20'>
       <div className='relative h-8 w-8'>
         <BlurImage
-          src={"/images/logos/logo-icon.png"}
+          src={logo ? strapiImage(logo.url) : "/images/logos/logo-icon.png"}
           alt={"logo"}
           width={400}
           height={400}

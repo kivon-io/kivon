@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_dynamic_zone_steps",
+  "info": {
+    "displayName": "Steps"
+  },
+  "options": {},
+  "attributes": {
+    "step": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::step.step"
+    }
+  },
+  "config": {}
+}

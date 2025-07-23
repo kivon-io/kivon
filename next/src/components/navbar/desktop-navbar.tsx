@@ -15,9 +15,13 @@ type Props = {
     URL: string
     target?: string | null
   }[]
+  logo: {
+    company: string
+    image: ImageType
+  }
 }
 
-const DesktopNavbar = ({ items }: Props) => {
+const DesktopNavbar = ({ items, logo }: Props) => {
   const { scrollY } = useScroll()
   const [showBackground, setShowBackground] = useState(false)
 
@@ -65,7 +69,7 @@ const DesktopNavbar = ({ items }: Props) => {
         }}
       >
         <div className='flex flex-row gap-2 items-center'>
-          <Logo />
+          <Logo logo={logo.image} />
           {items.map((item) => (
             <NavbarItem key={item.id} href={item.URL as never} target={item.target ?? undefined}>
               {item.text}

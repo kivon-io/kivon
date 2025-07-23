@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_dynamic_zone_discover_coins",
+  "info": {
+    "displayName": "Discover_Coins"
+  },
+  "options": {},
+  "attributes": {
+    "coins": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::logo.logo"
+    },
+    "trade_coin": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::trade-coin.trade-coin"
+    }
+  },
+  "config": {}
+}

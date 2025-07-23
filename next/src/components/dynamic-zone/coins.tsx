@@ -8,8 +8,14 @@ import { Subheading } from "../elements/sub_heading"
 import Section from "../section"
 import AvailablePairs from "../swap-zone/available-pairs"
 
-const Coins = () => {
-  const { heading, description } = coinsData
+interface TradeCoin {
+  id: number
+  heading: string
+  sub_heading: string
+}
+
+const Coins = ({ trade_coin }: { trade_coin: TradeCoin }) => {
+  const { heading, sub_heading } = trade_coin
   return (
     <Section className='max-w-7xl mx-auto px-4 md:px-0'>
       <div className='h-4 w-full relative overflow-hidden'>
@@ -26,6 +32,7 @@ const Coins = () => {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
             className='relative z-10 max-w-7xl mx-auto px-4 md:px-0 mt-20'
           >
             <Heading
@@ -35,7 +42,7 @@ const Coins = () => {
               {heading}
             </Heading>
             <Subheading className='text-sm text-neutral-500 dark:text-neutral-400 text-center w-full max-w-full'>
-              {description}
+              {sub_heading}
             </Subheading>
           </motion.div>
           <div className='relative isolate'>

@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trade_coins",
+  "info": {
+    "singularName": "trade-coin",
+    "pluralName": "trade-coins",
+    "displayName": "TradeCoin"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heading": {
+      "type": "string"
+    },
+    "sub_heading": {
+      "type": "text"
+    },
+    "tag": {
+      "type": "string"
+    }
+  }
+}

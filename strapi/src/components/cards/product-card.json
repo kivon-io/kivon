@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_cards_product_cards",
+  "info": {
+    "displayName": "Product_Card"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string"
+    },
+    "key": {
+      "type": "enumeration",
+      "enum": [
+        "swap",
+        "fiat",
+        "p2p",
+        "limit"
+      ]
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "AiOutlineSwap",
+        "RiVisaLine",
+        "RxLapTimer",
+        "RiP2pLine"
+      ]
+    }
+  },
+  "config": {}
+}

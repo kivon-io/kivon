@@ -143,7 +143,9 @@ const ExchangeProvider = ({
   // set the form values if the from and to search params exist find the currency from the currencies array that matches the from and to search params and set the form values
   useEffect(() => {
     if (from && currencies && currencies.length > 0) {
-      const fromCurrency = currencies.find((currency) => currency.legacyTicker === from)
+      const fromCurrency = currencies.find(
+        (currency) => currency.legacyTicker === from || currency.ticker === from
+      )
       if (!fromCurrency) return
 
       form.setValue("sendToken", {
@@ -175,7 +177,9 @@ const ExchangeProvider = ({
       }
     }
     if (to && currencies && currencies.length > 0) {
-      const toCurrency = currencies.find((currency) => currency.legacyTicker === to)
+      const toCurrency = currencies.find(
+        (currency) => currency.legacyTicker === to || currency.ticker === to
+      )
       if (!toCurrency) return
 
       form.setValue("receiveToken", {

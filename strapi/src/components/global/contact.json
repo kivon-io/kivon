@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_global_contacts",
+  "info": {
+    "displayName": "Contact"
+  },
+  "options": {},
+  "attributes": {
+    "email": {
+      "type": "string"
+    },
+    "social_media_links": {
+      "type": "component",
+      "component": "shared.social-media-link",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

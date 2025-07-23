@@ -16,9 +16,13 @@ type Props = {
     URL: string
     target?: string | null
   }[]
+  logo: {
+    company: string
+    image: ImageType
+  }
 }
 
-const MobileNavbar = ({ items }: Props) => {
+const MobileNavbar = ({ items, logo }: Props) => {
   const [open, setOpen] = useState(false)
 
   const { scrollY } = useScroll()
@@ -41,7 +45,7 @@ const MobileNavbar = ({ items }: Props) => {
           " bg-white dark:bg-neutral-900 shadow-[0px_-2px_0px_0px_var(--neutral-800),0px_2px_0px_0px_var(--neutral-800)]"
       )}
     >
-      <Logo />
+      <Logo logo={logo.image} />
 
       <div className='flex items-center gap-2'>
         <ModeToggle />

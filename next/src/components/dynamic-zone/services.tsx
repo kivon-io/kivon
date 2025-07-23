@@ -1,6 +1,5 @@
 "use client"
 
-import servicesData from "@/data/services.json"
 import { ChartAreaIcon, RefreshCcw } from "lucide-react"
 import { motion } from "motion/react"
 import { useState } from "react"
@@ -14,8 +13,76 @@ import { Subheading } from "../elements/sub_heading"
 import Section from "../section"
 import { Badge } from "../ui/badge"
 
-const Services = () => {
-  const { heading, description, items } = servicesData
+interface Services {
+  id: number
+  heading: string
+  sub_heading: string
+  live_support_card: {
+    id: number
+    title: string
+    description: string
+    span: string
+  }
+  market_rate_card: {
+    id: number
+    title: string
+    description: string
+    span: string
+  }
+  secure_card: {
+    id: number
+    title: string
+    description: string
+    span: string
+  }
+  transaction_card: {
+    id: number
+    title: string
+    description: string
+    span: string
+  }
+}
+
+const Services = ({ services }: { services: Services[] }) => {
+  const {
+    heading,
+    sub_heading,
+    live_support_card,
+    market_rate_card,
+    secure_card,
+    transaction_card,
+  } = services[0]
+
+  const items = [
+    {
+      id: live_support_card.id,
+      title: live_support_card.title,
+      description: live_support_card.description,
+      key: "support",
+      span: live_support_card.span,
+    },
+    {
+      id: market_rate_card.id,
+      title: market_rate_card.title,
+      description: market_rate_card.description,
+      key: "market",
+      span: market_rate_card.span,
+    },
+    {
+      id: secure_card.id,
+      title: secure_card.title,
+      description: secure_card.description,
+      key: "secure",
+      span: secure_card.span,
+    },
+    {
+      id: transaction_card.id,
+      title: transaction_card.title,
+      description: transaction_card.description,
+      key: "fast",
+      span: transaction_card.span,
+    },
+  ]
 
   return (
     <Section>
@@ -30,7 +97,7 @@ const Services = () => {
           {heading}
         </Heading>
         <Subheading className='text-sm text-neutral-500 dark:text-neutral-400 text-left w-full max-w-full'>
-          {description}
+          {sub_heading}
         </Subheading>
       </motion.div>
       <BentoGrid className=''>

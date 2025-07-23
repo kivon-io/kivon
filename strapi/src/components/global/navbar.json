@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_global_navbars",
+  "info": {
+    "displayName": "Navbar"
+  },
+  "options": {},
+  "attributes": {
+    "logo": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::logo.logo"
+    },
+    "items": {
+      "type": "component",
+      "component": "shared.navigation-column",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

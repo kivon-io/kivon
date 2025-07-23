@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      { hostname: process.env.IMAGE_HOSTNAME || "localhost" },
       {
         protocol: "https",
         hostname: "changenow.io",

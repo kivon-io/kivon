@@ -1,17 +1,31 @@
 "use client"
 
-import testimonialsData from "@/data/testimonials.json"
+import { strapiImage } from "@/lib/strapi/strapiImage"
 import { cn } from "@/lib/utils"
 import { motion } from "motion/react"
 import { SiTrustpilot } from "react-icons/si"
 import Balancer from "react-wrap-balancer"
 import { BlurImage } from "../blur-image"
+import Lines from "../decorations/lines"
 import { Heading } from "../elements/heading"
 import { Subheading } from "../elements/sub_heading"
 import Section from "../section"
 
-const Testimonials = () => {
-  const { heading, description, testimonials } = testimonialsData
+interface Testimonials {
+  heading: string
+  sub_heading: string
+  testimonials: {
+    id: number
+    text: string
+    user: {
+      name: string
+      country: string
+      image: ImageType
+    }
+  }[]
+}
+
+const Testimonials = ({ heading, sub_heading, testimonials }: Testimonials) => {
   return (
     <Section className='mx-auto max-w-7xl'>
       <motion.div
@@ -24,57 +38,14 @@ const Testimonials = () => {
           {heading}
         </Heading>
         <Subheading className='text-sm text-neutral-500 dark:text-neutral-400 w-full max-w-full'>
-          {description}
+          {sub_heading}
         </Subheading>
       </motion.div>
 
       <div className='relative overflow-hidden md:overflow-visible'>
-        <div
-          className='absolute opacity-30 inset-x-0 h-px -top-px bg-zinc-400/50 dark:bg-zinc-400/50'
-          style={{
-            backgroundImage:
-              "url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 1'%3E%3Crect width='1' height='1' fill='%404040'/%3E%3C/svg%3E')",
-            maskImage:
-              "linear-gradient(to right, transparent, white 4rem, white calc(100% - 4rem), transparent)",
-            marginLeft: "-4rem",
-            marginRight: "-4rem",
-          }}
-        ></div>
-        <div
-          className='absolute opacity-30 inset-y-0 w-px -right-px bg-zinc-400/50 dark:bg-zinc-400/50'
-          style={{
-            backgroundImage:
-              "url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 4'%3E%3Crect width='1' height='1' fill='%23212126'/%3E%3C/svg%3E')",
-            maskImage:
-              "linear-gradient(transparent, white 4rem, white calc(100% - 4rem), transparent)",
-            marginTop: "-4rem",
-            marginBottom: "-4rem",
-          }}
-        ></div>
-        <div
-          className='absolute opacity-30 inset-x-0 h-px -bottom-px bg-zinc-400/50 dark:bg-zinc-400/50'
-          style={{
-            backgroundImage:
-              "url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 1'%3E%3Crect width='1' height='1' fill='%23212126'/%3E%3C/svg%3E')",
-            maskImage:
-              "linear-gradient(to right, transparent, white 4rem, white calc(100% - 4rem), transparent)",
-            marginLeft: "-4rem",
-            marginRight: "-4rem",
-          }}
-        ></div>
-        <div
-          className='absolute opacity-30 inset-y-0 w-px -left-px bg-zinc-400/50 dark:bg-zinc-400/50'
-          style={{
-            backgroundImage:
-              "url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 4'%3E%3Crect width='1' height='1' fill='%23212126'/%3E%3C/svg%3E')",
-            maskImage:
-              "linear-gradient(transparent, white 4rem, white calc(100% - 4rem), transparent)",
-            marginTop: "-4rem",
-            marginBottom: "-4rem",
-          }}
-        ></div>
+        <Lines />
         <div className='flex overflow-x-auto md:overflow-x-visible md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 scrollbar-hide'>
-          {testimonials.map((testimonial, index) => (
+          {testimonials?.map((testimonial, index) => (
             <Testimonial key={testimonial.id} {...testimonial} index={index} />
           ))}
         </div>
@@ -86,16 +57,16 @@ const Testimonials = () => {
 export default Testimonials
 
 const Testimonial = ({
-  name,
-  country,
-  testimonial,
-  image,
+  text,
+  user,
   index,
 }: {
-  name: string
-  country: string
-  testimonial: string
-  image: string
+  text: string
+  user: {
+    name: string
+    country: string
+    image: ImageType
+  }
   index: number
 }) => {
   return (
@@ -120,16 +91,16 @@ const Testimonial = ({
               "text-sm md:text-base"
             )}
           >
-            <Balancer>{testimonial}</Balancer>
+            <Balancer>{text}</Balancer>
           </p>
           <div className='flex items-center justify-between'>
             <div className='flex flex-col'>
-              <p className='text-sm font-medium'>{name}</p>
-              <small className='text-xs text-zinc-500 dark:text-zinc-400'>{country}</small>
+              <p className='text-sm font-medium'>{user.name}</p>
+              <small className='text-xs text-zinc-500 dark:text-zinc-400'>{user.country}</small>
             </div>
             <BlurImage
-              src={image}
-              alt={name}
+              src={strapiImage(user.image.url)}
+              alt={user.name}
               width={40}
               height={40}
               className='rounded-full shrink-0 object-cover object-center w-10 h-10'
