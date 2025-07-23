@@ -52,6 +52,7 @@ export const getProperUrl = (url: string) => {
   return finalUrl
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getHeroData = (data: any) => {
   return data.dynamic_zone[0].hero
 }
