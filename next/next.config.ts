@@ -18,6 +18,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "changenow.io",
       },
+      {
+        protocol: "https",
+        hostname: "trusty-dinosaur-aff6ef4f16.strapiapp.com",
+      },
+      {
+        protocol: "https",
+        hostname: "trusty-dinosaur-aff6ef4f16.media.strapiapp.com",
+      },
     ],
   },
 }

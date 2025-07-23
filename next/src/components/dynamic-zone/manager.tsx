@@ -13,6 +13,7 @@ interface Props {
   dynamicZone: DynamicZoneComponent[]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const componentMapping: { [key: string]: any } = {
   "dynamic-zone.steps": dynamic(() => import("./steps"), {
     ssr: false,

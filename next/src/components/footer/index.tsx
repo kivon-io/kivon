@@ -10,6 +10,7 @@ interface FooterProps {
   }
   copyright: string
   columns: {
+    id: number
     title: string
     key: string
     items: FooterItem[]
@@ -26,6 +27,7 @@ interface FooterProps {
 const Footer = ({ logo, columns, copyright, social_media_links, className }: FooterProps) => {
   const businessLinks = columns.filter((column) => column.key === "business")
   const serviceLinks = columns.filter((column) => column.key === "services")
+
   return (
     <div
       className={cn("w-full bg-white dark:bg-neutral-900 h-full mt-20 relative z-20", className)}
@@ -40,12 +42,12 @@ const Footer = ({ logo, columns, copyright, social_media_links, className }: Foo
         <div className='flex flex-col gap-5 mt-10'>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5'>
             {businessLinks.map((column) => (
-              <LinksSection key={column.key} title={column.title} items={column.items} />
+              <LinksSection key={column.id} title={column.title} items={column.items} />
             ))}
           </div>
           <div className='relative grid grid-cols-2 md:grid-cols-4 gap-4'>
             {serviceLinks.map((column) => (
-              <LinksSection key={column.key} title={column.title} items={column.items} />
+              <LinksSection key={column.id} title={column.title} items={column.items} />
             ))}
           </div>
         </div>
@@ -268,21 +270,21 @@ const LinksSection = ({
 //   ],
 // }
 
-const Socials = [
-  {
-    id: 1,
-    text: "Telegram",
-    URL: "https://www.telegram.com",
-    key: "telegram",
-    target: "_blank",
-    icon: "RiTelegram2Fill",
-  },
-  {
-    id: 2,
-    text: "X",
-    URL: "https://www.x.com",
-    key: "x",
-    target: "_blank",
-    icon: "RiTwitterXFill",
-  },
-]
+// const Socials = [
+//   {
+//     id: 1,
+//     text: "Telegram",
+//     URL: "https://www.telegram.com",
+//     key: "telegram",
+//     target: "_blank",
+//     icon: "RiTelegram2Fill",
+//   },
+//   {
+//     id: 2,
+//     text: "X",
+//     URL: "https://www.x.com",
+//     key: "x",
+//     target: "_blank",
+//     icon: "RiTwitterXFill",
+//   },
+// ]
