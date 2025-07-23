@@ -27,6 +27,7 @@ const TokenLogo = (props: ImageProps) => {
       blurDataURL={src as string}
       layout={layout}
       alt={alt ? alt : "logo"}
+      sizes='(max-width: 600px) 24px, 32px'
       {...rest}
     />
   )

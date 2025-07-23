@@ -104,6 +104,7 @@ const Testimonial = ({
               width={40}
               height={40}
               className='rounded-full shrink-0 object-cover object-center w-10 h-10'
+              sizes='(max-width: 600px) 24px, 40px'
             />
           </div>
         </div>
