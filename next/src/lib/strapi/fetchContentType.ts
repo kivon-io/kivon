@@ -49,7 +49,7 @@ export default async function fetchContentType(
     const response = await fetch(`${url.href}?${qs.stringify(queryParams)}`, {
       method: "GET",
       next: {
-        revalidate: isEnabled ? 0 : 3600, // 1 hour cache for production, no cache for drafts
+        revalidate: isEnabled ? 0 : 120, // 2 minutes cache for production, no cache for drafts
       },
     })
 
