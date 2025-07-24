@@ -58,7 +58,6 @@ const Article = ({ article }: { article: Article }) => {
           alt={article.title}
           fill
           className='object-cover rounded-2xl'
-          sizes='(max-width: 600px) 100vw, 1080px'
         />
       </div>
       <div className='flex flex-col gap-3 mt-2'>

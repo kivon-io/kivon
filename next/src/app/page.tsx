@@ -28,7 +28,7 @@ export default async function Home() {
   const hero = getHeroData(pageData)
   return (
     <main className='relative w-full h-full 2xl:h-[calc(100vh-120px)] flex flex-col items-center justify-center px-4 md:px-0'>
-      <Hero {...hero} className='mt-32 md:mt-20' />
+      <Hero {...hero} className='mt-20 md:mt-20' />
       <SelectSwapType />
     </main>
   )

@@ -12,7 +12,6 @@ const Logo = ({ logo }: { logo?: ImageType }) => {
           alt={"logo"}
           width={400}
           height={400}
-          sizes='(max-width: 1080px) 100vw, 1080px'
           className='h-full w-full object-contain object-center rounded-sm'
         />
       </div>
