@@ -1,5 +1,9 @@
 import Link from "next/link"
+import { BiBook } from "react-icons/bi"
+import { FaMedium } from "react-icons/fa"
+import { IoLogoYoutube } from "react-icons/io5"
 import { RiDiscordFill, RiTelegram2Fill, RiTwitterXFill } from "react-icons/ri"
+import { SiCoinmarketcap } from "react-icons/si"
 
 const SocialLinks = ({
   links,
@@ -19,6 +23,10 @@ const SocialLinks = ({
     twitter: <RiTwitterXFill />, // If you want to use the X icon for "twitter"
     x: <RiTwitterXFill />,
     discord: <RiDiscordFill />,
+    medium: <FaMedium />,
+    docs: <BiBook />,
+    coinmarketcap: <SiCoinmarketcap />,
+    youtube: <IoLogoYoutube />,
   }
 
   return (
