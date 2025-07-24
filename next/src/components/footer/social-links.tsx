@@ -36,7 +36,7 @@ const SocialLinks = ({
           key={link.id}
           href={link.URL}
           target={link.target}
-          className='h-8 w-8 text-xl rounded border border-zinc-200 dark:border-zinc-800 flex items-center justify-center hover:bg-secondary-custom hover:text-white transition-colors duration-300'
+          className='h-8 w-8 text-xl rounded flex items-center justify-center hover:bg-secondary-custom hover:text-white transition-colors duration-300'
         >
           {iconsMap[link.text.toLowerCase()] ?? null}
         </Link>
