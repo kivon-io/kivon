@@ -99,7 +99,7 @@ export const DialogTips = () => {
 
 const TipsContent = () => {
   return (
-    <div className='flex flex-col gap-8 mt-5'>
+    <div className='flex flex-col gap-8 mt-5 overflow-y-auto max-h-[400px] md:max-h-none'>
       {tips.map((tip) => (
         <div key={tip.key}>
           <Heading as='h3' className='text-sm md:text-base text-start font-medium'>
