@@ -53,7 +53,7 @@ const Article = ({ article }: { article: Article }) => {
   return (
     <div className='relative flex-shrink-0 w-5/6 md:w-full'>
       <div className='h-40 w-full relative rounded-2xl'>
-        {article.image.url && (
+        {article.image && article.image.url && (
           <BlurImage
             src={strapiImage(article.image.url)}
             alt={article.title}

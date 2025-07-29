@@ -98,7 +98,7 @@ const Testimonial = ({
               <p className='text-sm font-medium'>{user.name}</p>
               <small className='text-xs text-zinc-500 dark:text-zinc-400'>{user.country}</small>
             </div>
-            {user.image.url && (
+            {user.image && user.image.url && (
               <BlurImage
                 src={strapiImage(user.image.url)}
                 alt={user.name}
