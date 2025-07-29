@@ -62,6 +62,17 @@ export interface CardsTransactionCard extends Struct.ComponentSchema {
   };
 }
 
+export interface DynamicZoneContent extends Struct.ComponentSchema {
+  collectionName: 'components_dynamic_zone_contents';
+  info: {
+    displayName: 'Content';
+  };
+  attributes: {
+    content: Schema.Attribute.RichText;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+  };
+}
+
 export interface DynamicZoneDiscoverCoins extends Struct.ComponentSchema {
   collectionName: 'components_dynamic_zone_discover_coins';
   info: {
@@ -300,6 +311,7 @@ declare module '@strapi/strapi' {
       'cards.product-card': CardsProductCard;
       'cards.secure-card': CardsSecureCard;
       'cards.transaction-card': CardsTransactionCard;
+      'dynamic-zone.content': DynamicZoneContent;
       'dynamic-zone.discover-coins': DynamicZoneDiscoverCoins;
       'dynamic-zone.faq': DynamicZoneFaq;
       'dynamic-zone.hero': DynamicZoneHero;

@@ -27,7 +27,9 @@
         "dynamic-zone.discover-coins",
         "dynamic-zone.services",
         "dynamic-zone.steps",
-        "dynamic-zone.hero"
+        "dynamic-zone.hero",
+        "shared.header",
+        "dynamic-zone.content"
       ]
     }
   }

@@ -607,6 +607,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'dynamic-zone.services',
         'dynamic-zone.steps',
         'dynamic-zone.hero',
+        'shared.header',
+        'dynamic-zone.content',
       ]
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
