@@ -13,7 +13,7 @@ interface FooterProps {
     id: number
     title: string
     key: string
-    items: FooterItem[]
+    items: LinkItem[]
   }[]
   social_media_links: {
     id: number
@@ -67,7 +67,7 @@ const LinksSection = ({
   className,
 }: {
   title: string
-  items: FooterItem[]
+  items: LinkItem[]
   className?: string
 }) => {
   return (

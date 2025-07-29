@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
-const FooterItem = ({ item, className }: { item: FooterItem; className?: string }) => {
+const FooterItem = ({ item, className }: { item: LinkItem; className?: string }) => {
   return (
     <Link
       href={item.URL}

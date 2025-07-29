@@ -167,7 +167,7 @@ type TokenInfoResponse = {
   transactionExplorerMask: string
 }
 
-type FooterItem = {
+type LinkItem = {
   id: number
   text: string
   URL: string
