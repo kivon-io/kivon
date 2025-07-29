@@ -98,13 +98,15 @@ const Testimonial = ({
               <p className='text-sm font-medium'>{user.name}</p>
               <small className='text-xs text-zinc-500 dark:text-zinc-400'>{user.country}</small>
             </div>
-            <BlurImage
-              src={strapiImage(user.image.url)}
-              alt={user.name}
-              width={40}
-              height={40}
-              className='rounded-full shrink-0 object-cover object-center w-10 h-10'
-            />
+            {user.image.url && (
+              <BlurImage
+                src={strapiImage(user.image.url)}
+                alt={user.name}
+                width={40}
+                height={40}
+                className='rounded-full shrink-0 object-cover object-center w-10 h-10'
+              />
+            )}
           </div>
         </div>
       </div>

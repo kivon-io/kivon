@@ -53,12 +53,14 @@ const Article = ({ article }: { article: Article }) => {
   return (
     <div className='relative flex-shrink-0 w-5/6 md:w-full'>
       <div className='h-40 w-full relative rounded-2xl'>
-        <BlurImage
-          src={strapiImage(article.image.url)}
-          alt={article.title}
-          fill
-          className='object-cover rounded-2xl'
-        />
+        {article.image.url && (
+          <BlurImage
+            src={strapiImage(article.image.url)}
+            alt={article.title}
+            fill
+            className='object-cover rounded-2xl'
+          />
+        )}
       </div>
       <div className='flex flex-col gap-3 mt-2'>
         <p className='text-xs font-medium text-neutral-500 dark:text-neutral-400'>
