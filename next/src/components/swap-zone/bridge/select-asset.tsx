@@ -1,32 +1,29 @@
+"use client"
+
+import { ExchangeT } from "@/components/elements/exchange-type"
 import { Heading } from "@/components/elements/heading"
 import { useAppContext } from "@/context/app-context"
-import { useExchange } from "@/context/exchange-context"
+import { useBridge } from "@/context/bridge-context"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { HiOutlineArrowSmRight } from "react-icons/hi"
 import SelectAssetCard from "../select-asset-card"
-import { EXCHANGE_STEPS, ExchangeFormSchema } from "./constants"
+import { BridgeFormSchema } from "./constants"
 
-const SelectCoin = () => {
-  const { step, form } = useExchange()
+const SelectAsset = () => {
+  const { form } = useBridge()
 
-  const sendToken = form.watch("sendToken")
-  const receiveToken = form.watch("receiveToken")
+  const origin = form.watch("origin")
+  const destination = form.watch("destination")
 
-  if (step !== EXCHANGE_STEPS.SELECT_COIN) return null
-
-  const handleSwitchTokens = () => {
-    form.setValue("sendToken", receiveToken)
-    form.setValue("receiveToken", sendToken)
-  }
-
+  const handleSwitchTokens = () => {}
   return (
     <div className='flex flex-col gap-8 items-center justify-center w-full'>
       <Heading as='h2' className='text-center text-sm md:text-base'>
-        Select which assets to exchange
+        Select which assets to bridge
       </Heading>
 
       <div className='grid grid-cols-12 gap-0 w-full'>
-        <CoinCard type={EXCHANGE_TYPE.SEND} className='col-span-5' token={sendToken} />
+        <CoinCard type={EXCHANGE_TYPE.SEND} className='col-span-5' token={origin} />
         <div className='col-span-2 flex items-center justify-center'>
           <div
             className='rounded-xl border border-zinc-200 dark:border-zinc-800 h-10 w-10 flex items-center justify-center cursor-pointer'
@@ -35,28 +32,27 @@ const SelectCoin = () => {
             <HiOutlineArrowSmRight className='text-zinc-500 dark:text-zinc-300' />
           </div>
         </div>
-        <CoinCard type={EXCHANGE_TYPE.RECEIVE} className='col-span-5' token={receiveToken} />
+        <CoinCard type={EXCHANGE_TYPE.RECEIVE} className='col-span-5' token={destination} />
       </div>
     </div>
   )
 }
 
-export default SelectCoin
+export default SelectAsset
 
 const CoinCard = ({
   type,
   token,
   className,
 }: {
-  type: (typeof EXCHANGE_TYPE)[keyof typeof EXCHANGE_TYPE]
-  token: ExchangeFormSchema["sendToken"] | ExchangeFormSchema["receiveToken"]
+  type: ExchangeT
+  token: BridgeFormSchema["origin"] | BridgeFormSchema["destination"]
   className?: string
 }) => {
-  const { toggleTokenList, handleType } = useAppContext()
+  const { toggleBridgeTokenList } = useAppContext()
 
   const handleClick = () => {
-    handleType(type)
-    toggleTokenList()
+    toggleBridgeTokenList()
   }
 
   return <SelectAssetCard type={type} token={token} onClick={handleClick} className={className} />

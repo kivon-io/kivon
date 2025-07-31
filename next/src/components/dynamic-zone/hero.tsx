@@ -30,6 +30,7 @@ const Hero = ({
     !(
       pathname === "/" ||
       pathname.startsWith("/swap") ||
+      pathname.includes("bridge") ||
       pathname === "/fiat" ||
       pathname === "/limit-futures-dca" ||
       pathname === "/otc-p2p"

@@ -26,6 +26,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "trusty-dinosaur-aff6ef4f16.media.strapiapp.com",
       },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
 }

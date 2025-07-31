@@ -6,11 +6,13 @@ const AppContext = createContext<{
   state: typeof INITIAL_STATE
   type: "send" | "receive"
   toggleTokenList: () => void
+  toggleBridgeTokenList: () => void
   handleType: (type: "send" | "receive") => void
 }>({
   state: INITIAL_STATE,
   type: "send",
   toggleTokenList: () => {},
+  toggleBridgeTokenList: () => {},
   handleType: () => {},
 })
 
@@ -24,6 +26,10 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({ type: "SET_TOKEN_LIST_OPEN", payload: !state.tokenListOpen })
   }
 
+  const toggleBridgeTokenList = () => {
+    dispatch({ type: "SET_BRIDGE_TOKEN_LIST_OPEN", payload: !state.bridgeTokenListOpen })
+  }
+
   const handleType = (type: "send" | "receive") => {
     setType(type)
   }
@@ -31,6 +37,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const values = {
     state,
     toggleTokenList,
+    toggleBridgeTokenList,
     type,
     handleType,
   }

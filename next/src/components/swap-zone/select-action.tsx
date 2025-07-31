@@ -88,7 +88,7 @@ const SelectSwapType = () => {
                 <BorderBeam
                   duration={8}
                   size={100}
-                  className='md:opacity-0 group-hover:opacity-100 transition-opacity duration-300'
+                  className='opacity-0 group-hover:opacity-100 transition-opacity duration-300'
                 />
               </div>
               <p className='text-sm font-bold text-center'>{action.title}</p>

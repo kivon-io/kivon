@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils"
 
+export type ExchangeT = "send" | "receive"
+
 const ExchangeType = ({ type, className }: { type: "send" | "receive"; className?: string }) => {
   return (
     <p className={cn("text-sm text-zinc-500 dark:text-zinc-300", className)}>

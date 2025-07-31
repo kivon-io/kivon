@@ -225,3 +225,82 @@ type Seo = {
   twitterDescription: string
   twitterImage: string
 }
+
+type Token = {
+  id: string
+  symbol: string
+  name: string
+  address: string
+  decimals: number
+  supportsBridging: boolean
+  metadata: {
+    logoURI: string
+  }
+}
+
+type Chain = {
+  id: number
+  name: string
+  displayName: string
+  httpRpcUrl: string
+  wsRpcUrl: string
+  explorerUrl: string
+  explorerName: string
+  explorerPaths: {
+    transaction: string
+  }
+  depositEnabled: boolean
+  tokenSupport: string
+  disabled: boolean
+  partialDisableLimit: number
+  blockProductionLagging: boolean
+  currency: {
+    id: string
+    symbol: string
+    name: string
+    address: string
+    decimals: number
+    supportsBridging: boolean
+  }
+  withdrawalFee: number
+  depositFee: number
+  surgeEnabled: boolean
+  featuredTokens: Token[]
+  erc20Currencies: {
+    id: string
+    symbol: string
+    name: string
+    address: string
+    decimals: number
+    supportsBridging: boolean
+  }[]
+  solverCurrencies: {
+    id: string
+    symbol: string
+    name: string
+    address: string
+    decimals: number
+  }[]
+  iconUrl: string
+  logoUrl: string
+  brandColor: string
+  contracts: {
+    multicall3: string
+    multicaller: string
+    onlyOwnerMulticaller: string
+    relayReceiver: string
+    erc20Router: string
+  }
+  vmType: string
+  explorerQueryParams: Record<string, string>
+  baseChainId: number
+  statusMessage: string
+  solverAddresses: string[]
+  tags: string[]
+  protocol: {
+    v2: {
+      chainId: string
+      depository: string
+    }
+  }
+}

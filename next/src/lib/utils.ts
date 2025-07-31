@@ -56,3 +56,14 @@ export const getProperUrl = (url: string) => {
 export const getHeroData = (data: any) => {
   return data.dynamic_zone[0].hero
 }
+
+/*
+@accpets chains array
+@returns first chain and first 2 tokens from the featuredTokens array
+*/
+export const getFirstChainAndTokens = (chains: Chain[]) => {
+  return {
+    chain: chains[0],
+    tokens: chains[0].featuredTokens.slice(0, 2),
+  }
+}

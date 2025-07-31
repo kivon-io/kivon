@@ -64,11 +64,6 @@ export const EXCHANGE_STEPS = {
   SEND_TRANSACTION: "send-transaction",
 } as const
 
-export const EXCHANGE_TYPE = {
-  SEND: "send",
-  RECEIVE: "receive",
-} as const
-
 export const EXCHANGE_STATUS = {
   WAITING: "waiting",
   CONFIRMING: "confirming",

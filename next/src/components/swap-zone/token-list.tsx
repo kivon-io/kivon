@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { useAppContext } from "@/context/app-context"
 import { useExchange } from "@/context/exchange-context"
+import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { useUpdateSwapUrl } from "@/lib/shared/urlParams"
 import { useState } from "react"
 import Badge from "../decorations/badge"
@@ -16,7 +17,6 @@ import Symbol from "../elements/symbol"
 import TokenName from "../elements/token-name"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
-import { EXCHANGE_TYPE } from "./exchange/constants"
 import TokenLogo from "./token-logo"
 
 const TokenList = () => {
