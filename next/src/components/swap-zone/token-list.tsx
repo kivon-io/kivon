@@ -81,7 +81,7 @@ const TokenList = () => {
 
   return isMobile ? (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side='bottom' className='bg-white dark:bg-black/90'>
+      <SheetContent side='bottom' className='bg-white dark:bg-black/90 min-h-[92vh] rounded-t-xl'>
         <SheetHeader>
           <SheetTitle>Select a token</SheetTitle>
           <SheetDescription>Select a token to swap</SheetDescription>
