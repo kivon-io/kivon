@@ -3,7 +3,7 @@ import Navbar from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppProvider } from "@/context/app-context"
 import { TRPCProvider } from "@/trpc/client"
-import { Metadata } from "next"
+import { Metadata, Viewport } from "next"
 
 import { generateMetadataObject } from "@/lib/shared/metadata"
 import fetchContentType from "@/lib/strapi/fetchContentType"
@@ -33,6 +33,15 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const metadata = generateMetadataObject(seo as Seo)
   return metadata
+}
+
+export const viewport: Viewport = {
+  userScalable: false,
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  minimumScale: 1,
+  viewportFit: "cover",
 }
 
 export default async function RootLayout({

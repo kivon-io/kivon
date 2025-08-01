@@ -78,7 +78,7 @@ const DesktopListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange
 const MobileListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: () => void }) => {
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className='w-full min-h-[92vh] data-[vaul-drawer-direction=bottom]:max-h-[92vh] rounded-t-3xl'>
+      <DrawerContent className='bg-white dark:bg-black/90 w-full min-h-[92vh] data-[vaul-drawer-direction=bottom]:max-h-[92vh] rounded-t-3xl'>
         <DrawerHeader>
           <DrawerTitle className='text-base font-medium'>Select a token</DrawerTitle>
           <DrawerDescription className='sr-only'>Select a token to swap</DrawerDescription>
@@ -130,7 +130,7 @@ const ListDetails = () => {
 
   return (
     <div className='grid grid-cols-12 gap-2'>
-      <div className='col-span-12 md:col-span-4 bg-neutral-100 dark:bg-neutral-900 rounded-lg p-4 relative z-10 md:z-0'>
+      <div className='col-span-12 md:col-span-4 md:bg-neutral-100 md:dark:bg-neutral-900 rounded-lg p-4 relative z-10 md:z-0'>
         <div className='hidden md:flex flex-col gap-2 h-full'>
           <SearchChains handleSearchChains={handleSearchChains} />
           <ScrollArea className='md:max-h-[400px] h-full'>

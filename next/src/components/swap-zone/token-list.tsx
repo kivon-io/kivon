@@ -12,15 +12,18 @@ import { useExchange } from "@/context/exchange-context"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { useUpdateSwapUrl } from "@/lib/shared/urlParams"
 import { useState } from "react"
+import { useMediaQuery } from "usehooks-ts"
 import Badge from "../decorations/badge"
 import Symbol from "../elements/symbol"
 import TokenName from "../elements/token-name"
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "../ui/drawer"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
 import TokenLogo from "./token-logo"
 
 const TokenList = () => {
   const updateSwapUrl = useUpdateSwapUrl()
+  const isMobile = useMediaQuery("(max-width: 768px)")
 
   const { state, type, toggleTokenList } = useAppContext()
   const { form, currencies } = useExchange()
@@ -76,7 +79,29 @@ const TokenList = () => {
     setFilteredCurrencies(filteredCurrencies)
   }
 
-  return (
+  return isMobile ? (
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent className='bg-white dark:bg-black/90 min-h-[92vh] data-[vaul-drawer-direction=bottom]:max-h-[90vh] rounded-t-3xl'>
+        <DrawerHeader>
+          <DrawerTitle>Select a token</DrawerTitle>
+          <DrawerDescription>Select a token to swap</DrawerDescription>
+        </DrawerHeader>
+        <div className='flex flex-col gap-4 px-2 h-full relative'>
+          <Input
+            placeholder='Search for a token'
+            className='h-12 capitalize'
+            onChange={handleSearch}
+          />
+
+          <ScrollArea className='relative w-full max-h-[450px] space-y-2 overflow-y-auto'>
+            {filteredCurrencies?.map((currency, index) => (
+              <TokenItem key={index} currency={currency} handleClick={handleClick} />
+            ))}
+          </ScrollArea>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  ) : (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className='
@@ -98,22 +123,7 @@ const TokenList = () => {
 
           <ScrollArea className='h-full w-full max-h-[350px] space-y-2'>
             {filteredCurrencies?.map((currency, index) => (
-              <div
-                key={index}
-                className='mb-2 w-full border border-zinc-200 dark:border-zinc-900 bg-zinc-100 dark:bg-neutral-950 flex gap-2 items-center px-3 py-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-neutral-900 cursor-pointer transition-all duration-300'
-                onClick={() => handleClick(currency)}
-              >
-                {currency.image && <TokenLogo src={currency.image} alt={currency.ticker} />}
-                <div className='flex flex-col gap-1'>
-                  <div className='flex gap-2 items-center'>
-                    <Symbol symbol={currency.ticker} />
-                    <Badge>
-                      <span className='text-xs uppercase font-medium'>{currency.network}</span>
-                    </Badge>
-                  </div>
-                  <TokenName name={currency.name} />
-                </div>
-              </div>
+              <TokenItem key={index} currency={currency} handleClick={handleClick} />
             ))}
           </ScrollArea>
         </div>
@@ -123,3 +133,29 @@ const TokenList = () => {
 }
 
 export default TokenList
+
+const TokenItem = ({
+  currency,
+  handleClick,
+}: {
+  currency: Currency
+  handleClick: (currency: Currency) => void
+}) => {
+  return (
+    <div
+      className='mb-2 w-full border border-zinc-200 dark:border-zinc-900 bg-zinc-100 dark:bg-neutral-950 flex gap-2 items-center px-3 py-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-neutral-900 cursor-pointer transition-all duration-300'
+      onClick={() => handleClick(currency)}
+    >
+      {currency.image && <TokenLogo src={currency.image} alt={currency.ticker} />}
+      <div className='flex flex-col gap-1'>
+        <div className='flex gap-2 items-center'>
+          <Symbol symbol={currency.ticker} />
+          <Badge>
+            <span className='text-xs uppercase font-medium'>{currency.network}</span>
+          </Badge>
+        </div>
+        <TokenName name={currency.name} />
+      </div>
+    </div>
+  )
+}
