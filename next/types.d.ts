@@ -227,7 +227,8 @@ type Seo = {
 }
 
 type Token = {
-  id: string
+  id: number
+  chainId: number
   symbol: string
   name: string
   address: string
@@ -235,6 +236,8 @@ type Token = {
   supportsBridging: boolean
   metadata: {
     logoURI: string
+    verified: boolean
+    isNative: boolean
   }
 }
 

@@ -21,9 +21,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useAppContext } from "@/context/app-context"
 import { useBridge } from "@/context/bridge-context"
-import { cn } from "@/lib/utils"
+import { checkAddress, cn } from "@/lib/utils"
+import { trpc } from "@/trpc/client"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { ChevronDownIcon } from "lucide-react"
 import { useState } from "react"
@@ -98,6 +100,19 @@ const ListDetails = () => {
   const { type, toggleBridgeTokenList } = useAppContext()
   const [filteredChains, setFilteredChains] = useState<Chain[]>(chains || [])
   const [activeChain, setActiveChain] = useState<Chain | null>(null)
+  const [searchPayload, setSearchPayload] = useState<{
+    chainId?: number
+    term?: string
+    address?: string
+  }>({
+    chainId: activeChain?.id,
+    term: "",
+    address: "",
+  })
+
+  const { data: tokens, isPending } = trpc.getTokens.useQuery(searchPayload, {
+    enabled: !!searchPayload.chainId || !!searchPayload.term || !!searchPayload.address,
+  })
 
   const handleSearchChains = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -108,11 +123,18 @@ const ListDetails = () => {
   }
 
   const handleSearchTokens = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("search token: ", e.target.value)
+    const value = e.target.value.trim()
+
+    if (checkAddress(value)) {
+      setSearchPayload({ ...searchPayload, address: value, term: "" })
+    } else {
+      setSearchPayload({ ...searchPayload, term: value, address: "" })
+    }
   }
 
   const handleSelectChain = (chain: Chain | null) => {
     setActiveChain(chain)
+    setSearchPayload({ ...searchPayload, chainId: chain?.id })
   }
 
   const handleActionSelectToken = (token: Token, chain: Chain) => {
@@ -256,21 +278,50 @@ const ListDetails = () => {
         <ScrollArea className=' max-h-[400px] md:max-h-[420px] h-full'>
           <div className='flex flex-col gap-2 h-full'>
             {activeChain ? (
-              <FeaturedTokens
-                tokens={activeChain.featuredTokens}
-                chain={activeChain}
-                handleSelectToken={handleActionSelectToken}
-              />
+              <div className='flex flex-col gap-5'>
+                <FeaturedTokens
+                  tokens={activeChain.featuredTokens}
+                  chain={activeChain}
+                  handleSelectToken={handleActionSelectToken}
+                />
+                <div className='flex flex-col gap-2'>
+                  {isPending ? (
+                    <TokenSkeleton />
+                  ) : (
+                    tokens?.map((token, index) => (
+                      <TokenComponent
+                        token={token}
+                        chain={activeChain}
+                        handleClick={handleActionSelectToken}
+                        key={index}
+                      />
+                    ))
+                  )}
+                </div>
+              </div>
             ) : (
               <div className='flex flex-col gap-2'>
-                {allTokens.map((token, index) => (
-                  <TokenComponent
-                    token={token}
-                    chain={chains.find((chain) => chain.featuredTokens.includes(token))!}
-                    handleClick={handleActionSelectToken}
-                    key={index}
-                  />
-                ))}
+                {!tokens ? (
+                  allTokens.map((token, index) => (
+                    <TokenComponent
+                      token={token}
+                      chain={chains.find((chain) => chain.featuredTokens.includes(token))!}
+                      handleClick={handleActionSelectToken}
+                      key={index}
+                    />
+                  ))
+                ) : isPending ? (
+                  <TokenSkeleton />
+                ) : (
+                  tokens?.map((token, index) => (
+                    <TokenComponent
+                      token={token}
+                      chain={activeChain}
+                      handleClick={handleActionSelectToken}
+                      key={index}
+                    />
+                  ))
+                )}
               </div>
             )}
           </div>
@@ -311,22 +362,24 @@ const TokenImage = ({
 
 const TokenComponent = ({
   token,
-  chain,
   handleClick,
+  chain,
 }: {
   token: Token
-  chain: Chain
   handleClick: (token: Token, chain: Chain) => void
+  chain: Chain | null
 }) => {
+  const { chains } = useBridge()
+  const foundChain = chains.find((chain) => chain.id === token.chainId)!
   return (
     <div
       className='w-full border border-zinc-200 dark:border-zinc-900 bg-zinc-100 dark:bg-neutral-950 flex gap-2 items-center px-3 py-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-neutral-900 cursor-pointer transition-all duration-300'
-      onClick={() => handleClick(token, chain)}
+      onClick={() => handleClick(token, chain || foundChain)}
     >
       <div className='relative'>
         <TokenImage name={token.name} image={token.metadata.logoURI} className='w-10 h-10' />
         <div className='absolute bottom-0 -right-1 bg-white dark:bg-neutral-950 rounded-lg'>
-          <ChainImage chain={chain} className='w-4 h-4 rounded-lg ' />
+          <ChainImage chain={chain || foundChain} className='w-4 h-4 rounded-lg ' />
         </div>
       </div>
       <div className='flex flex-col'>
@@ -448,4 +501,19 @@ const SearchChains = ({
       onChange={handleSearchChains}
     />
   )
+}
+
+const TokenSkeleton = () => {
+  return Array.from({ length: 10 }).map((_, index) => (
+    <div
+      className='w-full border border-zinc-200 dark:border-zinc-900 bg-zinc-100 dark:bg-neutral-950 flex gap-2 items-center px-3 py-2 rounded-xl'
+      key={index}
+    >
+      <Skeleton className=' rounded-full w-10 h-10 bg-neutral-200 dark:bg-neutral-800' />
+      <div className='flex flex-col gap-2'>
+        <Skeleton className='w-36 h-4 rounded-md bg-neutral-300 dark:bg-neutral-800' />
+        <Skeleton className='w-24 h-4 rounded-md bg-neutral-300 dark:bg-neutral-800' />
+      </div>
+    </div>
+  ))
 }

@@ -67,3 +67,15 @@ export const getFirstChainAndTokens = (chains: Chain[]) => {
     tokens: chains[0].featuredTokens.slice(0, 2),
   }
 }
+
+export const checkAddress = (address: string) => {
+  return (
+    address.length >= 26 &&
+    (address.startsWith("0x") ||
+      address.startsWith("1") ||
+      address.startsWith("3") ||
+      address.startsWith("bc1") ||
+      address.match(/^[A-HJ-NP-Z1-9]{32,44}$/) ||
+      address.match(/^[a-zA-Z0-9]{25,62}$/))
+  )
+}

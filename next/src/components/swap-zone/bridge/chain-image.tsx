@@ -2,6 +2,7 @@ import { BlurImage } from "@/components/blur-image"
 import { cn } from "@/lib/utils"
 
 const ChainImage = ({ chain, className }: { chain: Chain; className?: string }) => {
+  if (!chain) return null
   return chain.iconUrl ? (
     <BlurImage
       src={chain.iconUrl}

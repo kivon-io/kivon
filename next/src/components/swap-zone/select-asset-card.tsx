@@ -79,6 +79,8 @@ const SelectAssetCard = ({
   const tokenNetwork = getTokenNetwork(token)
   const chainImage = getChainImage(token)
 
+  if (!token) return null
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 100 }}
@@ -105,13 +107,15 @@ const SelectAssetCard = ({
             />
           ) : (
             <div className='relative'>
-              <Image
-                src={tokenImage}
-                alt={tokenName}
-                className='object-contain object-center w-8 h-8 rounded-full'
-                width={32}
-                height={32}
-              />
+              {tokenImage && (
+                <Image
+                  src={tokenImage}
+                  alt={tokenName}
+                  className='object-contain object-center w-8 h-8 rounded-full'
+                  width={32}
+                  height={32}
+                />
+              )}
               {chainImage && (
                 <div className='absolute -bottom-1 -right-2 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
                   <Image
