@@ -78,7 +78,7 @@ const DesktopListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange
 const MobileListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: () => void }) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side='bottom' className='bg-white dark:bg-black/90'>
+      <SheetContent side='bottom' className='bg-white dark:bg-black/90 h-screen'>
         <SheetHeader>
           <SheetTitle className='text-base font-medium'>Select a token</SheetTitle>
           <SheetDescription className='sr-only'>Select a token to swap</SheetDescription>
@@ -246,7 +246,7 @@ const ListDetails = () => {
           className='capitalize focus-visible:ring-0 h-10 md:h-12 text-base'
           onChange={handleSearchTokens}
         />
-        <ScrollArea className=' max-h-[500px] md:max-h-[420px] h-full'>
+        <ScrollArea className=' max-h-[400px] md:max-h-[420px] h-full'>
           <div className='flex flex-col gap-2 h-full'>
             {activeChain ? (
               <FeaturedTokens
