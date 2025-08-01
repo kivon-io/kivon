@@ -6,13 +6,6 @@ import Symbol from "@/components/elements/symbol"
 import TokenName from "@/components/elements/token-name"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer"
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -21,6 +14,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet"
 import { useAppContext } from "@/context/app-context"
 import { useBridge } from "@/context/bridge-context"
 import { cn } from "@/lib/utils"
@@ -77,15 +77,15 @@ const DesktopListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange
 
 const MobileListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: () => void }) => {
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className='bg-white dark:bg-black/90 w-full min-h-[92vh] data-[vaul-drawer-direction=bottom]:max-h-[92vh] rounded-t-3xl'>
-        <DrawerHeader>
-          <DrawerTitle className='text-base font-medium'>Select a token</DrawerTitle>
-          <DrawerDescription className='sr-only'>Select a token to swap</DrawerDescription>
-        </DrawerHeader>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side='bottom' className='bg-white dark:bg-black/90'>
+        <SheetHeader>
+          <SheetTitle className='text-base font-medium'>Select a token</SheetTitle>
+          <SheetDescription className='sr-only'>Select a token to swap</SheetDescription>
+        </SheetHeader>
         <ListDetails />
-      </DrawerContent>
-    </Drawer>
+      </SheetContent>
+    </Sheet>
   )
 }
 
