@@ -243,7 +243,7 @@ const ListDetails = () => {
       <div className='relative col-span-12 md:col-span-8 flex flex-col gap-2 p-4 md:p-0 h-full'>
         <Input
           placeholder='Search tokens or paste address'
-          className='capitalize focus-visible:ring-0 h-10 md:h-12'
+          className='capitalize focus-visible:ring-0 h-10 md:h-12 text-base'
           onChange={handleSearchTokens}
         />
         <ScrollArea className=' max-h-[400px] md:max-h-[420px] h-full'>
@@ -458,7 +458,7 @@ const SearchChains = ({
   return (
     <Input
       placeholder='Search chains'
-      className='capitalize bg-white focus-visible:ring-0'
+      className='capitalize bg-white focus-visible:ring-0 text-base'
       onChange={handleSearchChains}
     />
   )
