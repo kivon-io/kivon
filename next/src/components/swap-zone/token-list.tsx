@@ -93,7 +93,7 @@ const TokenList = () => {
             onChange={handleSearch}
           />
 
-          <ScrollArea className='relative w-full max-h-[450px] space-y-2 overflow-y-auto'>
+          <ScrollArea className='relative w-full max-h-[500px] space-y-2 overflow-y-auto'>
             {filteredCurrencies?.map((currency, index) => (
               <TokenItem key={index} currency={currency} handleClick={handleClick} />
             ))}
