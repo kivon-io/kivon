@@ -16,9 +16,9 @@ import { useMediaQuery } from "usehooks-ts"
 import Badge from "../decorations/badge"
 import Symbol from "../elements/symbol"
 import TokenName from "../elements/token-name"
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "../ui/drawer"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "../ui/sheet"
 import TokenLogo from "./token-logo"
 
 const TokenList = () => {
@@ -80,12 +80,12 @@ const TokenList = () => {
   }
 
   return isMobile ? (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className='bg-white dark:bg-black/90 min-h-[92vh] data-[vaul-drawer-direction=bottom]:max-h-[90vh] rounded-t-3xl'>
-        <DrawerHeader>
-          <DrawerTitle>Select a token</DrawerTitle>
-          <DrawerDescription>Select a token to swap</DrawerDescription>
-        </DrawerHeader>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side='bottom' className='bg-white dark:bg-black/90 rounded-t-3xl'>
+        <SheetHeader>
+          <SheetTitle>Select a token</SheetTitle>
+          <SheetDescription>Select a token to swap</SheetDescription>
+        </SheetHeader>
         <div className='flex flex-col gap-4 px-2 h-full relative'>
           <Input
             placeholder='Search for a token'
@@ -99,8 +99,8 @@ const TokenList = () => {
             ))}
           </ScrollArea>
         </div>
-      </DrawerContent>
-    </Drawer>
+      </SheetContent>
+    </Sheet>
   ) : (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
