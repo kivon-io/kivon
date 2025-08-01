@@ -78,7 +78,10 @@ const DesktopListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange
 const MobileListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: () => void }) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side='bottom' className='bg-white dark:bg-black/90 min-h-[90vh] rounded-t-xl'>
+      <SheetContent
+        side='bottom'
+        className='bg-white dark:bg-black/90 min-h-[95vh] max-h-[95vh] rounded-t-xl border-t border-zinc-200 dark:border-zinc-800'
+      >
         <SheetHeader>
           <SheetTitle className='text-base font-medium'>Select a token</SheetTitle>
           <SheetDescription className='sr-only'>Select a token to swap</SheetDescription>

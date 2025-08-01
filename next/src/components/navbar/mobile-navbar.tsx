@@ -40,9 +40,9 @@ const MobileNavbar = ({ items, logo }: Props) => {
   return (
     <div
       className={cn(
-        "flex justify-between bg-transparent items-center w-full rounded-none px-2.5 py-1.5 transition duration-200",
+        "flex justify-between bg-transparent items-center w-full rounded-none px-2.5 py-1.5 transition duration-200 top-0 relative",
         showBackground &&
-          " bg-white dark:bg-neutral-900 shadow-[0px_-2px_0px_0px_var(--neutral-800),0px_2px_0px_0px_var(--neutral-800)]"
+          "bg-background dark:bg-neutral-900 shadow-[0px_-2px_0px_0px_var(--neutral-800),0px_2px_0px_0px_var(--neutral-800)]"
       )}
     >
       <Logo logo={logo.image} />
