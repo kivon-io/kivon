@@ -246,7 +246,7 @@ const ListDetails = () => {
           className='capitalize focus-visible:ring-0 h-10 md:h-12 text-base'
           onChange={handleSearchTokens}
         />
-        <ScrollArea className=' max-h-[400px] md:max-h-[420px] h-full'>
+        <ScrollArea className=' max-h-[500px] md:max-h-[420px] h-full'>
           <div className='flex flex-col gap-2 h-full'>
             {activeChain ? (
               <FeaturedTokens
