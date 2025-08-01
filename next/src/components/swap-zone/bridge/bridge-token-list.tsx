@@ -28,7 +28,8 @@ import { DialogDescription } from "@radix-ui/react-dialog"
 import { ChevronDownIcon } from "lucide-react"
 import { useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
-import { POPULAR_CHAINS } from "./constants"
+import ChainImage from "./chain-image"
+import { createBridgeTokenModel, POPULAR_CHAINS } from "./constants"
 
 const BridgeTokenList = () => {
   const { state, toggleBridgeTokenList } = useAppContext()
@@ -80,7 +81,7 @@ const MobileListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange:
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side='bottom'
-        className='bg-white dark:bg-black/90 min-h-[95vh] max-h-[95vh] rounded-t-xl border-t border-zinc-200 dark:border-zinc-800'
+        className='bg-white dark:bg-black/90 min-h-[85vh] max-h-[85vh] rounded-t-xl border-t border-zinc-200 dark:border-zinc-800'
       >
         <SheetHeader>
           <SheetTitle className='text-base font-medium'>Select a token</SheetTitle>
@@ -93,7 +94,8 @@ const MobileListDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange:
 }
 
 const ListDetails = () => {
-  const { chains } = useBridge()
+  const { chains, handleSelectToken } = useBridge()
+  const { type, toggleBridgeTokenList } = useAppContext()
   const [filteredChains, setFilteredChains] = useState<Chain[]>(chains || [])
   const [activeChain, setActiveChain] = useState<Chain | null>(null)
 
@@ -113,8 +115,10 @@ const ListDetails = () => {
     setActiveChain(chain)
   }
 
-  const handleSelectToken = (token: Token) => {
-    console.log("select token: ", token)
+  const handleActionSelectToken = (token: Token, chain: Chain) => {
+    const bridgeToken = createBridgeTokenModel(token, chain)
+    handleSelectToken(bridgeToken, type)
+    toggleBridgeTokenList()
   }
 
   const popularChains =
@@ -255,15 +259,15 @@ const ListDetails = () => {
               <FeaturedTokens
                 tokens={activeChain.featuredTokens}
                 chain={activeChain}
-                handleSelectToken={handleSelectToken}
+                handleSelectToken={handleActionSelectToken}
               />
             ) : (
               <div className='flex flex-col gap-2'>
-                {allTokens.map((tokens, index) => (
+                {allTokens.map((token, index) => (
                   <TokenComponent
-                    token={tokens}
-                    chain={chains.find((chain) => chain.featuredTokens.includes(tokens))!}
-                    handleClick={() => handleSelectToken(tokens)}
+                    token={token}
+                    chain={chains.find((chain) => chain.featuredTokens.includes(token))!}
+                    handleClick={handleActionSelectToken}
                     key={index}
                   />
                 ))}
@@ -272,27 +276,6 @@ const ListDetails = () => {
           </div>
         </ScrollArea>
       </div>
-    </div>
-  )
-}
-
-const ChainImage = ({ chain, className }: { chain: Chain; className?: string }) => {
-  return chain.iconUrl ? (
-    <BlurImage
-      src={chain.iconUrl}
-      alt={chain.name}
-      width={20}
-      height={20}
-      className={cn("rounded-md w-6 h-6", className)}
-    />
-  ) : (
-    <div
-      className={cn(
-        "w-6 h-6 rounded-md bg-zinc-100 dark:bg-neutral-950 flex items-center justify-center",
-        className
-      )}
-    >
-      <p className='text-sm font-medium uppercase'>{chain.name.charAt(0)}</p>
     </div>
   )
 }
@@ -333,12 +316,12 @@ const TokenComponent = ({
 }: {
   token: Token
   chain: Chain
-  handleClick: () => void
+  handleClick: (token: Token, chain: Chain) => void
 }) => {
   return (
     <div
       className='w-full border border-zinc-200 dark:border-zinc-900 bg-zinc-100 dark:bg-neutral-950 flex gap-2 items-center px-3 py-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-neutral-900 cursor-pointer transition-all duration-300'
-      onClick={handleClick}
+      onClick={() => handleClick(token, chain)}
     >
       <div className='relative'>
         <TokenImage name={token.name} image={token.metadata.logoURI} className='w-10 h-10' />
@@ -369,7 +352,7 @@ const FeaturedTokens = ({
 }: {
   tokens: Token[]
   chain: Chain
-  handleSelectToken: (token: Token) => void
+  handleSelectToken: (token: Token, chain: Chain) => void
 }) => {
   return (
     <div className='flex flex-wrap gap-2'>
@@ -377,7 +360,7 @@ const FeaturedTokens = ({
         <div
           className='relative cursor-pointer flex gap-2 items-center border border-zinc-200 dark:border-zinc-700 rounded-full p-2 hover:bg-zinc-100 dark:hover:bg-neutral-950 transition-all duration-300'
           key={token.id}
-          onClick={() => handleSelectToken(token)}
+          onClick={() => handleSelectToken(token, chain)}
         >
           <div className='relative'>
             <TokenImage name={token.name} image={token.metadata.logoURI} className='w-6 h-6' />

@@ -49,9 +49,10 @@ const CoinCard = ({
   token: BridgeFormSchema["origin"] | BridgeFormSchema["destination"]
   className?: string
 }) => {
-  const { toggleBridgeTokenList } = useAppContext()
+  const { toggleBridgeTokenList, handleType } = useAppContext()
 
   const handleClick = () => {
+    handleType(type)
     toggleBridgeTokenList()
   }
 

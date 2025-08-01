@@ -1,7 +1,12 @@
 "use client"
 
-import { bridgeFormSchema, BridgeFormSchema } from "@/components/swap-zone/bridge/constants"
-import { DEFAULT_DECIMALS } from "@/lib/shared/constants"
+import { ExchangeT } from "@/components/elements/exchange-type"
+import {
+  bridgeFormSchema,
+  BridgeFormSchema,
+  createBridgeTokenModel,
+} from "@/components/swap-zone/bridge/constants"
+import { DEFAULT_DECIMALS, EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { getFirstChainAndTokens } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { createContext, useContext, useEffect } from "react"
@@ -10,6 +15,10 @@ import { useForm, UseFormReturn } from "react-hook-form"
 const BridgeContext = createContext<{
   chains: Chain[]
   form: UseFormReturn<BridgeFormSchema>
+  handleSelectToken: (
+    token: BridgeFormSchema["origin"] | BridgeFormSchema["destination"],
+    type: ExchangeT
+  ) => void
 } | null>(null)
 
 const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React.ReactNode }) => {
@@ -50,41 +59,25 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     },
   })
 
+  // handle select token, based on the type, set the token
+  const handleSelectToken = (
+    token: BridgeFormSchema["origin"] | BridgeFormSchema["destination"],
+    type: ExchangeT
+  ) => {
+    if (type === EXCHANGE_TYPE.SEND) {
+      form.setValue("origin", token)
+    } else {
+      form.setValue("destination", token)
+    }
+  }
+
   useEffect(() => {
     if (chains && chains.length > 0) {
       const { chain, tokens } = getFirstChainAndTokens(chains)
 
-      form.setValue("origin", {
-        chainId: chain.baseChainId,
-        chainName: chain.name,
-        chainDisplayName: chain.displayName,
-        chainSymbol: chain.currency.symbol,
-        chainImage: chain.iconUrl,
-        chainContractAddress: chain.currency.address,
-        chainDecimals: chain.currency.decimals,
-        chainSupportsBridging: chain.currency.supportsBridging,
-        tokenName: tokens[0].name,
-        tokenSymbol: tokens[0].symbol,
-        tokenImage: tokens[0].metadata.logoURI,
-        tokenContractAddress: tokens[0].address,
-        tokenDecimals: tokens[0].decimals,
-      })
-
-      form.setValue("destination", {
-        chainId: chain.baseChainId,
-        chainName: chain.name,
-        chainDisplayName: chain.displayName,
-        chainSymbol: chain.currency.symbol,
-        chainImage: chain.iconUrl,
-        chainContractAddress: chain.currency.address,
-        chainDecimals: chain.currency.decimals,
-        chainSupportsBridging: chain.currency.supportsBridging,
-        tokenName: tokens[1].name,
-        tokenSymbol: tokens[1].symbol,
-        tokenImage: tokens[1].metadata.logoURI,
-        tokenContractAddress: tokens[1].address,
-        tokenDecimals: tokens[1].decimals,
-      })
+      // Use the utility function for setting origin and destination
+      form.setValue("origin", createBridgeTokenModel(tokens[0], chain))
+      form.setValue("destination", createBridgeTokenModel(tokens[1], chain))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chains])
@@ -92,6 +85,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
   const values = {
     chains,
     form,
+    handleSelectToken,
   }
 
   return <BridgeContext.Provider value={values}>{children}</BridgeContext.Provider>

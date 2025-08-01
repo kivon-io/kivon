@@ -37,3 +37,25 @@ export const bridgeFormSchema = z.object({
 export type BridgeFormSchema = z.infer<typeof bridgeFormSchema>
 
 export const POPULAR_CHAINS = ["arbitrum", "base", "ethereum", "solana"]
+
+// Utility function to convert Token and Chain to BridgeFormSchema format
+export const createBridgeTokenModel = (
+  token: Token,
+  chain: Chain
+): BridgeFormSchema["origin"] | BridgeFormSchema["destination"] => {
+  return {
+    chainId: chain.baseChainId,
+    chainName: chain.name,
+    chainDisplayName: chain.displayName,
+    chainSymbol: chain.currency.symbol,
+    chainImage: chain.iconUrl,
+    chainContractAddress: chain.currency.address,
+    chainDecimals: chain.currency.decimals,
+    chainSupportsBridging: chain.currency.supportsBridging,
+    tokenName: token.name,
+    tokenSymbol: token.symbol,
+    tokenImage: token.metadata.logoURI,
+    tokenContractAddress: token.address,
+    tokenDecimals: token.decimals,
+  }
+}

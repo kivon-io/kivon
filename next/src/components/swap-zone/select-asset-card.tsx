@@ -32,6 +32,14 @@ const getTokenImage = (token: Token): string => {
   return ""
 }
 
+const getChainImage = (token: Token): string | null => {
+  if (isExchangeToken(token)) return null
+  if (isBridgeToken(token)) {
+    return token.chainImage || null
+  }
+  return null
+}
+
 const getTokenName = (token: Token): string => {
   if (isExchangeToken(token)) return token.name
   if (isBridgeToken(token)) {
@@ -69,6 +77,7 @@ const SelectAssetCard = ({
   const tokenName = getTokenName(token)
   const tokenSymbol = getTokenSymbol(token)
   const tokenNetwork = getTokenNetwork(token)
+  const chainImage = getChainImage(token)
 
   return (
     <motion.div
@@ -86,15 +95,37 @@ const SelectAssetCard = ({
       <div className='relative z-20 flex flex-col gap-4 items-center justify-center'>
         <ExchangeType type={type} />
         <div className='flex flex-col gap-2 items-center justify-center'>
-          {tokenImage && (
+          {isExchangeToken(token) ? (
             <Image
               src={tokenImage}
               alt={tokenName}
-              className='object-contain object-center w-8 h-8'
+              className='object-contain object-center w-8 h-8 rounded-full'
               width={32}
               height={32}
             />
+          ) : (
+            <div className='relative'>
+              <Image
+                src={tokenImage}
+                alt={tokenName}
+                className='object-contain object-center w-8 h-8 rounded-full'
+                width={32}
+                height={32}
+              />
+              {chainImage && (
+                <div className='absolute -bottom-1 -right-2 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
+                  <Image
+                    src={chainImage}
+                    alt={tokenName}
+                    className='object-contain object-center w-4 h-4 rounded-full'
+                    width={16}
+                    height={16}
+                  />
+                </div>
+              )}
+            </div>
           )}
+
           <div className='flex flex-col gap-1 items-center justify-center'>
             <Symbol symbol={tokenSymbol} />
             <TokenName className='text-xs md:text-sm capitalize text-center' name={tokenName} />

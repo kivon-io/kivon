@@ -83,7 +83,7 @@ const TokenList = () => {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side='bottom'
-        className='bg-white dark:bg-black/90 min-h-[95vh] max-h-[95vh] rounded-t-xl border-t border-zinc-200 dark:border-zinc-800'
+        className='bg-white dark:bg-black/90 min-h-[85vh] max-h-[85vh] rounded-t-xl border-t border-zinc-200 dark:border-zinc-800'
       >
         <SheetHeader>
           <SheetTitle>Select a token</SheetTitle>
