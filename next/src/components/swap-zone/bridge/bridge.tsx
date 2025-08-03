@@ -2,6 +2,7 @@
 
 import BridgeAction from "./action"
 import BridgeInfo from "./bridge-info"
+import Details from "./details"
 import SelectAsset from "./select-asset"
 
 const Bridge = () => {
@@ -15,6 +16,7 @@ const Bridge = () => {
           <DialogTips />
         </div> */}
       </div>
+      <Details />
     </div>
   )
 }
