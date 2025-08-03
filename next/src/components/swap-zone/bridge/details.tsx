@@ -107,7 +107,7 @@ const Gas = () => {
   return (
     <div className='flex items-center gap-1'>
       <BiGasPump className='w-4 h-4 text-zinc-700 dark:text-zinc-100' />
-      <p className='text-sm text-zinc-700 dark:text-zinc-100 font-medium'>~ $0.03</p>
+      <p className='text-sm text-zinc-700 dark:text-zinc-100 font-medium'>$0.03</p>
     </div>
   )
 }

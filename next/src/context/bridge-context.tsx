@@ -67,6 +67,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
         tokenDecimals: DEFAULT_DECIMALS,
       },
       amount: 0,
+      slippage: undefined,
     },
   })
 

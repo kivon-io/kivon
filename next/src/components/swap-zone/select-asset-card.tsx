@@ -98,13 +98,15 @@ const SelectAssetCard = ({
         <ExchangeType type={type} />
         <div className='flex flex-col gap-2 items-center justify-center'>
           {isExchangeToken(token) ? (
-            <Image
-              src={tokenImage}
-              alt={tokenName}
-              className='object-contain object-center w-8 h-8 rounded-full'
-              width={32}
-              height={32}
-            />
+            tokenImage && (
+              <Image
+                src={tokenImage}
+                alt={tokenName}
+                className='object-contain object-center w-8 h-8 rounded-full'
+                width={32}
+                height={32}
+              />
+            )
           ) : (
             <div className='relative'>
               {tokenImage && (

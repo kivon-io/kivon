@@ -32,6 +32,7 @@ export const bridgeFormSchema = z.object({
     tokenDecimals: z.number(),
   }),
   amount: z.number().min(0, { message: "send amount is required" }),
+  slippage: z.number().optional(),
 })
 
 export type BridgeFormSchema = z.infer<typeof bridgeFormSchema>
