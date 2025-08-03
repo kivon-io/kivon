@@ -1,7 +1,9 @@
 "use client"
 
+import Balance from "@/components/elements/balance"
 import Symbol from "@/components/elements/symbol"
 import TokenName from "@/components/elements/token-name"
+import { Button } from "@/components/ui/button"
 import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useAppContext } from "@/context/app-context"
@@ -9,6 +11,7 @@ import { useBridge } from "@/context/bridge-context"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { motion } from "framer-motion"
 import { UseFormReturn } from "react-hook-form"
+import { LuArrowDownUp } from "react-icons/lu"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import ChangeTransactionDirection from "../change-transaction-direction"
 import { BridgeImageAsset } from "./chain-image"
@@ -156,7 +159,47 @@ const AmountDetails = ({
             </div>
           </div>
         </div>
+        <div className='flex justify-between items-center mt-2'>
+          <AmountComponent type={type} />
+          <BalanceComponent type={type} />
+        </div>
       </motion.div>
     </>
+  )
+}
+
+const AmountComponent = ({ type }: { type: "send" | "receive" }) => {
+  return (
+    <div className='flex gap-1 items-center'>
+      <p className='text-xs md:text-sm font-medium text-zinc-500 dark:text-zinc-400'>$0.01</p>
+      {type === EXCHANGE_TYPE.SEND && (
+        <Button className='rounded-lg h-fit py-1 px-1.5 w-fit' variant='outline' size='icon'>
+          <LuArrowDownUp className='text-zinc-600 text-xs' />
+        </Button>
+      )}
+    </div>
+  )
+}
+
+const BalanceComponent = ({ type }: { type: "send" | "receive" }) => {
+  const amountPercentages = [20, 50, 100]
+  return (
+    <div className='flex gap-2 items-center'>
+      <Balance />
+      {type === EXCHANGE_TYPE.SEND && (
+        <div className='flex gap-1'>
+          {amountPercentages.map((percentage) => (
+            <Button
+              key={percentage}
+              className='rounded-lg py-1 px-1.5 text-xs font-medium h-fit cursor-pointer shadow-none bg-zinc-50 dark:bg-neutral-800'
+              size='icon'
+              variant='outline'
+            >
+              {percentage === 100 ? "MAX" : `${percentage}%`}
+            </Button>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
