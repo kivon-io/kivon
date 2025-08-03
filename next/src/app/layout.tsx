@@ -7,6 +7,7 @@ import { Metadata, Viewport } from "next"
 
 import { generateMetadataObject } from "@/lib/shared/metadata"
 import fetchContentType from "@/lib/strapi/fetchContentType"
+import { WalletProvider } from "@/lib/wallet/wallet-context"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 
@@ -103,18 +104,20 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <TRPCProvider>
-          <AppProvider>
-            <ThemeProvider
-              attribute='class'
-              defaultTheme='system'
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Navbar {...navbar} />
-              {children}
-              <Footer {...footer} social_media_links={globalData?.contact?.social_media_links} />
-            </ThemeProvider>
-          </AppProvider>
+          <WalletProvider>
+            <AppProvider>
+              <ThemeProvider
+                attribute='class'
+                defaultTheme='system'
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Navbar {...navbar} />
+                {children}
+                <Footer {...footer} social_media_links={globalData?.contact?.social_media_links} />
+              </ThemeProvider>
+            </AppProvider>
+          </WalletProvider>
         </TRPCProvider>
       </body>
     </html>

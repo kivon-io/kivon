@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react"
 import { useState } from "react"
 import Logo from "../logo"
@@ -24,6 +25,7 @@ type Props = {
 const DesktopNavbar = ({ items, logo }: Props) => {
   const { scrollY } = useScroll()
   const [showBackground, setShowBackground] = useState(false)
+  const { openConnectModal } = useConnectModal()
 
   useMotionValueEvent(scrollY, "change", (value) => {
     if (value > 100) {
@@ -77,7 +79,11 @@ const DesktopNavbar = ({ items, logo }: Props) => {
           ))}
         </div>
         <div className='flex space-x-2 items-center'>
-          <Button className='rounded-lg bg-primary dark:bg-white dark:text-black' size='lg'>
+          <Button
+            className='rounded-lg bg-primary dark:bg-white dark:text-black'
+            size='lg'
+            onClick={() => openConnectModal?.()}
+          >
             Connect Wallet
           </Button>
           <ModeToggle />
