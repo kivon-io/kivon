@@ -59,3 +59,13 @@ export const createBridgeTokenModel = (
     tokenDecimals: token.decimals,
   }
 }
+
+// Bridge transaction stages
+export const BRIDGE_STAGES = {
+  SELECT_ASSET: "sa",
+  TRANSACTION_INFORMATION: "ti",
+} as const
+
+export type BridgeStage = "sa" | "ti"
+
+export const BRIDGE_STAGE_PARAM_KEY = "st"

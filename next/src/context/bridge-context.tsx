@@ -2,14 +2,18 @@
 
 import { ExchangeT } from "@/components/elements/exchange-type"
 import {
+  BRIDGE_STAGE_PARAM_KEY,
+  BRIDGE_STAGES,
   bridgeFormSchema,
   BridgeFormSchema,
+  BridgeStage,
   createBridgeTokenModel,
 } from "@/components/swap-zone/bridge/constants"
 import { DEFAULT_DECIMALS, EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { getFirstChainAndTokens } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { createContext, useContext, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
+import { createContext, useContext, useEffect, useState } from "react"
 import { useForm, UseFormReturn } from "react-hook-form"
 
 const BridgeContext = createContext<{
@@ -19,9 +23,16 @@ const BridgeContext = createContext<{
     token: BridgeFormSchema["origin"] | BridgeFormSchema["destination"],
     type: ExchangeT
   ) => void
+  step: BridgeStage
+  handleStep: (step: BridgeStage) => void
 } | null>(null)
 
 const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React.ReactNode }) => {
+  const transactionStageParam = useSearchParams().get(BRIDGE_STAGE_PARAM_KEY)
+  const [step, setStep] = useState<BridgeStage>(
+    transactionStageParam ? (transactionStageParam as BridgeStage) : BRIDGE_STAGES.SELECT_ASSET
+  )
+
   const form = useForm<BridgeFormSchema>({
     resolver: zodResolver(bridgeFormSchema),
     defaultValues: {
@@ -71,6 +82,10 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     }
   }
 
+  const handleStep = (step: BridgeStage) => {
+    setStep(step)
+  }
+
   useEffect(() => {
     if (chains && chains.length > 0) {
       const { chain, tokens } = getFirstChainAndTokens(chains)
@@ -86,6 +101,8 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     chains,
     form,
     handleSelectToken,
+    handleStep,
+    step,
   }
 
   return <BridgeContext.Provider value={values}>{children}</BridgeContext.Provider>

@@ -7,13 +7,15 @@ import { useBridge } from "@/context/bridge-context"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { HiOutlineArrowSmRight } from "react-icons/hi"
 import SelectAssetCard from "../select-asset-card"
-import { BridgeFormSchema } from "./constants"
+import { BRIDGE_STAGES, BridgeFormSchema } from "./constants"
 
 const SelectAsset = () => {
-  const { form } = useBridge()
+  const { form, step } = useBridge()
 
   const origin = form.watch("origin")
   const destination = form.watch("destination")
+
+  if (step !== BRIDGE_STAGES.SELECT_ASSET) return null
 
   const handleSwitchTokens = () => {}
   return (

@@ -117,11 +117,11 @@ const SelectAssetCard = ({
                 />
               )}
               {chainImage && (
-                <div className='absolute -bottom-1 -right-2 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
+                <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-sm'>
                   <Image
                     src={chainImage}
                     alt={tokenName}
-                    className='object-contain object-center w-4 h-4 rounded-full'
+                    className='object-cover object-center w-4 h-4 rounded-sm'
                     width={16}
                     height={16}
                   />
