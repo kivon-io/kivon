@@ -8,12 +8,16 @@ const AppContext = createContext<{
   toggleTokenList: () => void
   toggleBridgeTokenList: () => void
   handleType: (type: "send" | "receive") => void
+  totalUSD: number
+  updateTotalUSD: (totalUSD: number) => void
 }>({
   state: INITIAL_STATE,
   type: "send",
   toggleTokenList: () => {},
   toggleBridgeTokenList: () => {},
   handleType: () => {},
+  totalUSD: 0,
+  updateTotalUSD: () => {},
 })
 
 export default AppContext
@@ -21,6 +25,7 @@ export default AppContext
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
   const [type, setType] = useState<"send" | "receive">("send")
+  const [totalUSD, setTotalUSD] = useState(0)
 
   const toggleTokenList = () => {
     dispatch({ type: "SET_TOKEN_LIST_OPEN", payload: !state.tokenListOpen })
@@ -34,12 +39,18 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setType(type)
   }
 
+  const updateTotalUSD = (totalUSD: number) => {
+    setTotalUSD(totalUSD)
+  }
+
   const values = {
     state,
     toggleTokenList,
     toggleBridgeTokenList,
     type,
     handleType,
+    totalUSD,
+    updateTotalUSD,
   }
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>

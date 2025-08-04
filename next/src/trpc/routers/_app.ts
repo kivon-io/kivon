@@ -2,6 +2,7 @@ import { CHANGE_NOW_API_URL_v1 } from "@/lib/shared/constants"
 import { z } from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter, mergeRouters } from "../trpc"
+import { alchemyRouter } from "./alchemy"
 import { bridgeRouter } from "./bridge"
 import { swapRouter } from "./swap"
 import { validateAddressRouter } from "./validate-address"
@@ -59,6 +60,7 @@ export const appRouter = mergeRouters(
   validateAddressRouter,
   getTokenInfo,
   getTokenInfos,
-  bridgeRouter
+  bridgeRouter,
+  alchemyRouter
 )
 export type AppRouter = typeof appRouter
