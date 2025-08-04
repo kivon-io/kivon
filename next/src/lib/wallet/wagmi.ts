@@ -3,6 +3,8 @@ import "@rainbow-me/rainbowkit/styles.css"
 import {
   argentWallet,
   coinbaseWallet,
+  metaMaskWallet,
+  phantomWallet,
   rainbowWallet,
   trustWallet,
   walletConnectWallet,
@@ -17,7 +19,7 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: "Recommended",
-      wallets: [coinbaseWallet, trustWallet],
+      wallets: [metaMaskWallet, phantomWallet, coinbaseWallet, trustWallet],
     },
     {
       groupName: "Others",
