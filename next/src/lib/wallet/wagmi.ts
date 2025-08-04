@@ -1,21 +1,9 @@
 import { connectorsForWallets } from "@rainbow-me/rainbowkit"
 import "@rainbow-me/rainbowkit/styles.css"
 import {
-  berasigWallet,
-  bestWallet,
-  binanceWallet,
-  bitgetWallet,
-  bitverseWallet,
-  bloomWallet,
-  braveWallet,
-  bybitWallet,
+  argentWallet,
   coinbaseWallet,
-  injectedWallet,
-  ledgerWallet,
-  metaMaskWallet,
-  phantomWallet,
   rainbowWallet,
-  safeWallet,
   trustWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets"
@@ -29,24 +17,11 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: "Recommended",
-      wallets: [metaMaskWallet, trustWallet, walletConnectWallet, injectedWallet, phantomWallet],
+      wallets: [coinbaseWallet, trustWallet],
     },
     {
       groupName: "Others",
-      wallets: [
-        rainbowWallet,
-        safeWallet,
-        coinbaseWallet,
-        ledgerWallet,
-        bitgetWallet,
-        binanceWallet,
-        bestWallet,
-        berasigWallet,
-        bitverseWallet,
-        bloomWallet,
-        braveWallet,
-        bybitWallet,
-      ],
+      wallets: [walletConnectWallet, argentWallet, rainbowWallet],
     },
   ],
   {

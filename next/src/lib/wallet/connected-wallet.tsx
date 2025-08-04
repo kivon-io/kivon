@@ -46,7 +46,7 @@ const ConnectedWallet = () => {
       </SheetTrigger>
       <SheetContent
         side={mediaQuery ? "right" : "bottom"}
-        className='max-h-[98vh] min-h-[95vh] md:min-h-auto md:max-h-[98vh] h-full w-full sm:w-3/4 md:my-auto md:right-4 md:rounded-2xl rounded-t-2xl'
+        className='max-h-[85vh] min-h-[85vh] md:min-h-auto md:max-h-[98vh] h-full w-full sm:w-3/4 md:my-auto md:right-4 md:rounded-2xl rounded-t-2xl'
       >
         <SheetHeader>
           <SheetTitle>
