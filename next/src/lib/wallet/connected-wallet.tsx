@@ -1,4 +1,6 @@
 "use client"
+import Address from "@/components/elements/address"
+import AddressAvatar from "@/components/elements/address-avatar"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -10,6 +12,7 @@ import {
 } from "@/components/ui/sheet"
 import { useState } from "react"
 import { BsCheck, BsCopy, BsPower } from "react-icons/bs"
+import { useMediaQuery } from "usehooks-ts"
 import { useAccount, useDisconnect } from "wagmi"
 import { formatAddress } from "../utils"
 import WalletIcon from "./wallet-icon"
@@ -18,22 +21,7 @@ const ConnectedWallet = () => {
   const { address, isConnected, chain } = useAccount()
   const { disconnect } = useDisconnect()
   const [isCopied, setIsCopied] = useState(false)
-
-  //   const ensName = useEnsName({
-  //     address,
-  //     chainId: mainnet.id,
-  //     query: {
-  //       enabled: !!address, // Only need address, always query on mainnet
-  //     },
-  //   })
-
-  //   const ensAvatar = useEnsAvatar({
-  //     name: ensName.data ? normalize(ensName.data) : undefined,
-  //     chainId: mainnet.id,
-  //     query: {
-  //       enabled: !!ensName.data, // Only need ENS name to exist
-  //     },
-  //   })
+  const mediaQuery = useMediaQuery("(min-width: 768px)")
 
   if (!isConnected) return null
 
@@ -48,31 +36,35 @@ const ConnectedWallet = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button className='flex items-center gap-2 w-fit px-2'>
-          <div className='h-6 w-6 rounded-full border border-zinc-200 dark:border-zinc-800 bg-gradient-to-b from-zinc-100 to-zinc-500 dark:from-zinc-400 dark:to-zinc-900' />
-          <p className='text-sm font-medium'>{formatAddress(address as string)}</p>
+        <Button
+          className='flex items-center gap-2 w-fit px-2 bg-white dark:bg-neutral-950'
+          variant='outline'
+        >
+          <AddressAvatar address={address as string} className='h-6 w-6' />
+          <p className='text-xs md:text-sm font-medium'>{formatAddress(address as string)}</p>
         </Button>
       </SheetTrigger>
-      <SheetContent className='md:max-h-[98vh] my-auto right-4 rounded-2xl '>
+      <SheetContent
+        side={mediaQuery ? "right" : "bottom"}
+        className='max-h-[98vh] min-h-[95vh] md:min-h-auto md:max-h-[98vh] h-full w-full sm:w-3/4 md:my-auto md:right-4 md:rounded-2xl rounded-t-2xl'
+      >
         <SheetHeader>
           <SheetTitle>
             <div className='flex items-center gap-2'>
-              <div className='h-8 w-8 rounded-full bg-gradient-to-b from-zinc-400 to-zinc-900' />
+              <AddressAvatar address={address as string} className='h-8 w-8' />
               <p className='text-sm font-medium'>{formatAddress(address as string)}</p>
             </div>
           </SheetTitle>
           <SheetDescription className='sr-only'>Connected Wallet</SheetDescription>
         </SheetHeader>
         <div className='relative p-2'>
-          <div className='border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 space-y-2'>
+          <div className='bg-white dark:bg-neutral-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 space-y-2'>
             <div className='flex justify-between items-center'>
               <div className='flex gap-2'>
                 <WalletIcon className='h-8 w-8' />
                 <div className='flex flex-col'>
                   <p className='text-sm font-medium'>{chain?.name}</p>
-                  <p className='text-sm text-zinc-500 dark:text-zinc-400 font-medium'>
-                    {formatAddress(address as string)}
-                  </p>
+                  <Address className='text-xs font-medium' address={address as string} />
                 </div>
               </div>
               <div className='flex items-center gap-2'>

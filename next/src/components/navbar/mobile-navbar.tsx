@@ -8,7 +8,6 @@ import Link from "next/link"
 import { useState } from "react"
 import { IoIosClose, IoIosMenu } from "react-icons/io"
 import Logo from "../logo"
-import { ModeToggle } from "../toggle-theme"
 import { Button } from "../ui/button"
 
 type Props = {
@@ -51,7 +50,8 @@ const MobileNavbar = ({ items, logo }: Props) => {
       <Logo logo={logo.image} />
 
       <div className='flex items-center gap-2'>
-        <ModeToggle />
+        {/* <ModeToggle /> */}
+        <ConnectWallet />
         <IoIosMenu className='text-black dark:text-white h-6 w-6' onClick={() => setOpen(!open)} />
       </div>
 
@@ -113,3 +113,18 @@ const MobileNavbar = ({ items, logo }: Props) => {
 }
 
 export default MobileNavbar
+
+const ConnectWallet = () => {
+  const { openConnectModal } = useConnectModal()
+  return openConnectModal ? (
+    <Button
+      className='rounded-lg bg-[#1B1B1B] dark:bg-white dark:text-black w-fit'
+      size='sm'
+      onClick={() => openConnectModal?.()}
+    >
+      Connect
+    </Button>
+  ) : (
+    <ConnectedWallet />
+  )
+}
