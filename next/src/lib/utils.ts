@@ -79,3 +79,8 @@ export const checkAddress = (address: string) => {
       address.match(/^[a-zA-Z0-9]{25,62}$/))
   )
 }
+
+export const formatAddress = (address: string) => {
+  if (!address) return ""
+  return address.slice(0, 6) + "..." + address.slice(-4)
+}

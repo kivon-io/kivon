@@ -1,6 +1,8 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import ConnectedWallet from "@/lib/wallet/connected-wallet"
+import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useMotionValueEvent, useScroll } from "motion/react"
 import Link from "next/link"
 import { useState } from "react"
@@ -24,6 +26,7 @@ type Props = {
 
 const MobileNavbar = ({ items, logo }: Props) => {
   const [open, setOpen] = useState(false)
+  const { openConnectModal } = useConnectModal()
 
   const { scrollY } = useScroll()
 
@@ -85,12 +88,23 @@ const MobileNavbar = ({ items, logo }: Props) => {
             )}
           </div>
           <div className='flex flex-row w-full items-start gap-2.5  px-8 py-4 '>
-            <Button
+            {/* <Button
               className='rounded-lg bg-[#1B1B1B] dark:bg-white dark:text-black w-full'
               size='lg'
             >
               Connect Wallet
-            </Button>
+            </Button> */}
+            {openConnectModal ? (
+              <Button
+                className='rounded-lg bg-[#1B1B1B] dark:bg-white dark:text-black w-full'
+                size='lg'
+                onClick={() => openConnectModal?.()}
+              >
+                Connect Wallet
+              </Button>
+            ) : (
+              <ConnectedWallet />
+            )}
           </div>
         </div>
       )}

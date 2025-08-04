@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import ConnectedWallet from "@/lib/wallet/connected-wallet"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react"
 import { useState } from "react"
@@ -79,13 +80,18 @@ const DesktopNavbar = ({ items, logo }: Props) => {
           ))}
         </div>
         <div className='flex space-x-2 items-center'>
-          <Button
-            className='rounded-lg bg-primary dark:bg-white dark:text-black'
-            size='lg'
-            onClick={() => openConnectModal?.()}
-          >
-            Connect Wallet
-          </Button>
+          {openConnectModal ? (
+            <Button
+              className='rounded-lg bg-primary dark:bg-white dark:text-black'
+              size='lg'
+              onClick={() => openConnectModal?.()}
+            >
+              Connect Wallet
+            </Button>
+          ) : (
+            <ConnectedWallet />
+          )}
+
           <ModeToggle />
         </div>
       </motion.div>
