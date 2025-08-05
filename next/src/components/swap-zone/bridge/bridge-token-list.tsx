@@ -409,10 +409,10 @@ const FeaturedTokens = ({
 }) => {
   return (
     <div className='flex flex-wrap gap-2'>
-      {tokens.map((token) => (
+      {tokens.map((token, index) => (
         <div
           className='relative cursor-pointer flex gap-2 items-center border border-zinc-200 dark:border-zinc-700 rounded-full p-2 hover:bg-zinc-100 dark:hover:bg-neutral-950 transition-all duration-300'
-          key={token.id}
+          key={index}
           onClick={() => handleSelectToken(token, chain)}
         >
           <div className='relative'>

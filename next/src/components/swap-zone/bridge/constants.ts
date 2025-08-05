@@ -45,7 +45,7 @@ export const createBridgeTokenModel = (
   chain: Chain
 ): BridgeFormSchema["origin"] | BridgeFormSchema["destination"] => {
   return {
-    chainId: chain.baseChainId,
+    chainId: chain.id,
     chainName: chain.name,
     chainDisplayName: chain.displayName,
     chainSymbol: chain.currency.symbol,
