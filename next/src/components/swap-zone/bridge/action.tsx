@@ -13,7 +13,7 @@ const BridgeAction = () => {
   const { address, isConnected } = useAccount()
   const { connect, connectors } = useConnect()
   const { origin, destination } = form.watch()
-  const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0]
+  const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0] || 0
 
   const {
     data: quote,

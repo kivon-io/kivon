@@ -20,18 +20,18 @@ import { BRIDGE_STAGES, BridgeFormSchema } from "./constants"
 const BridgeInfo = () => {
   const { step, form, quote } = useBridge()
 
-  const { origin, destination, amount } = form.watch()
+  const { origin, destination } = form.watch()
 
   const handleChangeSwapDirection = () => {
     form.setValue("origin", destination)
     form.setValue("destination", origin)
   }
 
-  const estimatedExchangeAmount = {
-    toAmount: 0,
-  }
+  // const estimatedExchangeAmount = {
+  //   toAmount: 0,
+  // }
 
-  console.log("quote: ", quote)
+  // console.log("quote: ", quote)
 
   if (step === BRIDGE_STAGES.SELECT_ASSET) return null
   return (
@@ -41,7 +41,7 @@ const BridgeInfo = () => {
       </div>
       <div className='relative left-5 h-16 border-l border-dashed border-zinc-200 dark:border-zinc-700 flex items-center justify-between'>
         <div className='flex md:flex-row flex-col items-center gap-2'>
-          <div className='text-xs font-medium pl-3 text-zinc-600 dark:text-zinc-400 flex items-center gap-1'>
+          {/* <div className='text-xs font-medium pl-3 text-zinc-600 dark:text-zinc-400 flex items-center gap-1'>
             <div className='flex items-center gap-1'>
               <span className='hidden'> Estimated rate: </span> {amount}{" "}
               <Symbol className='text-xs' symbol={origin.chainSymbol} />
@@ -51,7 +51,7 @@ const BridgeInfo = () => {
               <Symbol className='text-xs' symbol={destination.chainSymbol} />
             </div>
           </div>
-          {/* {estimatedExchangeAmount?.validUntil && (
+          {estimatedExchangeAmount?.validUntil && (
               <ValidFixedRate validUntil={estimatedExchangeAmount.validUntil} />
             )} */}
         </div>
@@ -138,6 +138,7 @@ const AmountDetails = ({
                     render={({ field }) => (
                       <Input
                         {...field}
+                        placeholder='0'
                         className='w-full text-right text-base md:text-lg font-medium focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none'
                       />
                     )}
