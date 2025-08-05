@@ -7,17 +7,17 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { useBridge } from "@/context/bridge-context"
 import { APP_NAME } from "@/lib/shared/constants"
-import { cn } from "@/lib/utils"
+import { cn, formatAmount } from "@/lib/utils"
 import React from "react"
 import { BiGasPump } from "react-icons/bi"
 import { PiTimer } from "react-icons/pi"
 import { BridgeFormSchema } from "./constants"
 
 const Details = () => {
-  const { form } = useBridge()
+  const { form, quote } = useBridge()
   const { origin, destination, amount } = form.watch()
 
-  if (amount === 0) return null
+  if (amount === 0 || !quote) return null
 
   return (
     <Accordion
@@ -38,13 +38,13 @@ const Details = () => {
             <p>{APP_NAME}</p>
           </Item>
           <Item title='Estimated Time'>
-            <EstimatedTime />
+            <EstimatedTime time={quote?.details.timeEstimate || 0} />
           </Item>
           <Item title='Network cost'>
-            <Gas />
+            <Gas gas={quote?.fees.gas.amountUsd || "0.00"} />
           </Item>
           <Item title='Price impact'>
-            <p>0.00%</p>
+            <p>{quote?.details.totalImpact.percent}%</p>
           </Item>
           <Item title='Max slippage'>
             <Badge variant='outline' className='text-xs'>
@@ -75,39 +75,42 @@ const TokenAmount = ({
   origin: BridgeFormSchema["origin"]
   destination: BridgeFormSchema["destination"]
 }) => {
+  const { quote } = useBridge()
   return (
     <div className='flex'>
       <p className='text-sm text-zinc-700 dark:text-zinc-100 font-medium'>
-        1 {origin.tokenSymbol} = {destination.tokenSymbol}
+        1 {origin.tokenSymbol} = {formatAmount(quote?.details.rate.toString() || "0.00")}{" "}
+        {destination.tokenSymbol}
       </p>
     </div>
   )
 }
 
 const AmountAndGas = ({ className }: { className?: string }) => {
+  const { quote } = useBridge()
   return (
     <div className={cn("flex items-center gap-2 transition-all duration-300", className)}>
-      <EstimatedTime />
+      <EstimatedTime time={quote?.details.timeEstimate || 0} />
       <div className='h-1 w-1 bg-zinc-200 dark:bg-zinc-700 rounded-full' />
-      <Gas />
+      <Gas gas={quote?.fees.gas.amountUsd || "0.00"} />
     </div>
   )
 }
 
-const EstimatedTime = () => {
+const EstimatedTime = ({ time }: { time: number }) => {
   return (
     <div className='flex items-center gap-1'>
       <PiTimer className='w-4 h-4 text-zinc-700 dark:text-zinc-100' />
-      <p className='text-sm text-zinc-700 dark:text-zinc-100 font-medium'>~ 10s</p>
+      <p className='text-sm text-zinc-700 dark:text-zinc-100 font-medium'>~ {time}s</p>
     </div>
   )
 }
 
-const Gas = () => {
+const Gas = ({ gas }: { gas: string }) => {
   return (
     <div className='flex items-center gap-1'>
       <BiGasPump className='w-4 h-4 text-zinc-700 dark:text-zinc-100' />
-      <p className='text-sm text-zinc-700 dark:text-zinc-100 font-medium'>$0.03</p>
+      <p className='text-sm text-zinc-700 dark:text-zinc-100 font-medium'>${formatAmount(gas)}</p>
     </div>
   )
 }

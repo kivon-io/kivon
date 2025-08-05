@@ -307,3 +307,201 @@ type Chain = {
     }
   }
 }
+
+type Item = {
+  status: string
+  data: {
+    from: string
+    to: string
+    data: string
+    value: string
+    maxFeePerGas: string
+    maxPriorityFeePerGas: string
+    chainId: number
+  }
+  check: {
+    endpoint: string
+    method: string
+  }
+}
+
+type Step = {
+  id: string
+  action: string
+  description: string
+  kind: string
+  requestId: string
+  items: Item[]
+}
+
+type Quote = {
+  steps: Step[]
+  fees: {
+    gas: {
+      currency: {
+        chainId: number
+        address: string
+        symbol: string
+        name: string
+        decimals: number
+        metadata: {
+          logoURI: string
+          verified: boolean
+          isNative: boolean
+        }
+      }
+      amount: string
+      amountFormatted: string
+      amountUsd: string
+      minimumAmount: string
+    }
+    relayer: {
+      currency: {
+        chainId: number
+        address: string
+        symbol: string
+        name: string
+        decimals: number
+        metadata: {
+          logoURI: string
+          verified: boolean
+          isNative: boolean
+        }
+      }
+      amount: string
+      amountFormatted: string
+      amountUsd: string
+      minimumAmount: string
+    }
+    relayerService: {
+      currency: {
+        chainId: number
+        address: string
+        symbol: string
+        name: string
+        decimals: number
+        metadata: {
+          logoURI: string
+          verified: boolean
+          isNative: boolean
+        }
+      }
+      amount: string
+      amountFormatted: string
+      amountUsd: string
+      minimumAmount: string
+    }
+    app: {
+      currency: {
+        chainId: number
+        address: string
+        symbol: string
+        name: string
+        decimals: number
+        metadata: {
+          logoURI: string
+          verified: boolean
+          isNative: boolean
+        }
+      }
+      amount: string
+      amountFormatted: string
+      amountUsd: string
+      minimumAmount: string
+    }
+  }
+  details: {
+    operation: string
+    sender: string
+    recipient: string
+    currencyIn: {
+      currency: {
+        chainId: number
+        address: string
+        symbol: string
+        name: string
+        decimals: number
+        metadata: {
+          logoURI: string
+          verified: boolean
+          isNative: boolean
+        }
+      }
+      amount: string
+      amountFormatted: string
+      amountUsd: string
+      minimumAmount: string
+    }
+    currencyOut: {
+      currency: {
+        chainId: number
+        address: string
+        symbol: string
+        name: string
+        decimals: number
+        metadata: {
+          logoURI: string
+          verified: boolean
+          isNative: boolean
+        }
+      }
+      amount: string
+      amountFormatted: string
+      amountUsd: string
+      minimumAmount: string
+    }
+    currencyGasTopup: {
+      currency: {
+        chainId: number
+        address: string
+        symbol: string
+        name: string
+        decimals: number
+        metadata: {
+          logoURI: string
+          verified: boolean
+          isNative: boolean
+        }
+      }
+      amount: string
+      amountFormatted: string
+      amountUsd: string
+      minimumAmount: string
+    }
+    totalImpact: {
+      usd: string
+      percent: string
+    }
+    swapImpact: {
+      usd: string
+      percent: string
+    }
+    rate: string
+    slippageTolerance: {
+      origin: {
+        usd: string
+        value: string
+        percent: string
+      }
+      destination: {
+        usd: string
+        value: string
+        percent: string
+      }
+    }
+    timeEstimate: number
+    userBalance: string
+    fallbackType: string
+  }
+  protocol: {
+    v2: {
+      orderId: string
+      paymentDetails: {
+        chainId: string
+        depository: string
+        currency: string
+        amount: string
+      }
+    }
+  }
+}

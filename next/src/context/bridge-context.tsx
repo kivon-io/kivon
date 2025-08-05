@@ -25,6 +25,10 @@ const BridgeContext = createContext<{
   ) => void
   step: BridgeStage
   handleStep: (step: BridgeStage) => void
+  quote: Quote | null
+  handleSetQuote: (quote: Quote) => void
+  isShowUsd: boolean
+  handleToggleUsd: () => void
 } | null>(null)
 
 const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React.ReactNode }) => {
@@ -32,6 +36,8 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
   const [step, setStep] = useState<BridgeStage>(
     transactionStageParam ? (transactionStageParam as BridgeStage) : BRIDGE_STAGES.SELECT_ASSET
   )
+  const [quote, setQuote] = useState<Quote | null>(null)
+  const [isShowUsd, setIsShowUsd] = useState(false)
 
   const form = useForm<BridgeFormSchema>({
     resolver: zodResolver(bridgeFormSchema),
@@ -87,6 +93,14 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     setStep(step)
   }
 
+  const handleToggleUsd = () => {
+    setIsShowUsd(!isShowUsd)
+  }
+
+  const handleSetQuote = (quote: Quote) => {
+    setQuote(quote)
+  }
+
   useEffect(() => {
     if (chains && chains.length > 0) {
       const { chain, tokens } = getFirstChainAndTokens(chains)
@@ -104,6 +118,10 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     handleSelectToken,
     handleStep,
     step,
+    quote,
+    handleSetQuote,
+    isShowUsd,
+    handleToggleUsd,
   }
 
   return <BridgeContext.Provider value={values}>{children}</BridgeContext.Provider>

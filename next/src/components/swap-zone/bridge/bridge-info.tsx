@@ -11,14 +11,14 @@ import { useBridge } from "@/context/bridge-context"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { motion } from "framer-motion"
 import { UseFormReturn } from "react-hook-form"
-import { LuArrowDownUp } from "react-icons/lu"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import ChangeTransactionDirection from "../change-transaction-direction"
+import AmountComponent from "./amount"
 import { BridgeImageAsset } from "./chain-image"
 import { BRIDGE_STAGES, BridgeFormSchema } from "./constants"
 
 const BridgeInfo = () => {
-  const { step, form } = useBridge()
+  const { step, form, quote } = useBridge()
 
   const { origin, destination, amount } = form.watch()
 
@@ -30,6 +30,8 @@ const BridgeInfo = () => {
   const estimatedExchangeAmount = {
     toAmount: 0,
   }
+
+  console.log("quote: ", quote)
 
   if (step === BRIDGE_STAGES.SELECT_ASSET) return null
   return (
@@ -60,6 +62,7 @@ const BridgeInfo = () => {
         type={EXCHANGE_TYPE.RECEIVE}
         token={destination}
         form={form}
+        quote={quote}
         //   minExchangeAmount={minExchangeAmount?.minAmount}
       />
     </div>
@@ -72,12 +75,13 @@ const AmountDetails = ({
   type,
   token,
   form,
-  minExchangeAmount,
+  quote,
 }: {
   type: "send" | "receive"
   token: BridgeFormSchema["origin"] | BridgeFormSchema["destination"]
   form: UseFormReturn<BridgeFormSchema>
   minExchangeAmount?: number
+  quote?: Quote | null
 }) => {
   const { handleType, toggleBridgeTokenList } = useAppContext()
 
@@ -91,11 +95,11 @@ const AmountDetails = ({
   //     setOpenFixedRateInfoDialog(true)
   //   }
 
-  const sendAmount = form.watch("amount")
+  // const sendAmount = form.watch("amount")
 
-  const estimatedExchange = {
-    toAmount: 0,
-  }
+  // const estimatedExchange = {
+  //   toAmount: 0,
+  // }
 
   return (
     <>
@@ -143,9 +147,10 @@ const AmountDetails = ({
                 <Input
                   readOnly
                   value={
-                    minExchangeAmount && sendAmount < minExchangeAmount
-                      ? "-"
-                      : estimatedExchange.toAmount || 0
+                    // minExchangeAmount && sendAmount < minExchangeAmount
+                    //   ? "-"
+                    //   : estimatedExchange.toAmount || 0
+                    quote ? quote.details.currencyOut.amountFormatted : 0
                   }
                   className='w-full select-none pointer-events-none text-right text-base md:text-lg font-medium focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none'
                 />
@@ -165,19 +170,6 @@ const AmountDetails = ({
         </div>
       </motion.div>
     </>
-  )
-}
-
-const AmountComponent = ({ type }: { type: "send" | "receive" }) => {
-  return (
-    <div className='flex gap-1 items-center'>
-      <p className='text-xs md:text-sm font-medium text-zinc-500 dark:text-zinc-400'>$0.01</p>
-      {type === EXCHANGE_TYPE.SEND && (
-        <Button className='rounded-lg h-fit py-1 px-1.5 w-fit' variant='outline' size='icon'>
-          <LuArrowDownUp className='text-zinc-600 text-xs' />
-        </Button>
-      )}
-    </div>
   )
 }
 

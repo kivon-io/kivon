@@ -1,4 +1,6 @@
+import { RELAY_APP_CONFIG } from "@/lib/relay/config"
 import { RELAY_LINK_API_URL } from "@/lib/shared/constants"
+import { parseUnits } from "viem"
 import z from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter } from "../trpc"
@@ -47,5 +49,71 @@ export const bridgeRouter = createTRPCRouter({
       const data = await response.json()
 
       return data as Token[]
+    }),
+  getQuote: publicProcedure
+    .input(
+      z.object({
+        user: z.string().min(1, { error: "Address is required" }),
+        originChainId: z.number().min(1, { error: "OriginChain ID is required" }),
+        destinationChainId: z.number().min(1, { error: "Destination Chain ID is required" }),
+        originCurrency: z.string().min(1, { error: "Origin Currency is required" }),
+        destinationCurrency: z.string().min(1, { error: "Destination Currency is required" }),
+        amount: z.string().min(1, { error: "Amount is required" }),
+        decimals: z.number().min(1, { error: "Decimals is required" }),
+        slippageTolerance: z.string().optional(),
+        recipient: z.string().optional(),
+      })
+    )
+    .query(async ({ input }) => {
+      const {
+        user,
+        originChainId,
+        destinationChainId,
+        originCurrency,
+        destinationCurrency,
+        amount,
+        slippageTolerance,
+        recipient,
+        decimals,
+      } = input
+
+      const payload = {
+        // useReceiver: true,
+        // enableTrueExactOutput: false,
+        // explicitDeposit: true,
+        user,
+        originChainId,
+        destinationChainId,
+        originCurrency,
+        destinationCurrency,
+        amount: parseUnits(amount, decimals).toString(),
+        tradeType: RELAY_APP_CONFIG.TRADE_TYPE.EXACT_INPUT,
+        ...(slippageTolerance && { slippageTolerance }),
+        ...(recipient && { recipient }),
+        appFees: [
+          {
+            recipient: RELAY_APP_CONFIG.APP,
+            fee: RELAY_APP_CONFIG.FEE,
+          },
+        ],
+      }
+
+      // console.log("payload: ", payload)
+
+      const response = await fetch(`${RELAY_LINK_API_URL}/quote`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch quote: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      return data as Quote
     }),
 })

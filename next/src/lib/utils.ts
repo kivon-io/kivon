@@ -84,3 +84,24 @@ export const formatAddress = (address: string) => {
   if (!address) return ""
   return address.slice(0, 6) + "..." + address.slice(-4)
 }
+
+/**
+ * The `formatAmount` function formats a given amount string by adding commas to the integer part.
+ * @param {string} amount - The `amount` parameter is a string representing a numerical value that may
+ * or may not have decimal places. The function `formatAmount` is designed to format this numerical
+ * value by adding commas as thousand separators and keeping the decimal places intact. If the `amount`
+ * is "0.00", it will
+ * @returns The `formatAmount` function takes a string `amount` as input and formats it by adding
+ * commas to the integer part if it is not "0" or "0.00". If the input amount is "0.00", it returns
+ * "0.00". If the input amount is "0", it returns "0". Otherwise, it splits the amount by the decimal
+ * point, adds commas
+ */
+export const formatAmount = (amount: string) => {
+  if (amount === "0.00") return "0.00"
+  if (amount === "0") return "0"
+
+  amount = Number(amount).toFixed(2)
+  const parts = amount.split(".")
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return parts.join(".")
+}

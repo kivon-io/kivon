@@ -12,17 +12,17 @@ import React from "react"
 const Menu = ({ children }: { children?: React.ReactNode }) => {
   const pathname = usePathname()
   return (
-    <div className='flex items-center justify-between w-full'>
+    <div className={cn("flex items-center justify-center w-full", children && "justify-between")}>
       <NavigationMenu>
-        <NavigationMenuList className='bg-white dark:bg-neutral-950 rounded-lg border border-zinc-200 dark:border-zinc-800 p-1'>
+        <NavigationMenuList className='bg-white dark:bg-neutral-950 rounded-xl border border-zinc-200 dark:border-zinc-800 p-1'>
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link
                 href='/swap'
                 className={cn(
-                  "text-sm text-zinc-700 dark:text-zinc-100 font-medium min-w-20 text-center",
+                  "text-sm text-zinc-700 dark:text-zinc-100 font-medium min-w-24 text-center rounded-xl",
                   pathname.includes("swap") &&
-                    "bg-zinc-100 dark:bg-zinc-800 rounded-md border border-zinc-200 dark:border-zinc-700"
+                    "bg-zinc-100 dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700"
                 )}
               >
                 Swap
@@ -34,9 +34,9 @@ const Menu = ({ children }: { children?: React.ReactNode }) => {
               <Link
                 href='/bridge'
                 className={cn(
-                  "text-sm text-zinc-700 dark:text-zinc-100 font-medium min-w-20 text-center",
+                  "text-sm text-zinc-700 dark:text-zinc-100 font-medium min-w-24 text-center rounded-xl",
                   pathname.includes("bridge") &&
-                    "bg-zinc-100 dark:bg-zinc-800 rounded-md border border-zinc-200 dark:border-zinc-700"
+                    "bg-zinc-100 dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700"
                 )}
               >
                 Bridge
