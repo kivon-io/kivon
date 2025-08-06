@@ -23,7 +23,7 @@ const connectors = connectorsForWallets(
     },
     {
       groupName: "Others",
-      wallets: [walletConnectWallet, argentWallet, rainbowWallet],
+      wallets: [phantomWallet, walletConnectWallet, argentWallet, rainbowWallet],
     },
   ],
   {

@@ -29,3 +29,5 @@ export const EXCHANGE_TYPE = {
 export const DEFAULT_DECIMALS = 18
 
 export const DEFAULT_ALCHEMY_NETWORK = Network.ETH_MAINNET
+
+export const DEFAULT_PROTOCOL_VERSION = "v2"

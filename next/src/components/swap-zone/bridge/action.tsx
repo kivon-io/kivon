@@ -3,11 +3,13 @@
 import { Button } from "@/components/ui/button"
 import { useBridge } from "@/context/bridge-context"
 import { checkIfUserNeedsToProvideWalletAddress, isConnectedChainEnabled } from "@/lib/utils"
+import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
 import { trpc } from "@/trpc/client"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useEffect, useState } from "react"
 import { useDebounceValue } from "usehooks-ts"
 import { useAccount } from "wagmi"
+import DataError from "../network-error"
 import { BRIDGE_STAGES } from "./constants"
 import RecipientAddress from "./recipient-address"
 
@@ -18,6 +20,8 @@ const BridgeAction = () => {
   const { origin, destination } = form.watch()
   const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0] || 0
   const [isRecipientAddressDialogOpen, setIsRecipientAddressDialogOpen] = useState(false)
+
+  const { hasInsufficientBalance } = useBalanceCheck(address, origin.chainId, debouncedAmount)
 
   const checkChainisEnabled = isConnectedChainEnabled(origin)
   const checkifExtraWalletAddressIsNeeded = checkIfUserNeedsToProvideWalletAddress(
@@ -33,6 +37,7 @@ const BridgeAction = () => {
     data: quote,
     isLoading: isQuoteLoading,
     isRefetching,
+    error,
   } = trpc.getQuote.useQuery(
     {
       user: address ? address : origin.tokenContractAddress,
@@ -90,15 +95,17 @@ const BridgeAction = () => {
 
   return (
     <>
+      {error && !isQuoteLoading && <DataError message={error.message} />}
       <Button
         onClick={handleClick}
         disabled={
-          isQuoteLoading ||
-          isRefetching ||
+          (address && (isQuoteLoading || isRefetching)) ||
           (address && step === BRIDGE_STAGES.TRANSACTION_INFORMATION && debouncedAmount <= 0) ||
-          !checkChainisEnabled
+          !checkChainisEnabled ||
+          !!error ||
+          (address && hasInsufficientBalance)
         }
-        busy={isQuoteLoading || isRefetching}
+        busy={address && (isQuoteLoading || isRefetching)}
         busyVariant='secondary'
         className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black font-medium'
       >
@@ -124,6 +131,8 @@ const BridgeAction = () => {
           ? `Chain is currently unavailable`
           : checkifExtraWalletAddressIsNeeded && !form.watch("isRecipientAddressValid")
           ? `Enter ${destination.chainName} Address`
+          : hasInsufficientBalance
+          ? `Insufficient balance`
           : "Swap Now"}
       </Button>
       <RecipientAddress

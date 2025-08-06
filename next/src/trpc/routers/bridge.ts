@@ -1,6 +1,6 @@
 import { VM_TYPES } from "@/components/swap-zone/bridge/constants"
 import { RELAY_APP_CONFIG } from "@/lib/relay/config"
-import { RELAY_LINK_API_URL } from "@/lib/shared/constants"
+import { DEFAULT_PROTOCOL_VERSION, RELAY_LINK_API_URL } from "@/lib/shared/constants"
 import { parseUnits } from "viem"
 import z from "zod"
 import publicProcedure from "../procedures/public"
@@ -116,6 +116,7 @@ export const bridgeRouter = createTRPCRouter({
             fee: RELAY_APP_CONFIG.FEE,
           },
         ],
+        protocolVersion: DEFAULT_PROTOCOL_VERSION,
       }
 
       // console.log("payload: ", payload)
@@ -129,8 +130,9 @@ export const bridgeRouter = createTRPCRouter({
       })
 
       if (!response.ok) {
-        // console.log("response: ", response)
-        throw new Error(`Failed to fetch quote: ${response.status}`)
+        const errorData = await response.json()
+        // console.log("error response: ", errorData)
+        throw new Error(errorData.message || `Failed to fetch quote: ${response.status}`)
       }
 
       const data = await response.json()

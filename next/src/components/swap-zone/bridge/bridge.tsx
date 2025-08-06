@@ -3,7 +3,7 @@
 import { useBridge } from "@/context/bridge-context"
 import { isConnectedChainEnabled } from "@/lib/utils"
 import Menu from "../menu"
-import NetworkError from "../network-error"
+import DataError from "../network-error"
 import BridgeAction from "./action"
 import BridgeInfo from "./bridge-info"
 import Details from "./details"
@@ -24,7 +24,7 @@ const Bridge = () => {
         <SelectAsset />
         <BridgeInfo />
         {!checkChainisEnabled && (
-          <NetworkError message={`${origin.chainName} is currently unavailable`} />
+          <DataError message={`${origin.chainName} is currently unavailable`} />
         )}
         <BridgeAction />
         {/* <div className='border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-1 flex flex-col gap-4'>
