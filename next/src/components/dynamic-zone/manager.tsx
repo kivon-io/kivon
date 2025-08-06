@@ -35,13 +35,13 @@ const componentMapping: { [key: string]: any } = {
 const DynamicZoneManager: React.FC<Props> = ({ dynamicZone }) => {
   return (
     <div>
-      {dynamicZone.map((componentData) => {
+      {dynamicZone.map((componentData, index) => {
         const Component = componentMapping[componentData.__component]
         if (!Component) {
           console.warn(`No component found for: ${componentData.__component}`)
           return null
         }
-        return <Component key={componentData.id} {...componentData} />
+        return <Component key={index} {...componentData} />
       })}
     </div>
   )
