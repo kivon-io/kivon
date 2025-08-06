@@ -1,3 +1,4 @@
+import { VM_TYPES } from "@/components/swap-zone/bridge/constants"
 import { RELAY_APP_CONFIG } from "@/lib/relay/config"
 import { RELAY_LINK_API_URL } from "@/lib/shared/constants"
 import { parseUnits } from "viem"
@@ -52,17 +53,35 @@ export const bridgeRouter = createTRPCRouter({
     }),
   getQuote: publicProcedure
     .input(
-      z.object({
-        user: z.string().min(1, { error: "Address is required" }),
-        originChainId: z.number().min(1, { error: "OriginChain ID is required" }),
-        destinationChainId: z.number().min(1, { error: "Destination Chain ID is required" }),
-        originCurrency: z.string().min(1, { error: "Origin Currency is required" }),
-        destinationCurrency: z.string().min(1, { error: "Destination Currency is required" }),
-        amount: z.string().min(1, { error: "Amount is required" }),
-        decimals: z.number().min(1, { error: "Decimals is required" }),
-        slippageTolerance: z.string().optional(),
-        recipient: z.string().optional(),
-      })
+      z
+        .object({
+          user: z.string().min(1, { error: "Address is required" }),
+          originChainId: z.number().min(1, { error: "OriginChain ID is required" }),
+          destinationChainId: z.number().min(1, { error: "Destination Chain ID is required" }),
+          originCurrency: z.string().min(1, { error: "Origin Currency is required" }),
+          destinationCurrency: z.string().min(1, { error: "Destination Currency is required" }),
+          amount: z.string().min(1, { error: "Amount is required" }),
+          decimals: z.number().min(1, { error: "Decimals is required" }),
+          slippageTolerance: z.string().optional(),
+          recipient: z.string().optional(),
+          // Additional fields needed for validation
+          destinationVmType: z.string(),
+          connectedChainId: z.number(),
+        })
+        .refine(
+          (data) => {
+            const needsRecipient =
+              data.destinationVmType !== VM_TYPES.EVM &&
+              data.destinationChainId !== data.connectedChainId
+            return (
+              !needsRecipient || (needsRecipient && data.recipient && data.recipient.length > 0)
+            )
+          },
+          {
+            message: "Recipient address is required for cross-VM transactions",
+            path: ["recipient"],
+          }
+        )
     )
     .query(async ({ input }) => {
       const {
@@ -75,6 +94,7 @@ export const bridgeRouter = createTRPCRouter({
         slippageTolerance,
         recipient,
         decimals,
+        // destinationVmType and connectedChainId are only used for validation, not in the API call
       } = input
 
       const payload = {

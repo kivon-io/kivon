@@ -15,6 +15,7 @@ export const bridgeFormSchema = z.object({
     tokenImage: z.string(),
     tokenContractAddress: z.string(),
     tokenDecimals: z.number(),
+    vmType: z.string(),
   }),
   destination: z.object({
     chainId: z.number(),
@@ -30,8 +31,11 @@ export const bridgeFormSchema = z.object({
     tokenImage: z.string(),
     tokenContractAddress: z.string(),
     tokenDecimals: z.number(),
+    vmType: z.string(),
   }),
   amount: z.number().min(0, { message: "send amount is required" }),
+  recipient: z.string().optional(),
+  isRecipientAddressValid: z.boolean().optional(),
   slippage: z.number().optional(),
 })
 
@@ -58,6 +62,7 @@ export const createBridgeTokenModel = (
     tokenImage: token.metadata.logoURI,
     tokenContractAddress: token.address,
     tokenDecimals: token.decimals,
+    vmType: chain.vmType,
   }
 }
 
@@ -70,3 +75,13 @@ export const BRIDGE_STAGES = {
 export type BridgeStage = "sa" | "ti"
 
 export const BRIDGE_STAGE_PARAM_KEY = "st"
+// Available options: bvm, evm, svm, tvm, tonvm, suivm, hypevm
+export const VM_TYPES = {
+  BVM: "bvm",
+  EVM: "evm",
+  SVM: "svm",
+  TVM: "tvm",
+  TONVM: "tonvm",
+  SUIVM: "suivm",
+  HYPEVM: "hypevm",
+} as const

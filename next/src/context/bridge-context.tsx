@@ -56,6 +56,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
         tokenImage: "",
         tokenContractAddress: "",
         tokenDecimals: DEFAULT_DECIMALS,
+        vmType: "",
       },
       destination: {
         chainId: 0,
@@ -71,8 +72,11 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
         tokenImage: "",
         tokenContractAddress: "",
         tokenDecimals: DEFAULT_DECIMALS,
+        vmType: "",
       },
       amount: 0,
+      recipient: undefined,
+      isRecipientAddressValid: false,
       slippage: undefined,
     },
   })
@@ -87,6 +91,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     } else {
       form.setValue("destination", token)
     }
+    form.setValue("recipient", undefined)
   }
 
   const handleStep = (step: BridgeStage) => {

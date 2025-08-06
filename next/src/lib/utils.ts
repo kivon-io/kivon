@@ -1,6 +1,8 @@
+import { BridgeFormSchema, VM_TYPES } from "@/components/swap-zone/bridge/constants"
 import { clsx, type ClassValue } from "clsx"
 import superjson from "superjson"
 import { twMerge } from "tailwind-merge"
+import { Chain as WagmiChain } from "wagmi/chains"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -104,4 +106,20 @@ export const formatAmount = (amount: string) => {
   const parts = amount.split(".")
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return parts.join(".")
+}
+
+export const isConnectedChainEnabled = (origin: BridgeFormSchema["origin"]) => {
+  return origin.vmType === VM_TYPES.EVM
+}
+
+/*
+  check if the user needs to provide a wallet address to receive the token
+  this happens when the destination chains is not EVM and does match the connected wallet chain
+*/
+
+export const checkIfUserNeedsToProvideWalletAddress = (
+  destination: BridgeFormSchema["destination"],
+  connectedWalletChain: WagmiChain
+) => {
+  return destination.vmType !== VM_TYPES.EVM && destination.chainId !== connectedWalletChain.id
 }

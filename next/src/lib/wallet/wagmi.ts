@@ -10,10 +10,10 @@ import {
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets"
 import { createConfig } from "wagmi"
-import { arbitrum, base, mainnet, optimism, polygon, sepolia } from "wagmi/chains"
 
 import { createClient, http } from "viem"
 import { APP_NAME } from "../shared/constants"
+import { CHAINS } from "./chains"
 
 const connectors = connectorsForWallets(
   [
@@ -34,14 +34,7 @@ const connectors = connectorsForWallets(
 
 export const config = createConfig({
   connectors,
-  chains: [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    base,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [sepolia] : []),
-  ],
+  chains: CHAINS,
   client({ chain }) {
     return createClient({ chain, transport: http() })
   },
