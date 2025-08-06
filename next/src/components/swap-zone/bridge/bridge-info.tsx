@@ -112,18 +112,19 @@ const AmountDetails = ({
         className='bg-zinc-100 dark:bg-neutral-900 relative border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex flex-col gap-2'
       >
         <p className='text-sm'>You {type === "send" ? "send" : "receive"}</p>
-        <div className='flex gap-2 items-center cursor-pointer' onClick={handleSelectCoin}>
+        <div className='flex gap-2 items-center cursor-pointer'>
           {token && (
             <BridgeImageAsset
               chainName={token.chainName}
               chainImage={token.chainImage}
               currencyName={token.tokenName}
               currencyImage={token.tokenImage}
+              onClick={handleSelectCoin}
             />
           )}
           <div className='flex flex-col w-full'>
             <div className='w-full flex justify-between items-center gap-2'>
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2' onClick={handleSelectCoin}>
                 <div className='flex gap-1 items-center'>
                   <Symbol symbol={token.tokenSymbol} />
                   <MdOutlineKeyboardArrowDown className='text-zinc-600 text-lg' />

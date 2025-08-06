@@ -30,14 +30,16 @@ const BridgeImageAsset = ({
   chainImage,
   currencyName,
   currencyImage,
+  onClick,
 }: {
   chainName: string
   chainImage: string
   currencyName: string
   currencyImage: string
+  onClick?: () => void
 }) => {
   return (
-    <div className='relative'>
+    <div className='relative' onClick={onClick}>
       {currencyImage && (
         <BlurImage
           src={currencyImage}
