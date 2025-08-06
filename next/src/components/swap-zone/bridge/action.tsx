@@ -25,7 +25,7 @@ const BridgeAction = () => {
     chain!
   )
 
-  console.log("checkifExtraWalletAddressIsNeeded: ", checkifExtraWalletAddressIsNeeded)
+  // console.log("checkifExtraWalletAddressIsNeeded: ", checkifExtraWalletAddressIsNeeded)
 
   // function to check if the connected chain is the same as the origin chain and the vm type of the origin chain is evm, if not return false
 
