@@ -25,6 +25,8 @@ const BridgeAction = () => {
     chain!
   )
 
+  console.log("checkifExtraWalletAddressIsNeeded: ", checkifExtraWalletAddressIsNeeded)
+
   // function to check if the connected chain is the same as the origin chain and the vm type of the origin chain is evm, if not return false
 
   const {
@@ -33,7 +35,7 @@ const BridgeAction = () => {
     isRefetching,
   } = trpc.getQuote.useQuery(
     {
-      user: address!,
+      user: address ? address : origin.tokenContractAddress,
       originChainId: origin.chainId,
       destinationChainId: destination.chainId,
       originCurrency: origin.tokenContractAddress,
@@ -46,7 +48,6 @@ const BridgeAction = () => {
     },
     {
       enabled:
-        !!address &&
         !!origin &&
         !!destination &&
         debouncedAmount > 0 &&

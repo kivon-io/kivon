@@ -118,7 +118,7 @@ export const bridgeRouter = createTRPCRouter({
         ],
       }
 
-      // console.log("payload: ", payload)
+      console.log("payload: ", payload)
 
       const response = await fetch(`${RELAY_LINK_API_URL}/quote`, {
         method: "POST",
