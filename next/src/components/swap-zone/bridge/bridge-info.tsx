@@ -9,9 +9,11 @@ import { Input } from "@/components/ui/input"
 import { useAppContext } from "@/context/app-context"
 import { useBridge } from "@/context/bridge-context"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
+import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
 import { motion } from "framer-motion"
 import { UseFormReturn } from "react-hook-form"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
+import { useAccount } from "wagmi"
 import ChangeTransactionDirection from "../change-transaction-direction"
 import AmountComponent from "./amount"
 import { BridgeImageAsset } from "./chain-image"
@@ -175,7 +177,18 @@ const AmountDetails = ({
 }
 
 const BalanceComponent = ({ type }: { type: "send" | "receive" }) => {
+  const { form } = useBridge()
+  const { address } = useAccount()
+  const chainId = form.watch("origin.chainId")
+
+  const amount = form.watch("amount")
+  const { balanceFormatted } = useBalanceCheck(address, chainId, amount)
   const amountPercentages = [20, 50, 100]
+
+  const handleSetAmount = (percentage: number) => {
+    // set amount to percentage of balance
+    form.setValue("amount", (Number(balanceFormatted) * percentage) / 100)
+  }
   return (
     <div className='flex gap-2 items-center'>
       <Balance />
@@ -184,9 +197,11 @@ const BalanceComponent = ({ type }: { type: "send" | "receive" }) => {
           {amountPercentages.map((percentage) => (
             <Button
               key={percentage}
+              disabled={!address}
               className='rounded-lg py-1 px-1.5 text-xs font-medium h-fit cursor-pointer shadow-none bg-zinc-50 dark:bg-neutral-800'
               size='icon'
               variant='outline'
+              onClick={() => handleSetAmount(percentage)}
             >
               {percentage === 100 ? "MAX" : `${percentage}%`}
             </Button>
