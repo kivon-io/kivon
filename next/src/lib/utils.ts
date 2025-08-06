@@ -121,5 +121,6 @@ export const checkIfUserNeedsToProvideWalletAddress = (
   destination: BridgeFormSchema["destination"],
   connectedWalletChain: WagmiChain
 ) => {
+  if (!connectedWalletChain) return true
   return destination.vmType !== VM_TYPES.EVM && destination.chainId !== connectedWalletChain.id
 }
