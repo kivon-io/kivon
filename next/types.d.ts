@@ -308,13 +308,14 @@ type Chain = {
   }
 }
 
-type Item = {
+type StepItem = {
   status: string
   data: {
     from: string
     to: string
     data: string
     value: string
+    gas: string
     maxFeePerGas: string
     maxPriorityFeePerGas: string
     chainId: number
@@ -331,7 +332,7 @@ type Step = {
   description: string
   kind: string
   requestId: string
-  items: Item[]
+  items: StepItem[]
 }
 
 type Quote = {

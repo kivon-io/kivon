@@ -39,7 +39,7 @@ const BridgeImageAsset = ({
   onClick?: () => void
 }) => {
   return (
-    <div className='relative' onClick={onClick}>
+    <div className='relative flex items-center gap-2' onClick={onClick}>
       {currencyImage && (
         <BlurImage
           src={currencyImage}

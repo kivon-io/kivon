@@ -11,6 +11,7 @@ import {
 } from "@/components/swap-zone/bridge/constants"
 import { DEFAULT_DECIMALS, EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { getFirstChainAndTokens } from "@/lib/utils"
+import { useExecuteSteps } from "@/lib/wallet/use-execute-steps"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useSearchParams } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
@@ -29,6 +30,17 @@ const BridgeContext = createContext<{
   handleSetQuote: (quote: Quote) => void
   isShowUsd: boolean
   handleToggleUsd: () => void
+  isExecuteTransactionDialogOpen: boolean
+  handleOpenExecuteTransactionDialog: (status: boolean) => void
+  // Execution state & actions
+  executeSteps: (quote: Quote) => Promise<void>
+  currentStepIndex: number
+  currentItemIndex: number
+  executionStatus: string
+  executionSteps: Step[]
+  executionError: string | null
+  resetExecution: () => void
+  isExecuting: boolean
 } | null>(null)
 
 const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React.ReactNode }) => {
@@ -38,6 +50,18 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
   )
   const [quote, setQuote] = useState<Quote | null>(null)
   const [isShowUsd, setIsShowUsd] = useState(false)
+  const [isExecuteTransactionDialogOpen, setIsExecuteTransactionDialogOpen] = useState(false)
+
+  const {
+    executeSteps,
+    currentStepIndex,
+    currentItemIndex,
+    executionStatus,
+    steps: executionSteps,
+    error: executionError,
+    reset: resetExecution,
+    isExecuting,
+  } = useExecuteSteps()
 
   const form = useForm<BridgeFormSchema>({
     resolver: zodResolver(bridgeFormSchema),
@@ -106,6 +130,10 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     setQuote(quote)
   }
 
+  const handleOpenExecuteTransactionDialog = (status: boolean) => {
+    setIsExecuteTransactionDialogOpen(status)
+  }
+
   useEffect(() => {
     if (chains && chains.length > 0) {
       const { chain, tokens } = getFirstChainAndTokens(chains)
@@ -127,6 +155,17 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     handleSetQuote,
     isShowUsd,
     handleToggleUsd,
+    isExecuteTransactionDialogOpen,
+    handleOpenExecuteTransactionDialog,
+    // Execution state & actions
+    executeSteps,
+    currentStepIndex,
+    currentItemIndex,
+    executionStatus,
+    executionSteps,
+    executionError,
+    resetExecution,
+    isExecuting,
   }
 
   return <BridgeContext.Provider value={values}>{children}</BridgeContext.Provider>

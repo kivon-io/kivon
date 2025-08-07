@@ -11,10 +11,22 @@ import { useDebounceValue } from "usehooks-ts"
 import { useAccount } from "wagmi"
 import DataError from "../network-error"
 import { BRIDGE_STAGES } from "./constants"
+import ExecuteTransaction from "./execute-transaction"
 import RecipientAddress from "./recipient-address"
 
 const BridgeAction = () => {
-  const { step, handleStep, form, handleSetQuote } = useBridge()
+  const {
+    step,
+    handleStep,
+    form,
+    handleSetQuote,
+    handleOpenExecuteTransactionDialog,
+    isExecuteTransactionDialogOpen,
+    // executeSteps,
+    resetExecution,
+    isExecuting,
+    executionStatus,
+  } = useBridge()
   const { address, isConnected, chain } = useAccount()
   const { openConnectModal } = useConnectModal()
   const { origin, destination } = form.watch()
@@ -37,7 +49,7 @@ const BridgeAction = () => {
     data: quote,
     isLoading: isQuoteLoading,
     isRefetching,
-    error,
+    error: quoteError,
   } = trpc.getQuote.useQuery(
     {
       user: address ? address : origin.tokenContractAddress,
@@ -64,11 +76,7 @@ const BridgeAction = () => {
     }
   )
 
-  useEffect(() => {
-    if (quote) handleSetQuote(quote)
-  }, [quote, handleSetQuote])
-
-  const handleClick = () => {
+  const handleClick = async () => {
     if (step === BRIDGE_STAGES.SELECT_ASSET) {
       handleStep(BRIDGE_STAGES.TRANSACTION_INFORMATION)
       return
@@ -83,42 +91,84 @@ const BridgeAction = () => {
       setIsRecipientAddressDialogOpen(true)
       return
     }
-    // TODO: handle execution for TRANSACTION_INFORMATION
+    await handleExecute()
   }
+
+  const handleExecute = async () => {
+    return
+    // if (quote) {
+    //   try {
+    //     // Open the execution dialog immediately, before sending to wallet
+    //     handleOpenExecuteTransactionDialog(true)
+
+    //     await executeSteps(quote)
+    //     resetExecution()
+    //     form.reset()
+    //   } catch (err) {
+    //     if (err instanceof Error && err.message === "USER_REJECTED") {
+    //       console.log("USER_REJECTED: ", err)
+    //       resetExecution()
+    //       handleOpenExecuteTransactionDialog(false)
+    //     } else {
+    //       console.error("Unexpected execution error: ", err)
+    //     }
+    //   }
+    // }
+  }
+
+  useEffect(() => {
+    if (quote) handleSetQuote(quote)
+  }, [quote, handleSetQuote])
+
+  useEffect(() => {
+    if (!isExecuteTransactionDialogOpen) {
+      resetExecution()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isExecuteTransactionDialogOpen])
 
   // console.log("chain: ", chain)
   // console.log("origin: ", origin)
 
   // console.log("quote: ", quote)
 
+  const showExecuteTransactionButtonText = () => {
+    const depositStepId = quote?.steps.find((step) => step.id === "deposit")?.id
+    const approveStepId = quote?.steps.find((step) => step.id === "approve")?.id
+    const swapStepId = quote?.steps.find((step) => step.id === "swap")?.id
+
+    if (depositStepId && approveStepId && swapStepId) {
+      return "Approve & Swap"
+    }
+    if (depositStepId && approveStepId) {
+      return "Approve"
+    }
+    return "Swap"
+  }
+
+  // get the id of each of the steps check if deposit and approve are in the steps ids and extract them
+  //  show so for deposit show Swap for approve show approve and swap show swap
+  // eg if a both are in the steps ids, show both Approve & Swap
+
   // if connected chain is not the same as origin chain, show user to switch chain
 
   return (
     <>
-      {error && !isQuoteLoading && <DataError message={error.message} />}
+      {quoteError && !isQuoteLoading && <DataError message={quoteError.message} />}
       <Button
         onClick={handleClick}
         disabled={
           (address && (isQuoteLoading || isRefetching)) ||
           (address && step === BRIDGE_STAGES.TRANSACTION_INFORMATION && debouncedAmount <= 0) ||
           !checkChainisEnabled ||
-          !!error ||
-          (address && hasInsufficientBalance)
+          !!quoteError ||
+          (address && hasInsufficientBalance) ||
+          isExecuting
         }
         busy={address && (isQuoteLoading || isRefetching)}
         busyVariant='secondary'
-        className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black font-medium'
+        className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black text-lg font-medium'
       >
-        {/* {!isConnected
-        ? "Connect Wallet"
-        : step === BRIDGE_STAGES.SELECT_ASSET
-        ? isQuoteLoading
-          ? "Fetching quote..."
-          : !quote
-          ? "Get Quote"
-          : "Continue"
-        : "Bridge Now"} */}
-
         {step === BRIDGE_STAGES.SELECT_ASSET
           ? "Continue"
           : !address
@@ -133,11 +183,19 @@ const BridgeAction = () => {
           ? `Enter ${destination.chainName} Address`
           : hasInsufficientBalance
           ? `Insufficient balance`
-          : "Swap Now"}
+          : isExecuting && executionStatus === "executing"
+          ? "Executing..."
+          : isExecuting && executionStatus === "polling"
+          ? "Confirming..."
+          : showExecuteTransactionButtonText()}
       </Button>
       <RecipientAddress
         open={isRecipientAddressDialogOpen}
         onOpenChange={setIsRecipientAddressDialogOpen}
+      />
+      <ExecuteTransaction
+        open={isExecuteTransactionDialogOpen}
+        onOpenChange={handleOpenExecuteTransactionDialog}
       />
     </>
   )
