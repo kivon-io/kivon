@@ -1,4 +1,5 @@
 import { VM_TYPES } from "@/components/swap-zone/bridge/constants"
+import transactionSteps from "@/data/transaction-steps.json"
 import { RELAY_APP_CONFIG } from "@/lib/relay/config"
 import { DEFAULT_PROTOCOL_VERSION, RELAY_LINK_API_URL } from "@/lib/shared/constants"
 import { parseUnits } from "viem"
@@ -117,9 +118,14 @@ export const bridgeRouter = createTRPCRouter({
           },
         ],
         protocolVersion: DEFAULT_PROTOCOL_VERSION,
+        refundTo: user,
       }
 
       // console.log("payload: ", payload)
+
+      if (process.env.NEXT_PUBLIC_SIMULATE_EXECUTION === "true") {
+        return transactionSteps as unknown as Quote
+      }
 
       const response = await fetch(`${RELAY_LINK_API_URL}/quote`, {
         method: "POST",

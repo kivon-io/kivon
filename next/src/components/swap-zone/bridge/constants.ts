@@ -16,6 +16,7 @@ export const bridgeFormSchema = z.object({
     tokenContractAddress: z.string(),
     tokenDecimals: z.number(),
     vmType: z.string(),
+    explorerUrl: z.string().optional(),
   }),
   destination: z.object({
     chainId: z.number(),
@@ -32,6 +33,7 @@ export const bridgeFormSchema = z.object({
     tokenContractAddress: z.string(),
     tokenDecimals: z.number(),
     vmType: z.string(),
+    explorerUrl: z.string().optional(),
   }),
   amount: z.number().min(0, { message: "send amount is required" }),
   recipient: z.string().optional(),
@@ -63,6 +65,7 @@ export const createBridgeTokenModel = (
     tokenContractAddress: token.address,
     tokenDecimals: token.decimals,
     vmType: chain.vmType,
+    explorerUrl: chain.explorerUrl,
   }
 }
 

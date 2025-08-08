@@ -8,9 +8,9 @@ import { trpc } from "@/trpc/client"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useEffect, useState } from "react"
 import { useDebounceValue } from "usehooks-ts"
-import { useAccount } from "wagmi"
+import { useAccount, useSwitchChain } from "wagmi"
 import DataError from "../network-error"
-import { BRIDGE_STAGES } from "./constants"
+import { BRIDGE_STAGES, VM_TYPES } from "./constants"
 import ExecuteTransaction from "./execute-transaction"
 import RecipientAddress from "./recipient-address"
 
@@ -22,12 +22,13 @@ const BridgeAction = () => {
     handleSetQuote,
     handleOpenExecuteTransactionDialog,
     isExecuteTransactionDialogOpen,
-    // executeSteps,
+    executeSteps,
     resetExecution,
     isExecuting,
     executionStatus,
   } = useBridge()
-  const { address, isConnected, chain } = useAccount()
+  const { switchChainAsync } = useSwitchChain()
+  const { address, isConnected, chain, chainId } = useAccount()
   const { openConnectModal } = useConnectModal()
   const { origin, destination } = form.watch()
   const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0] || 0
@@ -41,6 +42,8 @@ const BridgeAction = () => {
     chain!
   )
 
+  const isChainSwitched = chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM
+
   // console.log("checkifExtraWalletAddressIsNeeded: ", checkifExtraWalletAddressIsNeeded)
 
   // function to check if the connected chain is the same as the origin chain and the vm type of the origin chain is evm, if not return false
@@ -50,6 +53,7 @@ const BridgeAction = () => {
     isLoading: isQuoteLoading,
     isRefetching,
     error: quoteError,
+    refetch,
   } = trpc.getQuote.useQuery(
     {
       user: address ? address : origin.tokenContractAddress,
@@ -69,6 +73,7 @@ const BridgeAction = () => {
         !!destination &&
         debouncedAmount > 0 &&
         checkChainisEnabled &&
+        step === BRIDGE_STAGES.TRANSACTION_INFORMATION &&
         (!checkifExtraWalletAddressIsNeeded ||
           (!!form.watch("recipient") && form.watch("isRecipientAddressValid"))),
       refetchInterval: 1000 * 60, // 1 minute
@@ -87,46 +92,41 @@ const BridgeAction = () => {
       openConnectModal?.()
       return
     }
+    if (chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM) {
+      await switchChainAsync({ chainId: origin.chainId })
+      return
+    }
+
     if (checkifExtraWalletAddressIsNeeded) {
       setIsRecipientAddressDialogOpen(true)
       return
     }
+
     await handleExecute()
   }
 
   const handleExecute = async () => {
-    return
-    // if (quote) {
-    //   try {
-    //     // Open the execution dialog immediately, before sending to wallet
-    //     handleOpenExecuteTransactionDialog(true)
+    if (quote) {
+      try {
+        // Open the execution dialog immediately, before sending to wallet
+        handleOpenExecuteTransactionDialog(true)
 
-    //     await executeSteps(quote)
-    //     resetExecution()
-    //     form.reset()
-    //   } catch (err) {
-    //     if (err instanceof Error && err.message === "USER_REJECTED") {
-    //       console.log("USER_REJECTED: ", err)
-    //       resetExecution()
-    //       handleOpenExecuteTransactionDialog(false)
-    //     } else {
-    //       console.error("Unexpected execution error: ", err)
-    //     }
-    //   }
-    // }
-  }
-
-  useEffect(() => {
-    if (quote) handleSetQuote(quote)
-  }, [quote, handleSetQuote])
-
-  useEffect(() => {
-    if (!isExecuteTransactionDialogOpen) {
-      resetExecution()
+        await executeSteps(quote)
+        // resetExecution()
+        // form.reset({
+        //   amount: 0,
+        // })
+      } catch (err) {
+        if (err instanceof Error && err.message === "USER_REJECTED") {
+          console.log("USER_REJECTED: ", err)
+          resetExecution()
+          handleOpenExecuteTransactionDialog(false)
+        } else {
+          console.error("Unexpected execution error: ", err)
+        }
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isExecuteTransactionDialogOpen])
-
+  }
   // console.log("chain: ", chain)
   // console.log("origin: ", origin)
 
@@ -146,6 +146,30 @@ const BridgeAction = () => {
     return "Swap"
   }
 
+  useEffect(() => {
+    if (quote) handleSetQuote(quote)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quote])
+
+  useEffect(() => {
+    if (!isExecuteTransactionDialogOpen) {
+      resetExecution()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isExecuteTransactionDialogOpen])
+
+  useEffect(() => {
+    if (
+      step === BRIDGE_STAGES.TRANSACTION_INFORMATION &&
+      !isChainSwitched &&
+      debouncedAmount > 0 &&
+      checkChainisEnabled
+    ) {
+      refetch()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.watch("origin"), form.watch("destination")])
+
   // get the id of each of the steps check if deposit and approve are in the steps ids and extract them
   //  show so for deposit show Swap for approve show approve and swap show swap
   // eg if a both are in the steps ids, show both Approve & Swap
@@ -159,9 +183,12 @@ const BridgeAction = () => {
         onClick={handleClick}
         disabled={
           (address && (isQuoteLoading || isRefetching)) ||
-          (address && step === BRIDGE_STAGES.TRANSACTION_INFORMATION && debouncedAmount <= 0) ||
+          (address &&
+            step === BRIDGE_STAGES.TRANSACTION_INFORMATION &&
+            !isChainSwitched &&
+            debouncedAmount <= 0) ||
           !checkChainisEnabled ||
-          !!quoteError ||
+          (!isChainSwitched && !!quoteError) ||
           (address && hasInsufficientBalance) ||
           isExecuting
         }
@@ -173,6 +200,8 @@ const BridgeAction = () => {
           ? "Continue"
           : !address
           ? "Connect Wallet"
+          : chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM
+          ? "Switch Chain to " + origin.chainName
           : isQuoteLoading || isRefetching
           ? "Fetching quote..."
           : debouncedAmount <= 0

@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { useBridge } from "@/context/bridge-context"
-import { APP_NAME } from "@/lib/shared/constants"
+import { RELAY_APP_NAME } from "@/lib/shared/constants"
 import { cn, formatAmount } from "@/lib/utils"
 import React from "react"
 import { BiGasPump } from "react-icons/bi"
@@ -35,7 +35,7 @@ const Details = () => {
         </AccordionTrigger>
         <AccordionContent className='flex flex-col gap-2'>
           <Item title='Route'>
-            <p>{APP_NAME}</p>
+            <p>{RELAY_APP_NAME}</p>
           </Item>
           <Item title='Estimated Time'>
             <EstimatedTime time={quote?.details.timeEstimate || 0} />

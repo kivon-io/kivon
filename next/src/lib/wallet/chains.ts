@@ -1,3 +1,4 @@
+import { fallback, http } from "viem"
 import {
   abstract,
   ancient8,
@@ -129,3 +130,53 @@ export const CHAINS = [
   zora,
   ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [sepolia] : []),
 ] as const
+
+const ALCHEMY = process.env.NEXT_PUBLIC_ALCHEMY_ID
+const INFURA = process.env.NEXT_PUBLIC_INFURA_ID
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+const rpcFor = (chainId: number) => {
+  switch (chainId) {
+    case mainnet.id:
+      return fallback(
+        [
+          ALCHEMY ? http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY}`) : undefined,
+          INFURA ? http(`https://mainnet.infura.io/v3/${INFURA}`) : undefined,
+          http(), // public as last resort
+        ].filter(Boolean) as any
+      )
+
+    case arbitrum.id:
+      return fallback(
+        [
+          ALCHEMY ? http(`https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY}`) : undefined,
+          INFURA ? http(`https://arbitrum-mainnet.infura.io/v3/${INFURA}`) : undefined,
+          http(),
+        ].filter(Boolean) as any
+      )
+
+    case base.id:
+      return fallback(
+        [
+          ALCHEMY ? http(`https://base-mainnet.g.alchemy.com/v2/${ALCHEMY}`) : undefined,
+          INFURA ? http(`https://base-mainnet.infura.io/v3/${INFURA}`) : undefined,
+          http(),
+        ].filter(Boolean) as any
+      )
+
+    case polygon.id:
+      return fallback(
+        [
+          ALCHEMY ? http(`https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY}`) : undefined,
+          INFURA ? http(`https://polygon-mainnet.infura.io/v3/${INFURA}`) : undefined,
+          http(),
+        ].filter(Boolean) as any
+      )
+
+    default:
+      return http() // generic/public
+  }
+}
+
+export const transports = Object.fromEntries(CHAINS.map((c) => [c.id, rpcFor(c.id)]))

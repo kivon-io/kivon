@@ -4,11 +4,11 @@ import { DisclaimerComponent, RainbowKitProvider, darkTheme } from "@rainbow-me/
 import type React from "react"
 import { WagmiProvider } from "wagmi"
 import { APP_URL } from "../shared/constants"
-import { config } from "./wagmi"
+import { wagmiConfig } from "./wagmi"
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={wagmiConfig}>
       <RainbowKitProvider
         appInfo={{
           disclaimer: Disclaimer,

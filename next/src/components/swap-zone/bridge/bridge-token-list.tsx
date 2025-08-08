@@ -137,9 +137,10 @@ const ListDetails = () => {
     setSearchPayload({ ...searchPayload, chainId: chain?.id })
   }
 
-  const handleActionSelectToken = (token: Token, chain: Chain) => {
+  const handleActionSelectToken = async (token: Token, chain: Chain) => {
     // console.log("token: ", token)
     // console.log("chain: ", chain)
+
     const bridgeToken = createBridgeTokenModel(token, chain)
     handleSelectToken(bridgeToken, type)
     toggleBridgeTokenList()

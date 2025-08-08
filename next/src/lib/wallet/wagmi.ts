@@ -9,11 +9,12 @@ import {
   trustWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets"
+import { createConfig as createWagmiConfig } from "@wagmi/core"
 import { createConfig } from "wagmi"
 
 import { createClient, http } from "viem"
 import { APP_NAME } from "../shared/constants"
-import { CHAINS } from "./chains"
+import { CHAINS, transports } from "./chains"
 
 const connectors = connectorsForWallets(
   [
@@ -35,7 +36,15 @@ const connectors = connectorsForWallets(
 export const config = createConfig({
   connectors,
   chains: CHAINS,
+
   client({ chain }) {
     return createClient({ chain, transport: http() })
   },
+})
+
+export const wagmiConfig = createWagmiConfig({
+  connectors,
+  chains: CHAINS,
+  // @ts-expect-error - transports is a valid property
+  transports: transports,
 })

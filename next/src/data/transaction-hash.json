@@ -1,0 +1,8 @@
+{
+  "status": "success",
+  "inTxHashes": ["0xcdf490c711a40d3a069bd50b7950a7c8859e1938669fbd2ba0d946436312decb"],
+  "txHashes": ["0xf4668b974a88beddb5a01033519d2ad82f991de21e4a5aaaa9da076fbb25ecd6"],
+  "time": 1754310269122,
+  "originChainId": 324,
+  "destinationChainId": 56
+}

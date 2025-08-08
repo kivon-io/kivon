@@ -11,7 +11,7 @@ import {
 } from "@/components/swap-zone/bridge/constants"
 import { DEFAULT_DECIMALS, EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { getFirstChainAndTokens } from "@/lib/utils"
-import { useExecuteSteps } from "@/lib/wallet/use-execute-steps"
+import { CheckResultT, useExecuteSteps } from "@/lib/wallet/use-execute-steps"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useSearchParams } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
@@ -27,7 +27,7 @@ const BridgeContext = createContext<{
   step: BridgeStage
   handleStep: (step: BridgeStage) => void
   quote: Quote | null
-  handleSetQuote: (quote: Quote) => void
+  handleSetQuote: (quote: Quote | null) => void
   isShowUsd: boolean
   handleToggleUsd: () => void
   isExecuteTransactionDialogOpen: boolean
@@ -41,6 +41,7 @@ const BridgeContext = createContext<{
   executionError: string | null
   resetExecution: () => void
   isExecuting: boolean
+  checkResult: CheckResultT | null
 } | null>(null)
 
 const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React.ReactNode }) => {
@@ -61,6 +62,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     error: executionError,
     reset: resetExecution,
     isExecuting,
+    checkResult,
   } = useExecuteSteps()
 
   const form = useForm<BridgeFormSchema>({
@@ -81,6 +83,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
         tokenContractAddress: "",
         tokenDecimals: DEFAULT_DECIMALS,
         vmType: "",
+        explorerUrl: "",
       },
       destination: {
         chainId: 0,
@@ -97,6 +100,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
         tokenContractAddress: "",
         tokenDecimals: DEFAULT_DECIMALS,
         vmType: "",
+        explorerUrl: "",
       },
       amount: 0,
       recipient: undefined,
@@ -126,7 +130,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     setIsShowUsd(!isShowUsd)
   }
 
-  const handleSetQuote = (quote: Quote) => {
+  const handleSetQuote = (quote: Quote | null) => {
     setQuote(quote)
   }
 
@@ -166,6 +170,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     executionError,
     resetExecution,
     isExecuting,
+    checkResult,
   }
 
   return <BridgeContext.Provider value={values}>{children}</BridgeContext.Provider>
