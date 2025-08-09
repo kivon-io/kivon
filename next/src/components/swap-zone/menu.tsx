@@ -39,7 +39,12 @@ const Menu = ({ children }: { children?: React.ReactNode }) => {
                     "bg-zinc-100 dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700"
                 )}
               >
-                Bridge
+                <div className='flex gap-1 items-center justify-center'>
+                  <p>Bridge</p>{" "}
+                  <p className='text-[10px] text-secondary-custom dark:text-secondary-custom font-mono'>
+                    Beta
+                  </p>
+                </div>
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
