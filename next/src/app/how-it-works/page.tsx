@@ -1,25 +1,19 @@
+import Badge from "@/components/decorations/badge"
 import { Heading } from "@/components/elements/heading"
+import { Subheading } from "@/components/elements/sub_heading"
+import Section from "@/components/section"
+import { APP_NAME } from "@/lib/shared/constants"
 
 const HowItWorks = () => {
   return (
     <div className='relative'>
-      <Heading as='h1' className='text-center'>
-        How it works
-      </Heading>
-      <div className='flex flex-col gap-10'>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div
-            key={index}
-            className='flex flex-col gap-4 h-[500px] bg-zinc-100 dark:bg-zinc-900 w-full rounded-3xl'
-          >
-            <div className='flex flex-col gap-2'>
-              <Heading as='h2' className='text-center'>
-                Step {index + 1}
-              </Heading>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Section>
+        <div className='flex justify-center w-fit mx-auto'>
+          <Badge>Updating page content</Badge>
+        </div>
+        <Heading>How it works</Heading>
+        <Subheading>How does {APP_NAME} work</Subheading>
+      </Section>
     </div>
   )
 }
