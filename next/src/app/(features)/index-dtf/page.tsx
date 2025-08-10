@@ -1,12 +1,12 @@
-import OTCP2P from "@/components/swap-zone/otc-p2p"
+import IndexDTF from "@/components/index-dtf"
 import SwapZoneContainer from "@/components/swap-zone/swap-zone-container"
 
-const OTC_P2P = () => {
+const KivonIndex = () => {
   return (
     <SwapZoneContainer>
-      <OTCP2P />
+      <IndexDTF />
     </SwapZoneContainer>
   )
 }
 
-export default OTC_P2P
+export default KivonIndex

@@ -33,7 +33,7 @@ const Hero = ({
       pathname.includes("bridge") ||
       pathname === "/fiat" ||
       pathname === "/limit-futures-dca" ||
-      pathname === "/otc-p2p"
+      pathname === "/index-dtf"
     )
   )
     return null

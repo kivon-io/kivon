@@ -3,12 +3,15 @@ import { cn } from "@/lib/utils"
 import { motion } from "motion/react"
 import { usePathname, useRouter } from "next/navigation"
 import { AiOutlineSwap } from "react-icons/ai"
-import { RiP2pLine, RiVisaLine } from "react-icons/ri"
+import { PiVaultLight } from "react-icons/pi"
+import { RiVisaLine } from "react-icons/ri"
 import { RxLapTimer } from "react-icons/rx"
 import { BorderBeam } from "../decorations/border-beam"
 import { Grid } from "../decorations/grid"
 import { Heading } from "../elements/heading"
 import SwapZoneContainer from "./swap-zone-container"
+
+// RiP2pLine
 
 const actions = [
   {
@@ -31,9 +34,9 @@ const actions = [
   },
   {
     id: 3,
-    title: "OTC-P2P",
-    key: "otc-p2p",
-    icon: "RiP2pLine",
+    title: "Index DTF",
+    key: "index-dtf",
+    icon: "PiVaultLight",
   },
 ]
 
@@ -41,7 +44,7 @@ const iconsMap = {
   swap: <AiOutlineSwap className='text-black dark:text-white w-6 h-6 z-10' />,
   fiat: <RiVisaLine className='text-black dark:text-white w-6 h-6 z-10' />,
   "limit-futures-dca": <RxLapTimer className='text-black dark:text-white w-6 h-6 z-10' />,
-  "otc-p2p": <RiP2pLine className='text-black dark:text-white w-6 h-6 z-10' />,
+  "index-dtf": <PiVaultLight className='text-black dark:text-white w-6 h-6 z-10' />,
 }
 
 const SelectSwapType = () => {
