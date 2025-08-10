@@ -19,6 +19,11 @@
       "relation": "manyToMany",
       "target": "api::article.article",
       "mappedBy": "categories"
+    },
+    "faqs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::faq.faq"
     }
   }
 }

@@ -16,6 +16,11 @@
     },
     "answer": {
       "type": "text"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
     }
   }
 }
