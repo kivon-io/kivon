@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_cards_community_cards",
+  "info": {
+    "displayName": "Community_Card"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "button": {
+      "type": "component",
+      "component": "shared.button",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

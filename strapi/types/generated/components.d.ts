@@ -1,5 +1,29 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface CardsCommunityCard extends Struct.ComponentSchema {
+  collectionName: 'components_cards_community_cards';
+  info: {
+    displayName: 'Community_Card';
+  };
+  attributes: {
+    button: Schema.Attribute.Component<'shared.button', false>;
+    description: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface CardsContactCard extends Struct.ComponentSchema {
+  collectionName: 'components_cards_contact_cards';
+  info: {
+    displayName: 'Contact_Card';
+  };
+  attributes: {
+    button: Schema.Attribute.Component<'shared.link', false>;
+    description: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface CardsLiveSupport extends Struct.ComponentSchema {
   collectionName: 'components_cards_live_supports';
   info: {
@@ -59,6 +83,17 @@ export interface CardsTransactionCard extends Struct.ComponentSchema {
     description: Schema.Attribute.Text;
     span: Schema.Attribute.Enumeration<['one', 'two', 'three']>;
     title: Schema.Attribute.String;
+  };
+}
+
+export interface DynamicZoneContact extends Struct.ComponentSchema {
+  collectionName: 'components_dynamic_zone_contacts';
+  info: {
+    displayName: 'Contact';
+  };
+  attributes: {
+    community: Schema.Attribute.Component<'cards.community-card', true>;
+    contacts: Schema.Attribute.Component<'cards.contact-card', true>;
   };
 }
 
@@ -306,11 +341,14 @@ export interface SharedUser extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'cards.community-card': CardsCommunityCard;
+      'cards.contact-card': CardsContactCard;
       'cards.live-support': CardsLiveSupport;
       'cards.market-rate': CardsMarketRate;
       'cards.product-card': CardsProductCard;
       'cards.secure-card': CardsSecureCard;
       'cards.transaction-card': CardsTransactionCard;
+      'dynamic-zone.contact': DynamicZoneContact;
       'dynamic-zone.content': DynamicZoneContent;
       'dynamic-zone.discover-coins': DynamicZoneDiscoverCoins;
       'dynamic-zone.faq': DynamicZoneFaq;

@@ -29,7 +29,8 @@
         "dynamic-zone.steps",
         "dynamic-zone.hero",
         "shared.header",
-        "dynamic-zone.content"
+        "dynamic-zone.content",
+        "dynamic-zone.contact"
       ]
     }
   }
