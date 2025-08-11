@@ -7,6 +7,7 @@ import { APP_NAME } from "@/lib/shared/constants"
 import { appendUrlToTxHash, formatDate } from "@/lib/utils"
 import { trpc } from "@/trpc/client"
 import { motion } from "motion/react"
+import Link from "next/link"
 import { FiCheckCircle } from "react-icons/fi"
 import { HiOutlineArrowNarrowRight } from "react-icons/hi"
 import TokenLogo from "../token-logo"
@@ -90,9 +91,11 @@ const TransactionComplete = () => {
               </div>
             </div>
           </div>
-          <Button className='w-fit mx-auto bg-secondary-custom text-white hover:bg-secondary-custom/80 transition-all duration-200'>
-            Leave us a review
-          </Button>
+          <Link href='https://www.trustpilot.com/review/kivon.io' target='_blank'>
+            <Button className='w-fit mx-auto bg-secondary-custom text-white hover:bg-secondary-custom/80 transition-all duration-200'>
+              Leave us a review
+            </Button>
+          </Link>
         </div>
       </div>
 

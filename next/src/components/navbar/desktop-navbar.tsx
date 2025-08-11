@@ -72,9 +72,14 @@ const DesktopNavbar = ({ items, logo }: Props) => {
         }}
       >
         <div className='flex flex-row gap-2 items-center'>
-          <Logo logo={logo.image} />
+          <Logo showBackground={showBackground} logo={logo.image} />
           {items.map((item) => (
-            <NavbarItem key={item.id} href={item.URL as never} target={item.target ?? undefined}>
+            <NavbarItem
+              key={item.id}
+              href={item.URL as never}
+              target={item.target ?? undefined}
+              showBackground={showBackground}
+            >
               {item.text}
             </NavbarItem>
           ))}

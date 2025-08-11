@@ -1,5 +1,6 @@
 "use client"
 
+import { useIsReviews } from "@/hooks/use-is-reviews"
 import { cn } from "@/lib/utils"
 import ConnectedWallet from "@/lib/wallet/connected-wallet"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
@@ -27,6 +28,7 @@ type Props = {
 const MobileNavbar = ({ items, logo }: Props) => {
   const [open, setOpen] = useState(false)
   const { openConnectModal } = useConnectModal()
+  const isReviews = useIsReviews()
 
   const { scrollY } = useScroll()
 
@@ -48,12 +50,18 @@ const MobileNavbar = ({ items, logo }: Props) => {
           "bg-background dark:bg-neutral-900 shadow-[0px_-2px_0px_0px_var(--neutral-800),0px_2px_0px_0px_var(--neutral-800)]"
       )}
     >
-      <Logo logo={logo.image} />
+      <Logo showBackground={showBackground} logo={logo.image} />
 
       <div className='flex items-center gap-2'>
         {/* <ModeToggle /> */}
         <ConnectWallet />
-        <IoIosMenu className='text-black dark:text-white h-6 w-6' onClick={() => setOpen(!open)} />
+        <IoIosMenu
+          className={cn(
+            "text-black dark:text-white h-6 w-6",
+            isReviews && !showBackground && "text-white"
+          )}
+          onClick={() => setOpen(!open)}
+        />
       </div>
 
       {open && (
