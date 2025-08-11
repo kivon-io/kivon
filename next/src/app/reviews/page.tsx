@@ -46,7 +46,7 @@ export default async function Reviews() {
   )
 
   return (
-    <main className='relative flex flex-col gap-24'>
+    <main className='relative flex flex-col gap-5'>
       <ReviewHero
         reviews={reviews.testimonials}
         heading={header?.heading}
