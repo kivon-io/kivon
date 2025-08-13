@@ -75,7 +75,7 @@ const AboutPrinciples = () => {
               key={index}
               className='group border-r border-zinc-300 dark:border-zinc-800 last:border-r-0'
             >
-              <div className='p-6'>
+              <div className='p-4 md:p-6'>
                 <Heading
                   as='h3'
                   className='text-sm md:text-base text-left font-semibold mb-4 text-zinc-900 dark:text-zinc-100'
@@ -84,7 +84,7 @@ const AboutPrinciples = () => {
                 </Heading>
                 <Subheading
                   as='p'
-                  className='text-left text-xs md:text-sm text-zinc-600 dark:text-zinc-400'
+                  className='text-left text-sm md:text-sm text-zinc-600 dark:text-zinc-400'
                 >
                   {principle.description}
                 </Subheading>
@@ -93,7 +93,7 @@ const AboutPrinciples = () => {
           ))}
         </div>
         <div className='w-full items-center justify-center grid grid-cols-4 gap-2 py-10 md:py-16 border-l border-r border-dashed border-zinc-300 dark:border-zinc-800'>
-          <div className='text-left text-base md:text-xl font-semibold text-zinc-600 dark:text-zinc-400 col-span-4 md:col-span-2 md:col-start-2'>
+          <div className='text-left text-lg md:text-xl font-semibold text-zinc-600 dark:text-zinc-400 col-span-4 md:col-span-2 md:col-start-2'>
             Our goal is to make cross-chain transactions as simple as sending an email, removing
             barriers between users and DeFi.
           </div>
@@ -182,11 +182,14 @@ const Community = () => {
         <div className='flex flex-col justify-start items-start md:items-center md:justify-center relative z-10'>
           <Heading
             as='h3'
-            className='mx-0 text-sm md:text-base text-left md:text-center font-semibold text-zinc-900 dark:text-zinc-100'
+            className='mx-0 text-base md:text-lg text-left md:text-center font-semibold text-zinc-900 dark:text-zinc-100'
           >
             Join our community
           </Heading>
-          <Subheading as='p' className='text-left md:text-center text-zinc-600 dark:text-zinc-400'>
+          <Subheading
+            as='p'
+            className='text-sm md:text-base text-left md:text-center text-zinc-600 dark:text-zinc-400'
+          >
             We are a community-driven project and we love to have you on board.
           </Subheading>
           <Link href='https://t.me/kivon_io' target='_blank'>
@@ -198,11 +201,14 @@ const Community = () => {
       <div className='p-4 md:p-16'>
         <Heading
           as='h3'
-          className='text-sm md:text-base text-left font-semibold text-zinc-900 dark:text-zinc-100'
+          className='text-base md:text-lg text-left font-semibold text-zinc-900 dark:text-zinc-100'
         >
           Contact us
         </Heading>
-        <Subheading as='p' className='text-left text-zinc-600 dark:text-zinc-400'>
+        <Subheading
+          as='p'
+          className='text-sm md:text-base text-left text-zinc-600 dark:text-zinc-400'
+        >
           Let&apos;s build something great together! if you want to collaborate or partner with us
           or have any questions, please reach out to us.
         </Subheading>
