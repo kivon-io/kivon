@@ -159,6 +159,8 @@ export const swapRouter = createTRPCRouter({
 
       const data = await response.json()
 
+      console.log("DATA: ", data)
+
       return data as ExchangeTransactionResponse
 
       // TODO: remove this
