@@ -1,11 +1,10 @@
-import IndexDTF from "@/components/index-dtf"
-import SwapZoneContainer from "@/components/swap-zone/swap-zone-container"
+import IndexHero from "@/components/index/hero"
 
 const KivonIndex = () => {
   return (
-    <SwapZoneContainer>
-      <IndexDTF />
-    </SwapZoneContainer>
+    <main className='relative'>
+      <IndexHero />
+    </main>
   )
 }
 

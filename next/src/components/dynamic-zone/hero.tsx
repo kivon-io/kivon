@@ -32,8 +32,7 @@ const Hero = ({
       pathname.startsWith("/swap") ||
       pathname.includes("bridge") ||
       pathname === "/fiat" ||
-      pathname === "/limit-futures-dca" ||
-      pathname === "/index-dtf"
+      pathname === "/limit-futures-dca"
     )
   )
     return null
