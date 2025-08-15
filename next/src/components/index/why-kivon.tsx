@@ -1,12 +1,16 @@
 "use client"
 
+import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { useTheme } from "next-themes"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { BsBank, BsCheck } from "react-icons/bs"
-import { LuCoins } from "react-icons/lu"
-import { TbAutomation } from "react-icons/tb"
+import { BsBank, BsBarChart, BsCheck } from "react-icons/bs"
+import { CgArrowsExchangeAlt } from "react-icons/cg"
+import { FaChartPie } from "react-icons/fa"
+import { LuCoins, LuHandshake } from "react-icons/lu"
+import { PiChartLineUp } from "react-icons/pi"
+import { TbAutomation, TbCoins } from "react-icons/tb"
 import { AnimatedList } from "../decorations/animated-list"
 import { AvatarCircles } from "../decorations/avatar-circles"
 import { FlickeringGrid } from "../decorations/flickering-grid"
@@ -43,7 +47,45 @@ const whosIsItFor = [
   },
   {
     description:
-      "Treasuries & DAOs standardizing treasury sleeves (e.g., “Top-20 L1s,” “DeFi blue-chips,” “Stablecoin carry”). ",
+      "Standardize treasury sleeves with policy-controlled, programmable index exposures—for example Top-20 L1s, DeFi blue chips, or stablecoin carry",
+  },
+]
+
+const users = [
+  {
+    name: "Banks",
+    info: "Regulated Funds",
+    icon: <BsBank className='size-5' />,
+  },
+  {
+    name: "Trading Firms",
+    info: "Yield Strategies",
+    icon: <BsBarChart className='size-5' />,
+  },
+  {
+    name: "Market Makers",
+    info: "Standard Funds",
+    icon: <PiChartLineUp className='size-5' />,
+  },
+  {
+    name: "Venture Capital",
+    info: "Index Products",
+    icon: <LuHandshake className='size-5' />,
+  },
+  {
+    name: "Private Equity",
+    info: "Private Vaults",
+    icon: <FaChartPie className='size-5' />,
+  },
+  {
+    name: "CEXs",
+    info: "Liquidity Pools",
+    icon: <CgArrowsExchangeAlt className='size-5' />,
+  },
+  {
+    name: "Custodians",
+    icon: <TbCoins className='size-5' />,
+    info: "Custody Services",
   },
 ]
 
@@ -108,23 +150,30 @@ const WhyKivon = () => {
         </div>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-dashed border-zinc-300 dark:border-zinc-700 h-full'>
-        <div className='p-4 md:p-16 bg-white dark:bg-zinc-900 relative h-full'>
+        <div className='p-2 md:p-16 bg-white dark:bg-zinc-900 relative h-full'>
+          <Heading as='h1' className='text-left md:text-left w-fit ml-0 font-bold'>
+            Who is it for?
+          </Heading>
           <Heading as='h2' className='text-left md:text-left text-base md:text-base w-fit ml-0'>
             {whosIsItFor[0].description}
           </Heading>
           <div className='h-[17rem] relative flex w-full flex-col overflow-hidden p-2 mt-10'>
-            <AnimatedList className='gap-2 px-10'>
-              {[...Array(30)].map((_, index) => (
+            <AnimatedList className='gap-2 md:px-10'>
+              {users.map((user, index) => (
                 <div
                   key={index}
-                  className='bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-2 rounded-xl flex justify-between items-center'
+                  className={cn(
+                    "bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-2 rounded-xl flex justify-between items-center"
+                  )}
                 >
                   <div className='flex items-center gap-2'>
-                    <div className='h-12 w-12 rounded-lg bg-zinc-400 dark:bg-zinc-800'></div>
-                    <p>Brett Harris</p>
+                    <div className='border border-zinc-200 dark:border-zinc-700 relative h-12 w-12 rounded-lg bg-zinc-400 dark:bg-zinc-800 flex items-center justify-center text-white'>
+                      {user.icon}
+                    </div>
+                    <p className='text-sm'>{user.name}</p>
                   </div>
-                  <div className='rounded-full bg-zinc-200 dark:bg-zinc-800 px-2 py-1 text-xs'>
-                    Asset Manager
+                  <div className='rounded-full bg-zinc-200 dark:bg-zinc-800 px-2 py-1 text-xs font-medium font-mono'>
+                    {user.info}
                   </div>
                 </div>
               ))}
@@ -133,11 +182,14 @@ const WhyKivon = () => {
           </div>
         </div>
         <div className='p-4 md:p-16 relative'>
+          <Heading as='h1' className='text-left md:text-left w-fit ml-0 font-bold'>
+            Treasuries & DAOs
+          </Heading>
           <Heading as='h2' className='text-left md:text-left text-base md:text-base w-fit ml-0'>
             {whosIsItFor[1].description}
           </Heading>
-          <div className='relative select-none mt-10 w-full h-full flex items-center justify-center'>
-            <div className='rounded-xl absolute left-0 top-0 z-10 grid grid-cols-5 gap-2 bg-white dark:bg-[#0A0A0B] px-3 py-4'>
+          <div className='relative select-none mt-5 w-[26.5rem] h-[17rem] flex items-center justify-center'>
+            <div className=' rounded-xl absolute -mx-4 -my-4 left-0 top-0 z-10 grid grid-cols-5 gap-2 bg-white dark:bg-[#0A0A0B] px-3 py-4'>
               <div
                 className='absolute inset-x-4 inset-y-[1.125rem] break-words bg-[radial-gradient(77.54%_77.54%_at_50%_46.74%,#9394A2_0%,rgba(54,54,59,0)_100%)] bg-clip-text font-mono text-[0.4375rem]/3 tracking-widest text-zinc-500 dark:text-transparent'
                 style={{ maskImage: "url(/images/grid-mask.svg)", maskSize: "100%" }}
@@ -151,7 +203,11 @@ const WhyKivon = () => {
                     key={index}
                   >
                     {index === 0 && <CardOne />}
+                    {index === 3 && <CardThree />}
                     {index === 4 && <CardFive />}
+                    {index === 6 && <CardSeven />}
+                    {index === 8 && <CardNine />}
+                    {index === 13 && <CardEleven />}
                   </div>
                 )
               })}
@@ -173,6 +229,23 @@ const CardOne = () => {
       <div className='text-white dark:text-white absolute inset-x-0 -bottom-4 z-10 -mx-[0.5625rem] flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gray-800/80 bg-gradient-to-b from-white/10 to-[67%] py-1 pl-1.5 pr-2.5 font-medium shadow-[0_0.9px_1.8px_theme(colors.black/20%),0_1.8px_11.7px_theme(colors.black/10%)] backdrop-blur-sm before:absolute before:inset-0 before:rounded-full before:ring-1 before:ring-inset before:ring-white/5 before:[mask-image:linear-gradient(to_right,white,transparent)] after:absolute after:inset-0 after:rounded-full after:ring-1 after:ring-inset after:ring-[#64E5FF]/[0.08] after:[mask-image:linear-gradient(to_left,white,transparent)]'>
         <BsCheck className='size-4 shrink-0' />
         <p className='text-xs'>Approved</p>
+      </div>
+    </div>
+  )
+}
+
+const CardThree = () => {
+  return (
+    <div className='relative w-full h-full flex items-center justify-center'>
+      <div className='absolute inset-0 rounded-[0.25rem] bg-[radial-gradient(circle,transparent_0%,#60A5FA_51%,transparent_100%)] opacity-30 [clip-path:polygon(0_0,5rem_0,5rem_5.5rem,0_5.5rem,0_1.5px,1.5px_1.5px,1.5px_5.40625rem,4.90625rem_5.40625rem,4.90625rem_1.5px,1.5px_1.5px,0_1.5px)]'></div>
+      <div className='absolute rounded-sm bg-blue-400/10 px-1 font-mono text-xs tracking-widest text-blue-400 shadow-[inset_0_0_1px_theme(colors.white/0.15)]'>
+        <svg viewBox='0 0 42 12' fill='none' className='absolute inset-0'>
+          <path
+            d='M39 0.5H40.5C41.0523 0.5 41.5 0.947715 41.5 1.5V3M3 0.5H1.5C0.947715 0.5 0.5 0.947715 0.5 1.5V3M39 11.5H40.5C41.0523 11.5 41.5 11.0523 41.5 10.5V9M3 11.5H1.5C0.947715 11.5 0.5 11.0523 0.5 10.5V9'
+            stroke='#60A5FA'
+          ></path>
+        </svg>
+        FUNDS
       </div>
     </div>
   )
@@ -223,6 +296,40 @@ const CardFive = () => {
           strokeLinejoin='round'
         ></path>
       </svg>
+    </div>
+  )
+}
+
+const CardSeven = () => {
+  return (
+    <div className='relative h-full w-full flex items-center justify-center'>
+      <div className='place-items-center uppercase rounded bg-zinc-200 dark:bg-zinc-800 px-1 font-mono text-xs tracking-widest text-zinc-500 dark:text-zinc-400 shadow-[inset_0_0_1px_theme(colors.white/0.15)]'>
+        Pools
+      </div>
+    </div>
+  )
+}
+
+const CardNine = () => {
+  return (
+    <div className='relative h-full w-full flex items-center justify-center'>
+      <div className='place-items-center uppercase rounded bg-zinc-200 dark:bg-zinc-800 px-1 font-mono text-xs tracking-widest text-zinc-500 dark:text-zinc-400 shadow-[inset_0_0_1px_theme(colors.white/0.15)]'>
+        Staking
+      </div>
+    </div>
+  )
+}
+
+const CardEleven = () => {
+  return (
+    <div className='relative h-full w-full rounded-sm bg-gradient-to-b from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-900'>
+      <Image src={"/images/coins/bitcoin.svg"} alt='bitcoin' fill className='object-contain' />
+      <div className='absolute -bottom-3 left-1/2 grid size-6 -translate-x-1/2 place-items-center rounded-full bg-white/80 dark:bg-gray-800/80 bg-gradient-to-b from-white/10 to-[67%] shadow-[0_0.9px_1.8px_theme(colors.black/20%),0_1.8px_11.7px_theme(colors.black/10%)] backdrop-blur-sm before:absolute before:inset-0 before:rounded-full before:ring-1 before:ring-inset before:ring-white/5 before:[mask-image:linear-gradient(to_right,white,transparent)] after:absolute after:inset-0 after:rounded-full after:ring-1 after:ring-inset after:ring-[#64E5FF]/[0.08] after:[mask-image:linear-gradient(to_left,white,transparent)]'>
+        <span className='relative flex size-2.5 '>
+          <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75'></span>
+          <span className='relative inline-flex size-2.5 rounded-full bg-emerald-500'></span>
+        </span>
+      </div>
     </div>
   )
 }
