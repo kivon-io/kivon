@@ -98,7 +98,7 @@ const WhyKivon = () => {
   }, [])
 
   return (
-    <Section className='relative md:pt-0 mt-12 sm:mt-0 overflow-hidden md:overflow-visible max-w-7xl mx-auto'>
+    <Section className='md:px-0 relative md:pt-0 mt-12 sm:mt-0 overflow-hidden md:overflow-visible max-w-7xl mx-auto'>
       <div className='h-4 flex items-center justify-center relative overflow-hidden bg-zinc-100 dark:bg-zinc-900 w-full '>
         {mounted && (
           <FlickeringGrid

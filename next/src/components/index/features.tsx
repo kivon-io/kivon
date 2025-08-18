@@ -31,6 +31,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet"
+import { Slider } from "../ui/slider"
 import { Switch } from "../ui/switch"
 
 const feesAndPolicy = [
@@ -63,6 +64,61 @@ const feesAndPolicy = [
   },
 ] as const
 
+const assets = [
+  {
+    name: "Bitcoin",
+    symbol: "BTC",
+    image: "/images/coins/bitcoin.svg",
+  },
+  {
+    name: "Ethereum",
+    symbol: "ETH",
+    image: "/images/coins/ethereum.svg",
+  },
+  {
+    name: "Tether",
+    symbol: "USDT",
+    image: "/images/coins/tether.svg",
+  },
+  {
+    name: "Binance",
+    symbol: "BNB",
+    image: "/images/coins/binance-coin.svg",
+  },
+
+  {
+    name: "Solana",
+    symbol: "SOL",
+    image: "/images/coins/solana.svg",
+  },
+
+  {
+    name: "Litecoin",
+    symbol: "LTC",
+    image: "/images/coins/litecoin.svg",
+  },
+  {
+    name: "Dogecoin",
+    symbol: "DOGE",
+    image: "/images/coins/dogecoin.svg",
+  },
+  {
+    name: "Cardano",
+    symbol: "ADA",
+    image: "/images/coins/cardano.svg",
+  },
+  {
+    name: "Polkadot",
+    symbol: "DOT",
+    image: "/images/coins/polkadot.svg",
+  },
+  {
+    name: "Shiba Inu",
+    symbol: "SHIB",
+    image: "/images/coins/shiba-inu.svg",
+  },
+] as const
+
 const formSchema = z.object({
   name: z.string().min(1, {
     message: "Name is required",
@@ -88,6 +144,15 @@ const formSchema = z.object({
     depositLimits: z.boolean().optional().nullable(),
     limitWalletsPermittedToDeposit: z.boolean().optional().nullable(),
   }),
+  assets: z.array(
+    z.object({
+      name: z.string(),
+      symbol: z.string(),
+      image: z.string(),
+      weight: z.number(),
+      enabled: z.boolean().optional().nullable(),
+    })
+  ),
 })
 
 type FormSchemaType = z.infer<typeof formSchema>
@@ -116,6 +181,36 @@ const Features = () => {
         depositLimits: true,
         limitWalletsPermittedToDeposit: true,
       },
+      assets: [
+        {
+          name: "Bitcoin",
+          symbol: "BTC",
+          image: "/images/coins/bitcoin.svg",
+          weight: 50,
+          enabled: true,
+        },
+        {
+          name: "Ethereum",
+          symbol: "ETH",
+          image: "/images/coins/ethereum.svg",
+          weight: 50,
+          enabled: true,
+        },
+        {
+          name: "Solana",
+          symbol: "SOL",
+          image: "/images/coins/solana.svg",
+          weight: 50,
+          enabled: true,
+        },
+        {
+          name: "Tether",
+          symbol: "USDT",
+          image: "/images/coins/tether.svg",
+          weight: 50,
+          enabled: true,
+        },
+      ],
     },
   })
 
@@ -161,6 +256,9 @@ const Features = () => {
                 <CarouselItem className='relative'>
                   <PolicyEngine form={form} />
                 </CarouselItem>
+                <CarouselItem className='relative'>
+                  <SelectAssetsAndWeights form={form} />
+                </CarouselItem>
               </CarouselContent>
               <div className='absolute bottom-5 w-fit left-0 right-0 mx-auto'>
                 <CarouselPrevious className='bg-white' />
@@ -186,9 +284,6 @@ const CreateIndexComponent = ({
   handleRemoveImage: () => void
 }) => {
   const isMobile = useMediaQuery("(max-width: 768px)")
-  const name = form.watch("name")
-  const symbol = form.watch("symbol")
-  const image = form.watch("image")
 
   return (
     <>
@@ -217,44 +312,7 @@ const CreateIndexComponent = ({
           </FillComponentContent>
         </FillComponent>
         <PreviewComponent>
-          <div className='flex items-center gap-2'>
-            <div className='h-10 w-10 rounded-full bg-zinc-400 dark:bg-zinc-600 relative overflow-hidden border border-zinc-200 dark:border-zinc-700'>
-              {image.url && <Image src={image.url} alt={name} fill className='object-cover' />}
-            </div>
-            <div className='flex flex-col'>
-              <h1 className='text-sm font-medium text-zinc-900 dark:text-zinc-100'>{name}</h1>
-              <p className='text-xs text-zinc-500 dark:text-zinc-400'>{symbol}</p>
-            </div>
-          </div>
-          <div className='gap-2 w-full items-center relative grid grid-cols-2'>
-            <Button
-              className='w-full bg-secondary-custom hover:bg-secondary-custom/70 text-white'
-              size='lg'
-            >
-              Buy
-            </Button>
-            <Button className='w-full' size='lg' variant='outline'>
-              Sell
-            </Button>
-          </div>
-          <div className='border-t border-zinc-200 dark:border-zinc-800 pt-2'>
-            <div className='flex justify-between'>
-              <div className='flex items-center gap-2'>
-                <div className='h-10 w-10 rounded-full bg-zinc-400 dark:bg-zinc-700'></div>
-                <div className='flex flex-col'>
-                  <p className='text-xs text-zinc-500 dark:text-zinc-400'>Creator:</p>
-                  <p className='text-sm'>Kivon Protocol</p>
-                </div>
-              </div>
-              <div className='flex items-center gap-2'>
-                <div className='h-10 w-10 rounded-full bg-zinc-400 dark:bg-zinc-700'></div>
-                <div className='flex flex-col'>
-                  <p className='text-xs text-zinc-500 dark:text-zinc-400'>Manager:</p>
-                  <p className='text-sm'>0x651...1234</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <IndexPreview form={form} />
         </PreviewComponent>
       </div>
       <div className='flex flex-col gap-1 mt-4'>
@@ -377,6 +435,55 @@ const CreateIndexForm = ({
   )
 }
 
+const IndexPreview = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
+  const image = form.watch("image")
+  const name = form.watch("name")
+  const symbol = form.watch("symbol")
+
+  return (
+    <>
+      <div className='flex items-center gap-2'>
+        <div className='h-10 w-10 rounded-full bg-gradient-to-br from-secondary-custom to-blue-500 relative overflow-hidden border border-zinc-200 dark:border-zinc-700'>
+          {image.url && <Image src={image.url} alt={name} fill className='object-cover' />}
+        </div>
+        <div className='flex flex-col'>
+          <h1 className='text-sm font-medium text-zinc-900 dark:text-zinc-100'>{name}</h1>
+          <p className='text-xs text-zinc-500 dark:text-zinc-400'>{symbol}</p>
+        </div>
+      </div>
+      <div className='gap-2 w-full items-center relative grid grid-cols-2'>
+        <Button
+          className='w-full bg-secondary-custom hover:bg-secondary-custom/70 text-white'
+          size='lg'
+        >
+          Buy
+        </Button>
+        <Button className='w-full' size='lg' variant='outline'>
+          Sell
+        </Button>
+      </div>
+      <div className='border-t border-zinc-200 dark:border-zinc-800 pt-2'>
+        <div className='flex justify-between'>
+          <div className='flex items-center gap-2'>
+            <div className='h-10 w-10 rounded-full bg-gradient-to-br from-secondary-custom via-emerald-200 to-blue-500'></div>
+            <div className='flex flex-col'>
+              <p className='text-xs text-zinc-500 dark:text-zinc-400'>Creator:</p>
+              <p className='text-sm'>Kivon Protocol</p>
+            </div>
+          </div>
+          <div className='flex items-center gap-2'>
+            <div className='h-10 w-10 rounded-full bg-gradient-to-br from-secondary-custom via-emerald-400 to-blue-500'></div>
+            <div className='flex flex-col'>
+              <p className='text-xs text-zinc-500 dark:text-zinc-400'>Manager:</p>
+              <p className='text-sm'>0x651...1234</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
 // Policy engine
 const PolicyEngine = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
   const isMobile = useMediaQuery("(max-width: 768px)")
@@ -473,7 +580,8 @@ const PolicyEngine = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
         </PreviewComponent>
       </div>
       <p className='max-w-md mx-auto text-center text-sm mt-4'>
-        Manage your index by creating your own polcies and setting fees that suits your index.
+        Allowed fees, policy, assets/adapters, cumulative slippage tolerance, deposit/transfer
+        controls
       </p>
     </>
   )
@@ -538,6 +646,172 @@ const PolicyEngineForm = ({ form }: { form: UseFormReturn<FormSchemaType> }) => 
         </div>
       </div>
     </Form>
+  )
+}
+
+// Select underlying assets and weights
+const SelectAssetsAndWeights = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
+  const isMobile = useMediaQuery("(max-width: 768px)")
+
+  return (
+    <>
+      <div className='relative lg:grid lg:grid-cols-2'>
+        <FillComponent>
+          <FillComponentHeader>
+            <h2 className='font-medium text-base'>Select assets and weights</h2>
+            <p className='text-sm text-zinc-500 dark:text-zinc-400'>
+              Select the underlying assets and weights for your index.
+            </p>
+          </FillComponentHeader>
+          <FillComponentContent>
+            {isMobile ? (
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button className='w-full'>Select assets</Button>
+                </SheetTrigger>
+                <SheetContent side='bottom' className='bg-white dark:bg-zinc-800 rounded-t-lg'>
+                  <SheetHeader>
+                    <SheetTitle>Select underlying assets and weights</SheetTitle>
+                    <SheetDescription>
+                      Select the underlying assets and weights for your index.
+                    </SheetDescription>
+                  </SheetHeader>
+                  <SelectAssetsAndWeightsForm form={form} />
+                </SheetContent>
+              </Sheet>
+            ) : (
+              <SelectAssetsAndWeightsForm form={form} />
+            )}
+          </FillComponentContent>
+        </FillComponent>
+        <PreviewComponent>
+          <div className='flex flex-col gap-5'>
+            <IndexPreview form={form} />
+            {form.watch("assets").filter((asset) => asset.enabled).length > 0 && (
+              <div className='relative'>
+                <hr className='border-zinc-200 dark:border-zinc-700' />
+                <span className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%+1px)] text-center'>
+                  <span className='bg-white dark:bg-zinc-900 px-4 py-0.5 text-[0.875rem] leading-none text-gray-600 dark:text-zinc-400'>
+                    Assets
+                  </span>
+                </span>
+              </div>
+            )}
+            <div className='flex gap-1 flex-row flex-wrap w-full justify-center'>
+              {form
+                .watch("assets")
+                .filter((asset) => asset.enabled)
+                .map((asset, index) => {
+                  const enabledAssets = form.watch("assets").filter((a) => a.enabled)
+                  const perRow = Math.min(enabledAssets.length, 6)
+                  const basis = `calc(100%/${perRow})`
+                  return (
+                    <div
+                      className='min-w-0 min-h-8 p-2 inline-flex items-center justify-center rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800'
+                      key={index}
+                      style={{ flex: `0 0 ${basis}`, maxWidth: basis }}
+                    >
+                      <div className='h-4 w-4 rounded-full relative overflow-hidden'>
+                        <Image src={asset.image} alt={asset.name} fill className='object-contain' />
+                      </div>
+                      {enabledAssets.length <= 1 && (
+                        <p className='text-xs font-medium ml-2'>{asset.name}</p>
+                      )}
+                    </div>
+                  )
+                })}
+            </div>
+          </div>
+        </PreviewComponent>
+      </div>
+      <p className='max-w-md mx-auto text-center text-sm mt-4'>
+        Select assets and their weights for your index
+      </p>
+    </>
+  )
+}
+
+const SelectAssetsAndWeightsForm = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
+  const formAssets = form.watch("assets")
+
+  return (
+    <div className='max-h-[400px] overflow-y-auto p-4'>
+      <div className='flex flex-col gap-4'>
+        {assets.map((item, index) => {
+          const asset = formAssets.find((a) => a.symbol === item.symbol)
+          return (
+            <div className='flex flex-col gap-1' key={index}>
+              <div className='flex justify-between items-center'>
+                <div className='flex gap-2 items-center'>
+                  <div className='h-8 w-8 rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 relative overflow-hidden'>
+                    <Image src={item.image} alt={item.name} fill className='object-contain' />
+                  </div>
+                  <div className='flex flex-col'>
+                    <p className='text-sm font-medium'>{item.name}</p>
+                    <p className='text-xs text-zinc-500 dark:text-zinc-400'>{item.symbol}</p>
+                  </div>
+                </div>
+                <Switch
+                  checked={asset?.enabled ?? false}
+                  onCheckedChange={(val) => {
+                    const currentAssets = form.getValues("assets")
+                    const assetIndex = currentAssets.findIndex((a) => a.symbol === item.symbol)
+
+                    if (assetIndex >= 0) {
+                      form.setValue(`assets.${assetIndex}.enabled`, val)
+                    } else if (val) {
+                      form.setValue("assets", [
+                        ...currentAssets,
+                        {
+                          name: item.name,
+                          symbol: item.symbol,
+                          image: item.image,
+                          weight: 20,
+                          enabled: true,
+                        },
+                      ])
+                    }
+                  }}
+                />
+              </div>
+              {asset?.enabled && (
+                <div className='flex flex-col'>
+                  <p className='text-sm font-medium'>Weight</p>
+                  <div className='flex justify-between gap-2'>
+                    <Slider
+                      className='w-full'
+                      value={[asset.weight ?? 20]}
+                      max={100}
+                      min={0}
+                      step={1}
+                      onValueChange={(val) => {
+                        const currentAssets = form.getValues("assets")
+                        const assetIndex = currentAssets.findIndex((a) => a.symbol === item.symbol)
+                        if (assetIndex >= 0) {
+                          form.setValue(`assets.${assetIndex}.weight`, val[0])
+                        }
+                      }}
+                    />
+                    <Input
+                      className='w-20 shrink-0'
+                      placeholder='%'
+                      value={asset.weight ?? ""}
+                      onChange={(e) => {
+                        const currentAssets = form.getValues("assets")
+                        const assetIndex = currentAssets.findIndex((a) => a.symbol === item.symbol)
+                        if (assetIndex >= 0) {
+                          form.setValue(`assets.${assetIndex}.weight`, Number(e.target.value))
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }
 
