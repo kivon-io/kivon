@@ -1,6 +1,6 @@
 "use client"
 
-import { useIsReviews } from "@/hooks/use-is-reviews"
+import { useIsIndex, useIsReviews } from "@/hooks/use-is-reviews"
 import { APP_NAME } from "@/lib/shared/constants"
 import { strapiImage } from "@/lib/strapi/strapiImage"
 import { cn } from "@/lib/utils"
@@ -9,6 +9,9 @@ import { BlurImage } from "./blur-image"
 
 const Logo = ({ logo, showBackground }: { logo?: ImageType; showBackground?: boolean }) => {
   const isReviews = useIsReviews()
+  const isIndex = useIsIndex()
+
+  const isChangeColor = isReviews || isIndex
 
   return (
     <Link href={`/`} className='font-normal flex space-x-2 items-center text-sm mr-4 relative z-20'>
@@ -24,7 +27,7 @@ const Logo = ({ logo, showBackground }: { logo?: ImageType; showBackground?: boo
       <p
         className={cn(
           "text-base font-medium text-zinc-900 dark:text-white",
-          isReviews && !showBackground && "text-white dark:text-white"
+          isChangeColor && !showBackground && "text-white dark:text-white"
         )}
       >
         {APP_NAME}

@@ -11,7 +11,7 @@ import { Subheading } from "../elements/sub_heading"
 
 const IndexHero = () => {
   return (
-    <div className='relative flex h-[30rem] md:h-[40rem] w-full overflow-hidden antialiased md:items-center md:justify-center'>
+    <div className='bg-black dark:bg-zinc-900 relative flex h-[37rem] md:h-[40rem] w-full overflow-hidden antialiased md:items-center md:justify-center'>
       <div
         className={cn(
           "pointer-events-none absolute inset-0 [background-size:40px_40px] select-none"
@@ -32,12 +32,16 @@ const IndexHero = () => {
           </div>
         </div>
 
-        <Heading as='h1' size='xl' className='text-center font-bold '>
+        <Heading
+          as='h1'
+          size='xl'
+          className='text-center font-bold from-white via-zinc-200 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-500'
+        >
           Institutional-grade crypto indexes. One subscription. On-chain.
         </Heading>
         <Subheading
           as={"p"}
-          className='text-center mx-auto sm:max-w-2xl text-base md:text-lg text-zinc-800 dark:text-zinc-100'
+          className='text-center mx-auto sm:max-w-2xl text-base md:text-lg text-zinc-300 dark:text-zinc-300'
         >
           Construct diversified baskets (BTC, ETH, SOL, LINK up to 20+) and give your clients a
           single tokenized exposure with automated rebalancing, transparent holdings, and
