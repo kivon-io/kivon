@@ -143,22 +143,22 @@ const Features = () => {
       <div className='overflow-hidden pt-16'>
         <div className='mx-auto w-full px-6'>
           <div className='relative isolate -mx-6 bg-white dark:bg-zinc-900 shadow-[0_0_0_1px_rgba(24,28,33,0.06),0_16px_36px_-6px_rgba(24,28,33,0.2),0_8px_16px_-3px_rgba(0,0,0,0.08)] sm:mx-0 sm:rounded-t-lg'>
-            <div className='relative z-10 flex gap-x-2 p-4 shadow-[0_1px_0.5px] shadow-black/7.5'>
-              <div className='size-2 flex-none rounded-full bg-gray-600/10 shadow-[0_0_2px_inset] shadow-black/15'></div>
-              <div className='size-2 flex-none rounded-full bg-gray-600/10 shadow-[0_0_2px_inset] shadow-black/15'></div>
+            <div className='relative z-10 flex gap-x-2 p-4 shadow-[0_1px_0.5px] shadow-black/7.5 dark:shadow-zinc-700/50'>
+              <div className='size-2 flex-none rounded-full bg-gray-600/10 dark:bg-zinc-400/50 shadow-[0_0_2px_inset] shadow-black/15'></div>
+              <div className='size-2 flex-none rounded-full bg-gray-600/10 dark:bg-zinc-400/50 shadow-[0_0_2px_inset] shadow-black/15'></div>
             </div>
             <div className='absolute -inset-x-32 -bottom-3 -top-16 z-10 bg-gradient-to-t from-background from-10% to-75%'></div>
 
             <Carousel className='w-full relative z-10 pb-10'>
               <CarouselContent className='mb-2'>
-                <CarouselItem>
+                <CarouselItem className='relative'>
                   <CreateIndexComponent
                     form={form}
                     handleImageChange={handleImageChange}
                     handleRemoveImage={handleRemoveImage}
                   />
                 </CarouselItem>
-                <CarouselItem>
+                <CarouselItem className='relative'>
                   <PolicyEngine form={form} />
                 </CarouselItem>
               </CarouselContent>
@@ -569,7 +569,7 @@ const FillComponentContent = ({ children }: { children: React.ReactNode }) => {
 
 const PreviewComponent = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='flex items-center justify-center bg-gray-25 lg:pb-28 pt-8 lg:pt-20 [@media(min-width:32.125em)]:px-10'>
+    <div className='bg-zinc-100 dark:bg-gradient-to-b dark:from-zinc-800 dark:to-neutral-950 flex items-center justify-center bg-gray-25 lg:pb-28 pt-8 lg:pt-20 [@media(min-width:32.125em)]:px-10'>
       <figure className='relative z-10 w-full bg-zinc-50 dark:bg-zinc-800 p-4 [@media(min-width:32.125rem)]:max-w-[27.125rem]'>
         <span className='absolute inset-0 [background-image:repeating-linear-gradient(-45deg,theme(colors.zinc.100/.25),theme(colors.zinc.100/.25)_6px,transparent_6px,transparent_12px)] dark:[background-image:repeating-linear-gradient(-45deg,theme(colors.zinc.900/.25),theme(colors.zinc.900/.25)_6px,transparent_6px,transparent_12px)] [mask-image:linear-gradient(to_top,black,transparent_80%)]'></span>
         <div className='relative w-full rounded-xl border dark:border-zinc-900 shadow-xl'>
