@@ -143,7 +143,7 @@ const MoreInfo = () => {
         ref={ref}
         className='w-full relative h-full'
       >
-        <Section className='relative max-w-7xl mx-auto px-2 md:px-0 2xl:px-0'>
+        <Section className='relative max-w-7xl mx-auto px-2 md:px-0 2xl:px-0 overflow-hidden md:overflow-visible'>
           <ProtocolsContent />
           <CurrenciesContent />
           <MultiChainContent />

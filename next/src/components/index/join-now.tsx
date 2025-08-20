@@ -17,7 +17,7 @@ const JoinNow = () => {
   }, [])
 
   return (
-    <Section className='relative max-w-7xl mx-auto px-2 md:px-0 2xl:px-0'>
+    <Section className='relative max-w-7xl mx-auto px-2 md:px-0 2xl:px-0 overflow-hidden'>
       <div className='relative isolate mt-40 pt-11 sm:pt-20 md:mt-40'>
         <div className='absolute left-1/2 top-0 -z-10 ml-[-38rem] aspect-[1216/708] w-[76rem]'>
           <div
