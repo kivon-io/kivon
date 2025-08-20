@@ -237,12 +237,12 @@ const Features = () => {
       </div>
       <div className='overflow-hidden pt-16'>
         <div className='mx-auto w-full px-6'>
-          <div className='relative isolate -mx-6 bg-white dark:bg-zinc-900 shadow-[0_0_0_1px_rgba(24,28,33,0.06),0_16px_36px_-6px_rgba(24,28,33,0.2),0_8px_16px_-3px_rgba(0,0,0,0.08)] sm:mx-0 sm:rounded-t-lg'>
+          <div className='relative isolate -mx-6 bg-white dark:bg-neutral-900 shadow-[0_0_0_1px_rgba(24,28,33,0.06),0_16px_36px_-6px_rgba(24,28,33,0.2),0_8px_16px_-3px_rgba(0,0,0,0.08)] sm:mx-0 sm:rounded-t-lg'>
             <div className='relative z-10 flex gap-x-2 p-4 shadow-[0_1px_0.5px] shadow-black/7.5 dark:shadow-zinc-700/50'>
-              <div className='size-2 flex-none rounded-full bg-gray-600/10 dark:bg-zinc-400/50 shadow-[0_0_2px_inset] shadow-black/15'></div>
-              <div className='size-2 flex-none rounded-full bg-gray-600/10 dark:bg-zinc-400/50 shadow-[0_0_2px_inset] shadow-black/15'></div>
+              <div className='size-2 flex-none rounded-full bg-gray-600/10 dark:bg-neutral-400/50 shadow-[0_0_2px_inset] shadow-black/15'></div>
+              <div className='size-2 flex-none rounded-full bg-gray-600/10 dark:bg-neutral-400/50 shadow-[0_0_2px_inset] shadow-black/15'></div>
             </div>
-            <div className='absolute -inset-x-32 -bottom-3 -top-16 z-10 bg-gradient-to-t from-background from-10% to-75%'></div>
+            <div className='absolute -inset-x-32 -bottom-3 -top-16 z-10 bg-gradient-to-t from-background from-10% dark:via-neutral-950 to-75%'></div>
 
             <Carousel className='w-full relative z-10 pb-10'>
               <CarouselContent className='mb-2'>
@@ -342,7 +342,7 @@ const CreateIndexMobile = ({
       <SheetTrigger className='' asChild>
         <Button className='w-full'>Customize</Button>
       </SheetTrigger>
-      <SheetContent side='bottom' className='bg-white dark:bg-zinc-800 rounded-t-lg'>
+      <SheetContent side='bottom' className='bg-white dark:bg-neutral-800 rounded-t-lg'>
         <SheetHeader>
           <SheetTitle>Customize your own index</SheetTitle>
           <SheetDescription>
@@ -506,7 +506,7 @@ const PolicyEngine = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
                 <SheetTrigger asChild>
                   <Button className='w-full'>Customize</Button>
                 </SheetTrigger>
-                <SheetContent side='bottom' className='bg-white dark:bg-zinc-800 rounded-t-lg'>
+                <SheetContent side='bottom' className='bg-white dark:bg-neutral-800 rounded-t-lg'>
                   <SheetHeader>
                     <SheetTitle>Customize your own policy & fees</SheetTitle>
                     <SheetDescription>
@@ -523,7 +523,7 @@ const PolicyEngine = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
         </FillComponent>
         <PreviewComponent>
           <div className='flex flex-col gap-4'>
-            <div className='bg-zinc-100 dark:bg-zinc-800 rounded-lg p-2'>
+            <div className='bg-neutral-100 dark:bg-neutral-800 rounded-lg p-2'>
               <h1 className='text-sm font-medium'>Fees</h1>
               <div className='flex flex-col gap-1 mt-2'>
                 {feesAndPolicy.map((item, index) => {
@@ -531,7 +531,7 @@ const PolicyEngine = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
                     const f = item.field
                     return (
                       <div
-                        className='flex justify-between items-center bg-zinc-200 dark:bg-zinc-700 rounded-lg p-2'
+                        className='flex justify-between items-center bg-neutral-200 dark:bg-neutral-700 rounded-lg p-2'
                         key={index}
                       >
                         <p className='text-sm font-medium'>{item.title}</p>
@@ -547,7 +547,7 @@ const PolicyEngine = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
                 })}
               </div>
             </div>
-            <div className='bg-zinc-100 dark:bg-zinc-800 rounded-lg p-2'>
+            <div className='bg-neutral-100 dark:bg-neutral-800 rounded-lg p-2'>
               <h1 className='text-sm font-medium'>Policy</h1>
               <div className='flex flex-col gap-1 mt-2'>
                 {feesAndPolicy.map((item, index) => {
@@ -555,7 +555,7 @@ const PolicyEngine = ({ form }: { form: UseFormReturn<FormSchemaType> }) => {
                     const p = item.field
                     return (
                       <div
-                        className='flex justify-between items-center bg-zinc-200 dark:bg-zinc-700 rounded-lg p-2'
+                        className='flex justify-between items-center bg-neutral-200 dark:bg-neutral-700 rounded-lg p-2'
                         key={index}
                       >
                         <p className='text-sm font-medium'>{item.title}</p>
@@ -669,7 +669,7 @@ const SelectAssetsAndWeights = ({ form }: { form: UseFormReturn<FormSchemaType> 
                 <SheetTrigger asChild>
                   <Button className='w-full'>Select assets</Button>
                 </SheetTrigger>
-                <SheetContent side='bottom' className='bg-white dark:bg-zinc-800 rounded-t-lg'>
+                <SheetContent side='bottom' className='bg-white dark:bg-neutral-800 rounded-t-lg'>
                   <SheetHeader>
                     <SheetTitle>Select underlying assets and weights</SheetTitle>
                     <SheetDescription>
@@ -691,7 +691,7 @@ const SelectAssetsAndWeights = ({ form }: { form: UseFormReturn<FormSchemaType> 
               <div className='relative'>
                 <hr className='border-zinc-200 dark:border-zinc-700' />
                 <span className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%+1px)] text-center'>
-                  <span className='bg-white dark:bg-zinc-900 px-4 py-0.5 text-[0.875rem] leading-none text-gray-600 dark:text-zinc-400'>
+                  <span className='bg-white dark:bg-neutral-900 px-4 py-0.5 text-[0.875rem] leading-none text-gray-600 dark:text-zinc-400'>
                     Assets
                   </span>
                 </span>
@@ -707,7 +707,7 @@ const SelectAssetsAndWeights = ({ form }: { form: UseFormReturn<FormSchemaType> 
                   const basis = `calc(100%/${perRow})`
                   return (
                     <div
-                      className='min-w-0 min-h-8 p-2 inline-flex items-center justify-center rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800'
+                      className='min-w-0 min-h-8 p-2 inline-flex items-center justify-center rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-neutral-800'
                       key={index}
                       style={{ flex: `0 0 ${basis}`, maxWidth: basis }}
                     >
@@ -743,7 +743,7 @@ const SelectAssetsAndWeightsForm = ({ form }: { form: UseFormReturn<FormSchemaTy
             <div className='flex flex-col gap-1' key={index}>
               <div className='flex justify-between items-center'>
                 <div className='flex gap-2 items-center'>
-                  <div className='h-8 w-8 rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 relative overflow-hidden'>
+                  <div className='h-8 w-8 rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-neutral-800 relative overflow-hidden'>
                     <Image src={item.image} alt={item.name} fill className='object-contain' />
                   </div>
                   <div className='flex flex-col'>
@@ -818,7 +818,7 @@ const SelectAssetsAndWeightsForm = ({ form }: { form: UseFormReturn<FormSchemaTy
 const FillComponent = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='lg-pb-28 lg:pt-20'>
-      <div className='relative z-10 mx-auto bg-zinc-100 dark:bg-zinc-800 px-6 lg:max-w-[25rem] lg:rounded-[0.625rem] lg:px-px pb-px'>
+      <div className='relative z-10 mx-auto bg-neutral-100 dark:bg-neutral-800 px-6 lg:max-w-[25rem] lg:rounded-[0.625rem] lg:px-px pb-px'>
         {children}
       </div>
     </div>
@@ -835,7 +835,7 @@ const FillComponentHeader = ({ children }: { children: React.ReactNode }) => {
 
 const FillComponentContent = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='mt-2 md:mt-0 overflow-hidden rounded-[0.625rem] bg-white dark:bg-zinc-900 shadow-[0_0_0_1px_rgba(25,28,33,0.04),0_-2px_2px_-1px_rgba(25,28,33,0.02),0_3px_3px_-2px_rgba(25,28,33,0.06),0_3px_5px_-2px_rgba(0,0,0,0.08)] lg:block'>
+    <div className='mt-2 md:mt-0 overflow-hidden rounded-[0.625rem] bg-white dark:bg-neutral-900 shadow-[0_0_0_1px_rgba(25,28,33,0.04),0_-2px_2px_-1px_rgba(25,28,33,0.02),0_3px_3px_-2px_rgba(25,28,33,0.06),0_3px_5px_-2px_rgba(0,0,0,0.08)] lg:block'>
       {children}
     </div>
   )
@@ -843,11 +843,11 @@ const FillComponentContent = ({ children }: { children: React.ReactNode }) => {
 
 const PreviewComponent = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='bg-zinc-100 dark:bg-gradient-to-b dark:from-zinc-800 dark:to-neutral-950 flex items-center justify-center bg-gray-25 lg:pb-28 pt-8 lg:pt-20 [@media(min-width:32.125em)]:px-10'>
-      <figure className='relative z-10 w-full bg-zinc-50 dark:bg-zinc-800 p-4 [@media(min-width:32.125rem)]:max-w-[27.125rem]'>
+    <div className='bg-neutral-100 dark:bg-gradient-to-b dark:from-neutral-800 dark:to-neutral-950 flex items-center justify-center bg-gray-25 lg:pb-28 pt-8 lg:pt-20 [@media(min-width:32.125em)]:px-10'>
+      <figure className='relative z-10 w-full bg-neutral-50 dark:bg-neutral-800 p-4 [@media(min-width:32.125rem)]:max-w-[27.125rem]'>
         <span className='absolute inset-0 [background-image:repeating-linear-gradient(-45deg,theme(colors.zinc.100/.25),theme(colors.zinc.100/.25)_6px,transparent_6px,transparent_12px)] dark:[background-image:repeating-linear-gradient(-45deg,theme(colors.zinc.900/.25),theme(colors.zinc.900/.25)_6px,transparent_6px,transparent_12px)] [mask-image:linear-gradient(to_top,black,transparent_80%)]'></span>
         <div className='relative w-full rounded-xl border dark:border-zinc-900 shadow-xl'>
-          <div className='rounded-b-lg rounded-t-xl bg-white dark:bg-zinc-900 shadow-[0_0_2px_theme(colors.black/0.08),0_1px_2px_theme(colors.black/0.06),0_0_2px_theme(colors.black/0.08)]'>
+          <div className='rounded-b-lg rounded-t-xl bg-white dark:bg-neutral-900 shadow-[0_0_2px_theme(colors.black/0.08),0_1px_2px_theme(colors.black/0.06),0_0_2px_theme(colors.black/0.08)]'>
             <div className='flex flex-col gap-8 overflow-hidden px-4 md:px-10 py-8 relative'>
               {children}
             </div>
