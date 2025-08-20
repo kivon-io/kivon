@@ -35,7 +35,7 @@ const IndexHero = () => {
         <Heading
           as='h1'
           size='xl'
-          className='text-center font-bold from-white via-zinc-200 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-500'
+          className='text-center font-bold from-white via-zinc-200 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-500 mt-3'
         >
           Institutional-grade crypto indexes. One subscription. On-chain.
         </Heading>

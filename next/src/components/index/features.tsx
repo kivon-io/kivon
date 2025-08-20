@@ -228,7 +228,7 @@ const Features = () => {
   return (
     <Section className='relative max-w-7xl mx-auto'>
       <div className='flex flex-col justify-center'>
-        <Heading as='h2' className='text-center font-bold text-lg md:text-2xl'>
+        <Heading as='h1' className='text-center md:text-center w-fit mx-auto font-bold'>
           Basic index features at a glance
         </Heading>
         <Subheading className='text-base md:text-lg'>

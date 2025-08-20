@@ -8,6 +8,7 @@ const KivonIndex = () => {
       <IndexHero />
       <WhyKivon />
       <Features />
+      {/* <MoreInfo /> */}
     </main>
   )
 }

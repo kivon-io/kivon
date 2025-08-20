@@ -224,8 +224,8 @@ export default WhyKivon
 
 const CardOne = () => {
   return (
-    <div className='relative h-full w-full rounded-sm bg-gradient-to-b from-[#50af95] via-[#50af95] to-[#9cf7de]'>
-      <Image src={"/images/coins/tether.svg"} alt='tether' fill className='object-contain' />
+    <div className='relative h-full w-full rounded-sm bg-gradient-to-b from-[#297fd0] via-[#297fd0] to-[#298ac5]'>
+      <Image src={"/images/coins/usdc.svg"} alt='usdc' fill className='object-contain' />
       <div className='text-white dark:text-white absolute inset-x-0 -bottom-4 z-10 -mx-[0.5625rem] flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gray-800/80 bg-gradient-to-b from-white/10 to-[67%] py-1 pl-1.5 pr-2.5 font-medium shadow-[0_0.9px_1.8px_theme(colors.black/20%),0_1.8px_11.7px_theme(colors.black/10%)] backdrop-blur-sm before:absolute before:inset-0 before:rounded-full before:ring-1 before:ring-inset before:ring-white/5 before:[mask-image:linear-gradient(to_right,white,transparent)] after:absolute after:inset-0 after:rounded-full after:ring-1 after:ring-inset after:ring-[#64E5FF]/[0.08] after:[mask-image:linear-gradient(to_left,white,transparent)]'>
         <BsCheck className='size-4 shrink-0' />
         <p className='text-xs'>Approved</p>
