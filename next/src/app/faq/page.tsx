@@ -71,7 +71,7 @@ export default async function FAQ() {
     }))
 
   return (
-    <Section className='mt-10 md:mt-0'>
+    <Section className='mt-10 md:mt-0 mb-20'>
       <div className='flex flex-col relative z-20'>
         <Heading as='h1' className='font-bold capitalize'>
           {header?.heading}

@@ -72,7 +72,7 @@ export default async function ContactUs() {
   )
 
   return (
-    <Section className='relative flex flex-col max-w-7xl mx-auto gap-10 mt-10 md:mt-0'>
+    <Section className='relative flex flex-col max-w-7xl mx-auto gap-10 mt-10 md:mt-0 mb-20'>
       <div className='relative flex flex-col justify-start '>
         <Heading as={"h1"} className='text-left mx-0 font-bold' size='xl'>
           {header?.heading}

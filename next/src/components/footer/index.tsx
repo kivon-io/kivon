@@ -30,7 +30,7 @@ const Footer = ({ logo, columns, copyright, social_media_links, className }: Foo
 
   return (
     <div
-      className={cn("w-full bg-white dark:bg-neutral-900 h-full mt-20 relative z-20", className)}
+      className={cn("w-full bg-white dark:bg-neutral-900 h-full pt-20 relative z-20", className)}
     >
       <div className='max-w-6xl mx-auto px-4 md:px-10 pt-10 pb-32'>
         <div className='flex flex-col md:flex-row gap-5 md:gap-0 md:justify-between md:items-center border-b border-zinc-200 dark:border-zinc-800 pb-5'>

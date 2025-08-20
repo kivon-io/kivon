@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { MdArrowRight } from "react-icons/md"
 import Lines from "../decorations/lines"
+import StarBackground from "../decorations/stars-background"
 import Section from "../section"
 import { Button } from "../ui/button"
 
@@ -27,7 +28,7 @@ const ContactSection = ({
 
   return (
     <Section className='w-full rounded-lg md:rounded-2xl bg-white dark:bg-black py-0 md:py-0 md:px-0'>
-      <div className='relative overflow-hidden md:overflow-visible py-10 px-5 flex flex-col gap-16'>
+      <div className='relative overflow-hidden md:overflow-visible py-10 px-5 flex flex-col gap-16 z-10'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-0'>
           {contacts.length > 0 &&
             contacts.map((item, index) => (
@@ -62,6 +63,7 @@ const ContactSection = ({
         </div>
         <Lines />
       </div>
+      <StarBackground />
     </Section>
   )
 }

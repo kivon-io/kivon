@@ -8,7 +8,6 @@ import Link from "next/link"
 import React from "react"
 import { FlickeringGrid } from "./decorations/flickering-grid"
 import { Grid } from "./decorations/grid"
-import { Spotlight } from "./decorations/spotlight"
 import { Heading } from "./elements/heading"
 import { Subheading } from "./elements/sub_heading"
 import { Marquee } from "./marquee"
@@ -167,15 +166,6 @@ const Integrations = () => {
 }
 
 const Community = () => {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
-  const [mounted, setMounted] = React.useState(false)
-
-  // Ensure component is mounted before accessing theme
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
   return (
     <div className='grid cols-1 md:grid-cols-2 gap-4 border border-zinc-300 dark:border-zinc-800  relative'>
       <div className='p-4 md:p-16 relative overflow-hidden md:border-r border-zinc-300 dark:border-zinc-800'>
@@ -216,12 +206,6 @@ const Community = () => {
           <Button className='w-fit'>Contact us</Button>
         </Link>
       </div>
-      {mounted && (
-        <Spotlight
-          className={cn("h-[300%] w-[300%] -left-56 -top-52", isDark ? "opacity-10" : "hidden")}
-          fill={isDark ? "#ffffff" : "#333333"}
-        />
-      )}
     </div>
   )
 }
