@@ -5,6 +5,7 @@ import { AppProvider } from "@/context/app-context"
 import { TRPCProvider } from "@/trpc/client"
 import { Metadata, Viewport } from "next"
 
+import { Toaster } from "@/components/ui/sonner"
 import { generateMetadataObject } from "@/lib/shared/metadata"
 import fetchContentType from "@/lib/strapi/fetchContentType"
 import { WalletProvider } from "@/lib/wallet/wallet-context"
@@ -114,6 +115,8 @@ export default async function RootLayout({
               >
                 <Navbar {...navbar} />
                 {children}
+                <Toaster />
+
                 <Footer {...footer} social_media_links={globalData?.contact?.social_media_links} />
               </ThemeProvider>
             </AppProvider>

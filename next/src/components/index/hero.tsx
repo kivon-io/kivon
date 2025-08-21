@@ -2,12 +2,11 @@
 
 import { cn } from "@/lib/utils"
 import { ArrowRightIcon } from "lucide-react"
-import Link from "next/link"
 import { AnimatedShinyText } from "../decorations/animated-shiny-text"
 import { Grid } from "../decorations/grid"
-import { ShimmerButton } from "../decorations/shimmer-button"
 import { Heading } from "../elements/heading"
 import { Subheading } from "../elements/sub_heading"
+import WaitlistForm from "./waitlist-form"
 
 const IndexHero = () => {
   return (
@@ -22,7 +21,7 @@ const IndexHero = () => {
         <div className='z-10 flex md:min-h-20 items-center justify-center'>
           <div
             className={cn(
-              "group rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800"
+              "group rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800"
             )}
           >
             <AnimatedShinyText className='inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400'>
@@ -47,13 +46,7 @@ const IndexHero = () => {
           single tokenized exposure with automated rebalancing, transparent holdings, and
           programmable fees—built on non-custodial vault infrastructure.
         </Subheading>
-        <div className='flex justify-center items-center gap-4'>
-          <Link href='/contact-us'>
-            <ShimmerButton className='h-11'>
-              <p className='text-white'>Early Access</p>
-            </ShimmerButton>
-          </Link>
-        </div>
+        <WaitlistForm />
       </div>
       <Grid size={60} className='absolute inset-0' />
     </div>

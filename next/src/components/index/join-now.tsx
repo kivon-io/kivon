@@ -6,7 +6,7 @@ import StarBackground from "../decorations/stars-background"
 import { Heading } from "../elements/heading"
 import { Subheading } from "../elements/sub_heading"
 import Section from "../section"
-import { Button } from "../ui/button"
+import WaitlistForm from "./waitlist-form"
 
 const JoinNow = () => {
   const { theme } = useTheme()
@@ -60,9 +60,7 @@ const JoinNow = () => {
           <Subheading className='text-base md:text-lg text-center'>
             The most versatile and comprehensive platform.
           </Subheading>
-          <div className='flex flex-col items-center justify-center'>
-            <Button>Join waitlist</Button>
-          </div>
+          <WaitlistForm className='border border-zinc-200 dark:border-zinc-700 w-full' />
         </div>
       </div>
     </Section>
