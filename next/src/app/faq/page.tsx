@@ -7,7 +7,6 @@ import { generateMetadataObject } from "@/lib/shared/metadata"
 import fetchContentType from "@/lib/strapi/fetchContentType"
 import { Metadata } from "next"
 
-// keep groups as returned by Strapi
 type Faq = { id: number; question: string; answer: string }
 type FaqGroup = { heading: string; sub_heading?: string; faqs: Faq[] }
 

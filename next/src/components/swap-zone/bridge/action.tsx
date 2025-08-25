@@ -194,29 +194,29 @@ const BridgeAction = () => {
         }
         busy={address && (isQuoteLoading || isRefetching)}
         busyVariant='secondary'
-        className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black text-lg font-medium'
+        className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black'
       >
         {step === BRIDGE_STAGES.SELECT_ASSET
           ? "Continue"
           : !address
-          ? "Connect Wallet"
-          : chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM
-          ? "Switch Chain to " + origin.chainName
-          : isQuoteLoading || isRefetching
-          ? "Fetching quote..."
-          : debouncedAmount <= 0
-          ? "Enter Amount"
-          : !checkChainisEnabled
-          ? `Chain is currently unavailable`
-          : checkifExtraWalletAddressIsNeeded && !form.watch("isRecipientAddressValid")
-          ? `Enter ${destination.chainName} Address`
-          : hasInsufficientBalance
-          ? `Insufficient balance`
-          : isExecuting && executionStatus === "executing"
-          ? "Executing..."
-          : isExecuting && executionStatus === "polling"
-          ? "Confirming..."
-          : showExecuteTransactionButtonText()}
+            ? "Connect Wallet"
+            : chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM
+              ? "Switch Chain to " + origin.chainName
+              : isQuoteLoading || isRefetching
+                ? "Fetching quote..."
+                : debouncedAmount <= 0
+                  ? "Enter Amount"
+                  : !checkChainisEnabled
+                    ? `Chain is currently unavailable`
+                    : checkifExtraWalletAddressIsNeeded && !form.watch("isRecipientAddressValid")
+                      ? `Enter ${destination.chainName} Address`
+                      : hasInsufficientBalance
+                        ? `Insufficient balance`
+                        : isExecuting && executionStatus === "executing"
+                          ? "Executing..."
+                          : isExecuting && executionStatus === "polling"
+                            ? "Confirming..."
+                            : showExecuteTransactionButtonText()}
       </Button>
       <RecipientAddress
         open={isRecipientAddressDialogOpen}
