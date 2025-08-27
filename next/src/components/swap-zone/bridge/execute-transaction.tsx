@@ -139,10 +139,10 @@ const ExecuteTransaction = ({
                   executionError.includes("User rejected")
                     ? "Transaction was cancelled"
                     : executionError.includes("insufficient funds")
-                    ? "Insufficient funds to complete transaction"
-                    : executionError.includes("network")
-                    ? "Network error occurred"
-                    : "Transaction failed. Please try again."}
+                      ? "Insufficient funds to complete transaction"
+                      : executionError.includes("network")
+                        ? "Network error occurred"
+                        : "Transaction failed. Please try again."}
                 </p>
               </div>
             )}
@@ -206,8 +206,8 @@ const ExecuteTransaction = ({
                           )}
                           {status === "pending" && (
                             <span className='absolute flex size-6 rounded-full z-10'>
-                              <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75'></span>
-                              <span className='absolute inline-flex size-6 rounded-full bg-blue-500'></span>
+                              <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary-custom opacity-75'></span>
+                              <span className='absolute inline-flex size-6 rounded-full bg-secondary-custom'></span>
                             </span>
                           )}
                         </div>
@@ -221,15 +221,15 @@ const ExecuteTransaction = ({
                               status === "complete"
                                 ? "bg-green-500/10 text-green-500 border-green-500/20"
                                 : status === "pending"
-                                ? "bg-blue-500/10 text-blue-500 border-blue-500/20"
-                                : "bg-zinc-500/10 text-zinc-500 border-zinc-500/20"
+                                  ? "bg-secondary-custom/10 text-secondary-custom border-secondary-custom/20"
+                                  : "bg-zinc-500/10 text-zinc-500 border-zinc-500/20"
                             }`}
                           >
                             {status === "complete"
                               ? "Complete"
                               : status === "pending"
-                              ? "In Progress"
-                              : "Pending"}
+                                ? "In Progress"
+                                : "Pending"}
                           </Badge>
                         </div>
                         <p className='text-xs text-zinc-600 dark:text-zinc-400'>
@@ -481,7 +481,7 @@ const TransactionHash = ({ text, hash, url }: { text: string; hash: string; url:
       <div className='flex items-center justify-between'>
         <p className='text-sm font-medium text-zinc-600 dark:text-zinc-400'>{text}</p>
         <Link
-          className='flex items-center gap-1 text-blue-500 dark:text-blue-500 hover:text-blue-600 dark:hover:text-blue-400'
+          className='flex items-center gap-1 text-secondary-custom dark:text-secondary-custom hover:text-secondary-custom/80 dark:hover:text-secondary-custom/60'
           href={url}
           target='_blank'
         >

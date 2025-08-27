@@ -124,3 +124,52 @@ export const checkIfUserNeedsToProvideWalletAddress = (
   if (!connectedWalletChain) return false
   return destination.vmType !== VM_TYPES.EVM && destination.chainId !== connectedWalletChain.id
 }
+
+/**
+ * Smart balance formatting function that adjusts decimal places based on amount
+ * - For amounts >= 1: Show 1 decimal place
+ * - For amounts < 1: Show decimals until first non-zero digit + 2 more digits
+ * - For amounts between 1-10 with significant decimals: Show 4 decimal places
+ */
+export const formatSmartBalance = (balance: string | number): string => {
+  if (!balance) return "0"
+
+  const num = typeof balance === "string" ? parseFloat(balance) : balance
+
+  if (isNaN(num)) return "0"
+  if (num === 0) return "0"
+
+  // For amounts >= 10, show 1 decimal place
+  if (num >= 10) {
+    return num.toFixed(1)
+  }
+
+  // For amounts between 1 and 10, show 4 decimal places for precision
+  if (num >= 1) {
+    return num.toFixed(4)
+  }
+
+  // For amounts < 1, find the first non-zero decimal and show 2 more digits
+  const str = num.toString()
+  if (str.includes("e")) {
+    // Handle scientific notation (very small numbers)
+    const decimalPlaces = Math.max(6, Math.abs(parseInt(str.split("e-")[1])) + 2)
+    return num.toFixed(decimalPlaces)
+  }
+
+  const decimalPart = str.split(".")[1] || ""
+  let firstNonZeroIndex = -1
+
+  for (let i = 0; i < decimalPart.length; i++) {
+    if (decimalPart[i] !== "0") {
+      firstNonZeroIndex = i
+      break
+    }
+  }
+
+  if (firstNonZeroIndex === -1) return "0"
+
+  // Show up to the first non-zero digit + 2 more digits
+  const decimalPlaces = Math.min(firstNonZeroIndex + 3, 8) // Cap at 8 decimal places
+  return num.toFixed(decimalPlaces)
+}

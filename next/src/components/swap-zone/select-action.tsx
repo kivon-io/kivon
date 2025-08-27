@@ -59,7 +59,7 @@ const SelectSwapType = () => {
   if (pathname !== "/") return null
 
   return (
-    <SwapZoneContainer className='relative z-10 bg-white dark:bg-neutral-950 p-5 lg:p-6 border border-zinc-200 dark:border-zinc-800 rounded-3xl w-full'>
+    <SwapZoneContainer className='mb-10 relative z-10 bg-white dark:bg-neutral-950 p-5 lg:p-6 border border-zinc-200 dark:border-zinc-800 rounded-3xl w-full'>
       <Heading as='h2' className='text-sm md:text-base font-medium mb-5'>
         Select an action to get started
       </Heading>

@@ -34,7 +34,13 @@ const BridgeAction = () => {
   const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0] || 0
   const [isRecipientAddressDialogOpen, setIsRecipientAddressDialogOpen] = useState(false)
 
-  const { hasInsufficientBalance } = useBalanceCheck(address, origin.chainId, debouncedAmount)
+  const { hasInsufficientBalance } = useBalanceCheck(
+    address,
+    origin.tokenContractAddress,
+    origin.chainId,
+    debouncedAmount,
+    origin.tokenIsNative
+  )
 
   const checkChainisEnabled = isConnectedChainEnabled(origin)
   const checkifExtraWalletAddressIsNeeded = checkIfUserNeedsToProvideWalletAddress(
@@ -168,13 +174,7 @@ const BridgeAction = () => {
       refetch()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.watch("origin"), form.watch("destination")])
-
-  // get the id of each of the steps check if deposit and approve are in the steps ids and extract them
-  //  show so for deposit show Swap for approve show approve and swap show swap
-  // eg if a both are in the steps ids, show both Approve & Swap
-
-  // if connected chain is not the same as origin chain, show user to switch chain
+  }, [form.watch("origin"), form.watch("destination"), debouncedAmount])
 
   return (
     <>

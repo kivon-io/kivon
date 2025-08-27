@@ -1,14 +1,11 @@
 import { VM_TYPES } from "@/components/swap-zone/bridge/constants"
 import transactionSteps from "@/data/transaction-steps.json"
 import { RELAY_APP_CONFIG } from "@/lib/relay/config"
-import { DEFAULT_PROTOCOL_VERSION, RELAY_LINK_API_URL } from "@/lib/shared/constants"
+import { APP_NAME, PROTOCOL_VERSION, RELAY_LINK_API_URL } from "@/lib/shared/constants"
 import { parseUnits } from "viem"
 import z from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter } from "../trpc"
-
-// using relay.link api
-// https://docs.relay.link/references/api/get-chains
 
 export const bridgeRouter = createTRPCRouter({
   getChains: publicProcedure.query(async () => {
@@ -117,11 +114,12 @@ export const bridgeRouter = createTRPCRouter({
             fee: RELAY_APP_CONFIG.FEE,
           },
         ],
-        protocolVersion: DEFAULT_PROTOCOL_VERSION,
+        protocolVersion: PROTOCOL_VERSION.PREFER_V2,
         refundTo: user,
+        referrer: APP_NAME,
       }
 
-      // console.log("payload: ", payload)
+      console.log("payload: ", payload)
 
       if (process.env.NEXT_PUBLIC_SIMULATE_EXECUTION === "true") {
         return transactionSteps as unknown as Quote

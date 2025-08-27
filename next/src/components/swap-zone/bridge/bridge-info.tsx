@@ -181,15 +181,18 @@ const BalanceComponent = ({ type }: { type: "send" | "receive" }) => {
   const { form } = useBridge()
   const { address } = useAccount()
   const chainId = form.watch("origin.chainId")
+  const token = form.watch("origin.tokenContractAddress")
 
   const amount = form.watch("amount")
-  const { balanceFormatted } = useBalanceCheck(address, chainId, amount)
+  const isNative = form.watch("origin.tokenIsNative")
+  const { balanceFormatted } = useBalanceCheck(address, token, chainId, amount, isNative)
   const amountPercentages = [20, 50, 100]
 
   const handleSetAmount = (percentage: number) => {
     // set amount to percentage of balance
     form.setValue("amount", (Number(balanceFormatted) * percentage) / 100)
   }
+
   return (
     <div className='flex gap-2 items-center'>
       <Balance />

@@ -20,7 +20,7 @@ const Bridge = () => {
         <Slippage />
       </Menu>
 
-      <div className='h-fit mb-20 rounded-3xl bg-gradient-to-b from-white to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 border border-zinc-200 dark:border-zinc-800 p-5 flex flex-col gap-5'>
+      <div className='h-fit rounded-3xl bg-gradient-to-b from-white to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 border border-zinc-200 dark:border-zinc-800 p-5 flex flex-col gap-5'>
         <SelectAsset />
         <BridgeInfo />
         {!checkChainisEnabled && (

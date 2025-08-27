@@ -15,6 +15,7 @@ export const bridgeFormSchema = z.object({
     tokenImage: z.string(),
     tokenContractAddress: z.string(),
     tokenDecimals: z.number(),
+    tokenIsNative: z.boolean(),
     vmType: z.string(),
     explorerUrl: z.string().optional(),
   }),
@@ -32,6 +33,7 @@ export const bridgeFormSchema = z.object({
     tokenImage: z.string(),
     tokenContractAddress: z.string(),
     tokenDecimals: z.number(),
+    tokenIsNative: z.boolean(),
     vmType: z.string(),
     explorerUrl: z.string().optional(),
   }),
@@ -64,6 +66,8 @@ export const createBridgeTokenModel = (
     tokenImage: token.metadata.logoURI,
     tokenContractAddress: token.address,
     tokenDecimals: token.decimals,
+    tokenIsNative:
+      token.metadata.isNative || token.address === "0x0000000000000000000000000000000000000000",
     vmType: chain.vmType,
     explorerUrl: chain.explorerUrl,
   }

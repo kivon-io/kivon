@@ -7,9 +7,17 @@ const Balance = ({ className }: { className?: string }) => {
   const { address } = useAccount()
   const { form } = useBridge()
   const chainId = form.watch("origin.chainId")
+  const token = form.watch("origin.tokenContractAddress")
   const amount = form.watch("amount")
+  const isNative = form.watch("origin.tokenIsNative")
 
-  const { hasInsufficientBalance, balanceFormatted } = useBalanceCheck(address, chainId, amount)
+  const { hasInsufficientBalance, balanceSmartFormatted } = useBalanceCheck(
+    address,
+    token,
+    chainId,
+    amount,
+    isNative
+  )
 
   if (!address) return null
 
@@ -21,7 +29,7 @@ const Balance = ({ className }: { className?: string }) => {
         className
       )}
     >
-      Balance: {balanceFormatted && Number(balanceFormatted).toFixed(5)}
+      Balance: {balanceSmartFormatted}
     </div>
   )
 }
