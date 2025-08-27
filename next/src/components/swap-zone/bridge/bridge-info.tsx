@@ -30,12 +30,6 @@ const BridgeInfo = () => {
     form.setValue("destination", origin)
   }
 
-  // const estimatedExchangeAmount = {
-  //   toAmount: 0,
-  // }
-
-  // console.log("quote: ", quote)
-
   if (step === BRIDGE_STAGES.SELECT_ASSET) return null
   return (
     <div className='relative flex flex-col'>
@@ -47,13 +41,7 @@ const BridgeInfo = () => {
         <ChangeTransactionDirection handleChangeSwapDirection={handleChangeSwapDirection} />
         <div className='absolute h-2 w-2 rounded-full -translate-x-1/2 transform -translate-y-1/2 top-1/2 bg-zinc-200 dark:bg-zinc-700' />
       </div>
-      <AmountDetails
-        type={EXCHANGE_TYPE.RECEIVE}
-        token={destination}
-        form={form}
-        quote={quote}
-        //   minExchangeAmount={minExchangeAmount?.minAmount}
-      />
+      <AmountDetails type={EXCHANGE_TYPE.RECEIVE} token={destination} form={form} quote={quote} />
     </div>
   )
 }
@@ -128,7 +116,32 @@ const AmountDetails = ({
                       <Input
                         {...field}
                         placeholder='0'
-                        className='w-full text-right text-base md:text-lg font-medium focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none'
+                        className='w-full max-w-3/5 text-right text-lg md:text-2xl font-bold font-barlow focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none text-ellipsis'
+                        onChange={(e) => {
+                          const value = e.target.value
+
+                          if (value === "") {
+                            field.onChange("")
+                            return
+                          }
+
+                          if (value === ".") {
+                            field.onChange("0.")
+                            return
+                          }
+
+                          let cleanedValue = value.replace(/^0+(?=\d)/, "")
+
+                          if (cleanedValue.startsWith(".")) {
+                            cleanedValue = "0" + cleanedValue
+                          }
+
+                          if (!isNaN(Number(cleanedValue))) {
+                            field.onChange(cleanedValue)
+                          }
+                        }}
+                        value={field.value}
+                        pattern='^[0-9]+(\.[0-9]*)?$'
                       />
                     )}
                   />
@@ -136,21 +149,13 @@ const AmountDetails = ({
               ) : (
                 <Input
                   readOnly
-                  value={
-                    // minExchangeAmount && sendAmount < minExchangeAmount
-                    //   ? "-"
-                    //   : estimatedExchange.toAmount || 0
-                    quote ? quote.details.currencyOut.amountFormatted : 0
-                  }
-                  className='w-full select-none pointer-events-none text-right text-base md:text-lg font-medium focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none'
+                  value={quote ? quote.details.currencyOut.amountFormatted : 0}
+                  className='w-full max-w-3/5 text-right text-lg md:text-2xl font-bold font-barlow select-none pointer-events-none focus-visible:ring-0 focus-within:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-within:outline-none border-none shadow-none text-ellipsis'
                 />
               )}
             </div>
             <div className='flex items-center gap-2'>
               <TokenName name={token.chainDisplayName} />
-              {/* <Badge>
-                <span className='text-xs uppercase font-medium'>{token.chainName}</span>
-              </Badge> */}
             </div>
           </div>
         </div>
@@ -180,7 +185,7 @@ const BalanceComponent = ({ type }: { type: "send" | "receive" }) => {
   }
 
   return (
-    <div className='flex gap-2 items-center'>
+    <div className='flex flex-col md:flex-row md:gap-2 items-center'>
       <Balance />
       {type === EXCHANGE_TYPE.SEND && (
         <div className='flex gap-1'>

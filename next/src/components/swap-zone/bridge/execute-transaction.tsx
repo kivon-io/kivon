@@ -38,27 +38,6 @@ const ExecuteTransaction = ({
   } = useBridge()
   const { origin, destination } = form.watch()
 
-  // useEffect(() => {
-  //   if (!open) {
-  //     reset()
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [open])
-
-  // const handleExecute = async () => {
-  //   if (quote) {
-  //     try {
-  //       await executeSteps(quote)
-  //     } catch (err) {
-  //       // Close dialog if user rejected the transaction
-  //       console.log("err", err)
-  //       if (err instanceof Error && err.message === "USER_REJECTED") {
-  //         onOpenChange(false)
-  //       }
-  //     }
-  //   }
-  // }
-
   useEffect(() => {
     if (executionStatus === "failed" && executionError === "USER_REJECTED") {
       onOpenChange(false)
@@ -77,8 +56,6 @@ const ExecuteTransaction = ({
   }
 
   if (!quote || !open) return null
-
-  console.log("executionError: ", executionError)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -152,7 +129,6 @@ const ExecuteTransaction = ({
               {quote.steps?.map((step, stepIndex) =>
                 step.items?.map((item, itemIndex) => {
                   const status = getStepStatus(stepIndex, itemIndex)
-
                   return (
                     <div
                       key={`${stepIndex}-${itemIndex}`}

@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { generateMetadataObject } from "@/lib/shared/metadata"
 import fetchContentType from "@/lib/strapi/fetchContentType"
 import { WalletProvider } from "@/lib/wallet/wallet-context"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Barlow, Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -20,6 +20,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+})
+
+const barlow = Barlow({
+  variable: "--font-barlow",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 })
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -101,7 +107,7 @@ export default async function RootLayout({
   return (
     <html lang='en' className='bg-background dark:bg-neutral-950' suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
+        className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable} antialiased bg-background`}
         suppressHydrationWarning
       >
         <TRPCProvider>
