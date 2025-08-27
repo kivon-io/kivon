@@ -6,13 +6,12 @@ import { checkIfUserNeedsToProvideWalletAddress, isConnectedChainEnabled } from 
 import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
 import { trpc } from "@/trpc/client"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDebounceValue } from "usehooks-ts"
 import { useAccount, useSwitchChain } from "wagmi"
 import DataError from "../network-error"
 import { BRIDGE_STAGES, VM_TYPES } from "./constants"
 import ExecuteTransaction from "./execute-transaction"
-import RecipientAddress from "./recipient-address"
 
 const BridgeAction = () => {
   const {
@@ -22,6 +21,7 @@ const BridgeAction = () => {
     handleSetQuote,
     handleOpenExecuteTransactionDialog,
     isExecuteTransactionDialogOpen,
+    handleOpenRecipientAddressDialog,
     executeSteps,
     resetExecution,
     isExecuting,
@@ -32,7 +32,6 @@ const BridgeAction = () => {
   const { openConnectModal } = useConnectModal()
   const { origin, destination } = form.watch()
   const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0] || 0
-  const [isRecipientAddressDialogOpen, setIsRecipientAddressDialogOpen] = useState(false)
 
   const { hasInsufficientBalance } = useBalanceCheck(
     address,
@@ -49,11 +48,6 @@ const BridgeAction = () => {
   )
 
   const isChainSwitched = chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM
-
-  // console.log("checkifExtraWalletAddressIsNeeded: ", checkifExtraWalletAddressIsNeeded)
-
-  // function to check if the connected chain is the same as the origin chain and the vm type of the origin chain is evm, if not return false
-
   const {
     data: quote,
     isLoading: isQuoteLoading,
@@ -74,14 +68,18 @@ const BridgeAction = () => {
       ...(checkifExtraWalletAddressIsNeeded && { recipient: form.watch("recipient") }),
     },
     {
-      enabled:
-        !!origin &&
-        !!destination &&
-        debouncedAmount > 0 &&
-        checkChainisEnabled &&
-        step === BRIDGE_STAGES.TRANSACTION_INFORMATION &&
-        (!checkifExtraWalletAddressIsNeeded ||
-          (!!form.watch("recipient") && form.watch("isRecipientAddressValid"))),
+      enabled: (() => {
+        const shouldEnable =
+          !!origin &&
+          !!destination &&
+          debouncedAmount > 0 &&
+          checkChainisEnabled &&
+          step === BRIDGE_STAGES.TRANSACTION_INFORMATION &&
+          (!checkifExtraWalletAddressIsNeeded ||
+            (!!form.watch("recipient") && form.watch("isRecipientAddressValid")))
+
+        return shouldEnable
+      })(),
       refetchInterval: 1000 * 60, // 1 minute
       retry: 2,
     }
@@ -103,8 +101,8 @@ const BridgeAction = () => {
       return
     }
 
-    if (checkifExtraWalletAddressIsNeeded) {
-      setIsRecipientAddressDialogOpen(true)
+    if (checkifExtraWalletAddressIsNeeded && !form.watch("isRecipientAddressValid")) {
+      handleOpenRecipientAddressDialog(true)
       return
     }
 
@@ -133,10 +131,6 @@ const BridgeAction = () => {
       }
     }
   }
-  // console.log("chain: ", chain)
-  // console.log("origin: ", origin)
-
-  // console.log("quote: ", quote)
 
   const showExecuteTransactionButtonText = () => {
     const depositStepId = quote?.steps.find((step) => step.id === "deposit")?.id
@@ -169,7 +163,9 @@ const BridgeAction = () => {
       step === BRIDGE_STAGES.TRANSACTION_INFORMATION &&
       !isChainSwitched &&
       debouncedAmount > 0 &&
-      checkChainisEnabled
+      checkChainisEnabled &&
+      (!checkifExtraWalletAddressIsNeeded ||
+        (!!form.watch("recipient") && form.watch("isRecipientAddressValid")))
     ) {
       refetch()
     }
@@ -188,12 +184,12 @@ const BridgeAction = () => {
             !isChainSwitched &&
             debouncedAmount <= 0) ||
           !checkChainisEnabled ||
-          (!isChainSwitched && !!quoteError) ||
+          // Don't disable on quote error if we need to collect recipient address
+          (!isChainSwitched && !!quoteError && !checkifExtraWalletAddressIsNeeded) ||
           (address && hasInsufficientBalance) ||
           isExecuting
         }
         busy={address && (isQuoteLoading || isRefetching)}
-        busyVariant='secondary'
         className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black'
       >
         {step === BRIDGE_STAGES.SELECT_ASSET
@@ -218,10 +214,7 @@ const BridgeAction = () => {
                             ? "Confirming..."
                             : showExecuteTransactionButtonText()}
       </Button>
-      <RecipientAddress
-        open={isRecipientAddressDialogOpen}
-        onOpenChange={setIsRecipientAddressDialogOpen}
-      />
+
       <ExecuteTransaction
         open={isExecuteTransactionDialogOpen}
         onOpenChange={handleOpenExecuteTransactionDialog}

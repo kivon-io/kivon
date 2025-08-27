@@ -42,6 +42,8 @@ const BridgeContext = createContext<{
   resetExecution: () => void
   isExecuting: boolean
   checkResult: CheckResultT | null
+  isRecipientAddressDialogOpen: boolean
+  handleOpenRecipientAddressDialog: (status: boolean) => void
 } | null>(null)
 
 const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React.ReactNode }) => {
@@ -52,6 +54,7 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
   const [quote, setQuote] = useState<Quote | null>(null)
   const [isShowUsd, setIsShowUsd] = useState(false)
   const [isExecuteTransactionDialogOpen, setIsExecuteTransactionDialogOpen] = useState(false)
+  const [isRecipientAddressDialogOpen, setIsRecipientAddressDialogOpen] = useState(false)
 
   const {
     executeSteps,
@@ -138,6 +141,10 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     setIsExecuteTransactionDialogOpen(status)
   }
 
+  const handleOpenRecipientAddressDialog = (status: boolean) => {
+    setIsRecipientAddressDialogOpen(status)
+  }
+
   useEffect(() => {
     if (chains && chains.length > 0) {
       const { chain, tokens } = getFirstChainAndTokens(chains)
@@ -161,6 +168,8 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     handleToggleUsd,
     isExecuteTransactionDialogOpen,
     handleOpenExecuteTransactionDialog,
+    isRecipientAddressDialogOpen,
+    handleOpenRecipientAddressDialog,
     // Execution state & actions
     executeSteps,
     currentStepIndex,

@@ -96,9 +96,6 @@ export const bridgeRouter = createTRPCRouter({
       } = input
 
       const payload = {
-        // useReceiver: true,
-        // enableTrueExactOutput: false,
-        // explicitDeposit: true,
         user,
         originChainId,
         destinationChainId,
@@ -118,8 +115,6 @@ export const bridgeRouter = createTRPCRouter({
         refundTo: user,
         referrer: APP_NAME,
       }
-
-      console.log("payload: ", payload)
 
       if (process.env.NEXT_PUBLIC_SIMULATE_EXECUTION === "true") {
         return transactionSteps as unknown as Quote
