@@ -114,21 +114,27 @@ export const useExecuteSteps = () => {
     if (!walletClient || !address) {
       throw new Error("Wallet not connected")
     }
-    if (item.data.chainId && item.data.chainId !== chainId) {
-      await switchChainAsync({ chainId: item.data.chainId })
+
+    // Type guard to ensure this is transaction data
+    const data = item.data as TransactionStepData
+    if (!("chainId" in data)) {
+      throw new Error("Invalid transaction step data")
+    }
+
+    if (data.chainId && data.chainId !== chainId) {
+      await switchChainAsync({ chainId: data.chainId })
     }
 
     try {
       const hash = await sendTransaction(wagmiConfig, {
         account: address,
-        to: item.data.to as `0x${string}`,
-        data: item.data.data as `0x${string}`,
-        value: BigInt(item.data.value),
-        gas: BigInt(item.data.gas),
-        maxFeePerGas: BigInt(item.data.maxFeePerGas),
-        maxPriorityFeePerGas: BigInt(item.data.maxPriorityFeePerGas),
-        // @ts-expect-error - chainId is a valid property
-        chainId: item.data.chainId,
+        to: data.to as `0x${string}`,
+        data: data.data as `0x${string}`,
+        value: BigInt(data.value),
+        gas: BigInt(data.gas),
+        maxFeePerGas: BigInt(data.maxFeePerGas),
+        maxPriorityFeePerGas: BigInt(data.maxPriorityFeePerGas),
+        chainId: data.chainId as 1,
       })
 
       return hash
@@ -146,18 +152,99 @@ export const useExecuteSteps = () => {
     }
   }
 
-  const executeSignature = async (_item: StepItem) => {
-    console.log("executeSignature", _item)
-    // Simulate signatures too when simulate flag is on
+  const executeSignature = async (item: StepItem) => {
+    // Sim mode
     if (simulate) {
       updateStepItemStatus(currentStepIndex, currentItemIndex, "pending")
-      await delay(100_000)
+      await delay(1000)
       updateStepItemStatus(currentStepIndex, currentItemIndex, "complete")
       return
     }
 
-    // TODO: Implement signature execution based on signatureKind
-    throw new Error("Signature execution not implemented yet")
+    if (!walletClient || !address) throw new Error("Wallet not connected")
+    updateStepItemStatus(currentStepIndex, currentItemIndex, "pending")
+
+    try {
+      const data = item.data as SignatureStepData
+      if (!("signatureKind" in data)) throw new Error("Invalid signature step data")
+
+      // Optional: align chain for EIP-712
+      if (data.signatureKind === "eip712") {
+        const eip712 = data as EIP712SignatureData
+        if (eip712.domain?.chainId && eip712.domain.chainId !== chainId) {
+          await switchChainAsync({ chainId: eip712.domain.chainId })
+        }
+      }
+
+      let signature: string
+      switch (data.signatureKind) {
+        case "eip191": {
+          const eip191 = data as EIP191SignatureData
+          signature = await walletClient.signMessage({ account: address, message: eip191.message })
+          break
+        }
+        case "eip712": {
+          const eip712 = data as EIP712SignatureData
+          signature = await walletClient.signTypedData({
+            account: address,
+            domain: {
+              ...eip712.domain,
+              verifyingContract: eip712.domain.verifyingContract as `0x${string}`,
+            },
+            types: eip712.types, // exclude EIP712Domain key as per viem convention
+            primaryType: eip712.primaryType,
+            message: eip712.value,
+          })
+          break
+        }
+        default:
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          throw new Error(`Unsupported signature kind: ${(data as any).signatureKind}`)
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const postConfig = (data as any).post ?? item.post
+      if (postConfig) {
+        const endpoint = postConfig.endpoint.startsWith("/")
+          ? `${RELAY_LINK_API_URL}${postConfig.endpoint}`
+          : postConfig.endpoint
+
+        const url = new URL(endpoint)
+        url.searchParams.set("signature", signature)
+
+        const method = (postConfig.method ?? "POST").toUpperCase()
+        const isGet = method === "GET"
+        const headers = isGet
+          ? postConfig.headers
+          : { "Content-Type": "application/json", ...postConfig.headers }
+        const body = isGet
+          ? undefined
+          : postConfig.body
+            ? JSON.stringify(postConfig.body)
+            : undefined
+
+        const resp = await fetch(url.toString(), { method, headers, body })
+        if (!resp.ok) {
+          const txt = await resp.text()
+          throw new Error(`Failed to post signature: ${resp.status} ${resp.statusText} - ${txt}`)
+        }
+      }
+
+      updateStepItemStatus(currentStepIndex, currentItemIndex, "complete")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      updateStepItemStatus(currentStepIndex, currentItemIndex, "failed")
+      try {
+        const { UserRejectedRequestError } = await import("viem")
+        if (err instanceof UserRejectedRequestError) throw new Error("USER_REJECTED")
+      } catch {
+        /* ignore dynamic import issues */
+      }
+      if (err?.message?.includes("User denied") || err?.message?.includes("User rejected")) {
+        throw new Error("USER_REJECTED")
+      }
+      throw err
+    }
   }
 
   const pollForCompletion = async (check: { endpoint: string; method: string }) => {

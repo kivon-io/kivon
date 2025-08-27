@@ -310,19 +310,65 @@ type Chain = {
 
 type StepItem = {
   status: string
-  data: {
-    from: string
-    to: string
-    data: string
-    value: string
-    gas: string
-    maxFeePerGas: string
-    maxPriorityFeePerGas: string
-    chainId: number
-  }
-  check: {
+  data: TransactionStepData | SignatureStepData
+  check?: {
     endpoint: string
     method: string
+  }
+  post?: {
+    endpoint: string
+    method?: string
+    headers?: Record<string, string>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body?: Record<string, any>
+  }
+}
+
+type TransactionStepData = {
+  from: string
+  to: string
+  data: string
+  value: string
+  gas: string
+  maxFeePerGas: string
+  maxPriorityFeePerGas: string
+  chainId: number
+}
+
+type SignatureStepData = {
+  signatureKind: "eip191" | "eip712"
+} & (EIP191SignatureData | EIP712SignatureData)
+
+type EIP191SignatureData = {
+  signatureKind: "eip191"
+  message: string
+  post?: {
+    endpoint: string
+    method?: string
+    headers?: Record<string, string>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body?: Record<string, any>
+  }
+}
+
+type EIP712SignatureData = {
+  signatureKind: "eip712"
+  domain: {
+    name: string
+    version: string
+    chainId: number
+    verifyingContract: string
+  }
+  types: Record<string, Array<{ name: string; type: string }>>
+  primaryType: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: Record<string, any>
+  post?: {
+    endpoint: string
+    method?: string
+    headers?: Record<string, string>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body?: Record<string, any>
   }
 }
 
