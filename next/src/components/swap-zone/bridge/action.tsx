@@ -192,27 +192,29 @@ const BridgeAction = () => {
         busy={address && (isQuoteLoading || isRefetching)}
         className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black'
       >
-        {step === BRIDGE_STAGES.SELECT_ASSET
-          ? "Continue"
-          : !address
-            ? "Connect Wallet"
-            : chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM
-              ? "Switch Chain to " + origin.chainName
-              : isQuoteLoading || isRefetching
-                ? "Fetching quote..."
-                : debouncedAmount <= 0
-                  ? "Enter Amount"
-                  : !checkChainisEnabled
-                    ? `Chain is currently unavailable`
-                    : checkifExtraWalletAddressIsNeeded && !form.watch("isRecipientAddressValid")
-                      ? `Enter ${destination.chainName} Address`
-                      : hasInsufficientBalance
-                        ? `Insufficient balance`
-                        : isExecuting && executionStatus === "executing"
-                          ? "Executing..."
-                          : isExecuting && executionStatus === "polling"
-                            ? "Confirming..."
-                            : showExecuteTransactionButtonText()}
+        {step === BRIDGE_STAGES.SELECT_ASSET ? (
+          "Continue"
+        ) : !address ? (
+          "Connect Wallet"
+        ) : chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM ? (
+          <SwitchChainText chainName={origin.chainName} />
+        ) : isQuoteLoading || isRefetching ? (
+          "Fetching quote..."
+        ) : debouncedAmount <= 0 ? (
+          "Enter Amount"
+        ) : !checkChainisEnabled ? (
+          `Chain is currently unavailable`
+        ) : checkifExtraWalletAddressIsNeeded && !form.watch("isRecipientAddressValid") ? (
+          `Enter ${destination.chainName} Address`
+        ) : hasInsufficientBalance ? (
+          `Insufficient balance`
+        ) : isExecuting && executionStatus === "executing" ? (
+          "Executing..."
+        ) : isExecuting && executionStatus === "polling" ? (
+          "Confirming..."
+        ) : (
+          showExecuteTransactionButtonText()
+        )}
       </Button>
 
       <ExecuteTransaction
@@ -224,3 +226,11 @@ const BridgeAction = () => {
 }
 
 export default BridgeAction
+
+const SwitchChainText = ({ chainName }: { chainName: string }) => {
+  return (
+    <span>
+      Switch Chain to <span className='capitalize'>{chainName}</span>{" "}
+    </span>
+  )
+}
