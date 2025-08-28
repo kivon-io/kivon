@@ -4,6 +4,7 @@ import { ExchangeT } from "@/components/elements/exchange-type"
 import { Heading } from "@/components/elements/heading"
 import { useAppContext } from "@/context/app-context"
 import { useBridge } from "@/context/bridge-context"
+import { useBridgeUrl } from "@/hooks/use-bridge-url"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { HiOutlineArrowSmRight } from "react-icons/hi"
 import SelectAssetCard from "../select-asset-card"
@@ -11,13 +12,25 @@ import { BRIDGE_STAGES, BridgeFormSchema } from "./constants"
 
 const SelectAsset = () => {
   const { form, step } = useBridge()
+  const { setOriginParams, setDestinationParams } = useBridgeUrl()
 
   const origin = form.watch("origin")
   const destination = form.watch("destination")
 
   if (step !== BRIDGE_STAGES.SELECT_ASSET) return null
 
-  const handleSwitchTokens = () => {}
+  const handleSwitchTokens = () => {
+    // Switch the tokens
+    const tempOrigin = origin
+    const tempDestination = destination
+
+    form.setValue("origin", tempDestination)
+    form.setValue("destination", tempOrigin)
+
+    // Update URL params
+    setOriginParams(tempDestination.tokenContractAddress, tempDestination.chainId)
+    setDestinationParams(tempOrigin.tokenContractAddress, tempOrigin.chainId)
+  }
   return (
     <div className='flex flex-col gap-8 items-center justify-center w-full'>
       <Heading as='h2' className='text-center text-sm md:text-base'>

@@ -138,9 +138,6 @@ const ListDetails = () => {
   }
 
   const handleActionSelectToken = async (token: Token, chain: Chain) => {
-    // console.log("token: ", token)
-    // console.log("chain: ", chain)
-
     const bridgeToken = createBridgeTokenModel(token, chain)
     handleSelectToken(bridgeToken, type)
     toggleBridgeTokenList()
@@ -149,15 +146,12 @@ const ListDetails = () => {
   const popularChains =
     chains?.filter((chain) => POPULAR_CHAINS.includes(chain.name.toLowerCase())) || []
 
-  // Get featured tokens from popular chains first
   const popularTokens = popularChains.map((chain) => chain.featuredTokens.slice(0, 1)).flat()
 
-  // Get tokens from non-popular chains (exclude popular chains)
   const nonPopularChains =
     chains?.filter((chain) => !POPULAR_CHAINS.includes(chain.name.toLowerCase())) || []
   const nonPopularTokens = nonPopularChains.map((chain) => chain.featuredTokens.slice(0, 1)).flat()
 
-  // Combine popular tokens first, then non-popular tokens
   const allTokens = [...popularTokens, ...nonPopularTokens]
 
   return (

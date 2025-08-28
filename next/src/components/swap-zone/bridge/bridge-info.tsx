@@ -8,6 +8,7 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useAppContext } from "@/context/app-context"
 import { useBridge } from "@/context/bridge-context"
+import { useBridgeUrl } from "@/hooks/use-bridge-url"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
 import { motion } from "framer-motion"
@@ -22,15 +23,21 @@ import { BRIDGE_STAGES, BridgeFormSchema } from "./constants"
 
 const BridgeInfo = () => {
   const { step, form, quote } = useBridge()
+  const { setOriginParams, setDestinationParams } = useBridgeUrl()
 
   const { origin, destination } = form.watch()
 
   const handleChangeSwapDirection = () => {
     form.setValue("origin", destination)
     form.setValue("destination", origin)
+
+    // Update URL params
+    setOriginParams(destination.tokenContractAddress, destination.chainId)
+    setDestinationParams(origin.tokenContractAddress, origin.chainId)
   }
 
   if (step === BRIDGE_STAGES.SELECT_ASSET) return null
+
   return (
     <div className='relative flex flex-col'>
       <div className='relative'>

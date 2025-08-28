@@ -2,18 +2,19 @@
 
 import { ExchangeT } from "@/components/elements/exchange-type"
 import {
-  BRIDGE_STAGE_PARAM_KEY,
   BRIDGE_STAGES,
   bridgeFormSchema,
   BridgeFormSchema,
   BridgeStage,
   createBridgeTokenModel,
 } from "@/components/swap-zone/bridge/constants"
+import { useBridgePersistence } from "@/hooks/use-bridge-persistence"
+import { useBridgeUrl } from "@/hooks/use-bridge-url"
 import { DEFAULT_DECIMALS, EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { getFirstChainAndTokens } from "@/lib/utils"
 import { CheckResultT, useExecuteSteps } from "@/lib/wallet/use-execute-steps"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useSearchParams } from "next/navigation"
+
 import { createContext, useContext, useEffect, useState } from "react"
 import { useForm, UseFormReturn } from "react-hook-form"
 
@@ -47,10 +48,9 @@ const BridgeContext = createContext<{
 } | null>(null)
 
 const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React.ReactNode }) => {
-  const transactionStageParam = useSearchParams().get(BRIDGE_STAGE_PARAM_KEY)
-  const [step, setStep] = useState<BridgeStage>(
-    transactionStageParam ? (transactionStageParam as BridgeStage) : BRIDGE_STAGES.SELECT_ASSET
-  )
+  const { setOriginParams, setDestinationParams, setStepParam } = useBridgeUrl()
+
+  const [step, setStep] = useState<BridgeStage>(BRIDGE_STAGES.SELECT_ASSET)
   const [quote, setQuote] = useState<Quote | null>(null)
   const [isShowUsd, setIsShowUsd] = useState(false)
   const [isExecuteTransactionDialogOpen, setIsExecuteTransactionDialogOpen] = useState(false)
@@ -119,14 +119,20 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
   ) => {
     if (type === EXCHANGE_TYPE.SEND) {
       form.setValue("origin", token)
+      // Update URL params for origin token
+      setOriginParams(token.tokenContractAddress, token.chainId)
     } else {
       form.setValue("destination", token)
+      // Update URL params for destination token
+      setDestinationParams(token.tokenContractAddress, token.chainId)
     }
     form.setValue("recipient", undefined)
   }
 
   const handleStep = (step: BridgeStage) => {
     setStep(step)
+    // Update URL parameter to reflect current step
+    setStepParam(step)
   }
 
   const handleToggleUsd = () => {
@@ -145,13 +151,38 @@ const BridgeProvider = ({ chains, children }: { chains: Chain[]; children: React
     setIsRecipientAddressDialogOpen(status)
   }
 
-  useEffect(() => {
-    if (chains && chains.length > 0) {
-      const { chain, tokens } = getFirstChainAndTokens(chains)
+  // Persist and restore from URL
+  useBridgePersistence({
+    chains,
+    form,
+    onSetStep: (s) => setStep(s),
+  })
 
-      // Use the utility function for setting origin and destination
-      form.setValue("origin", createBridgeTokenModel(tokens[0], chain))
-      form.setValue("destination", createBridgeTokenModel(tokens[1], chain))
+  useEffect(() => {
+    if (!chains || chains.length === 0) return
+
+    const currentOrigin = form.getValues("origin")
+    const currentDestination = form.getValues("destination")
+
+    // Only set defaults if not already selected
+    const needsOrigin = !currentOrigin?.chainId || !currentOrigin?.tokenContractAddress
+    const needsDestination =
+      !currentDestination?.chainId || !currentDestination?.tokenContractAddress
+
+    if (!needsOrigin && !needsDestination) return
+
+    const { chain, tokens } = getFirstChainAndTokens(chains)
+
+    if (needsOrigin) {
+      const originToken = createBridgeTokenModel(tokens[0], chain)
+      form.setValue("origin", originToken)
+      setOriginParams(originToken.tokenContractAddress, originToken.chainId)
+    }
+
+    if (needsDestination) {
+      const destinationToken = createBridgeTokenModel(tokens[1], chain)
+      form.setValue("destination", destinationToken)
+      setDestinationParams(destinationToken.tokenContractAddress, destinationToken.chainId)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chains])
