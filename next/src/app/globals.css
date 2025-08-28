@@ -10,7 +10,8 @@
 @theme {
   --color-background: #F0F0F0;
   --color-primary: #1B1B1B;
-  --color-secondary-custom: #f6acbd;
+  /* --color-secondary-custom: #f6acbd; */
+  --color-secondary-custom: #e39aab;
 }
 
 @theme inline {

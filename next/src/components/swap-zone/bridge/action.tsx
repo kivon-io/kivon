@@ -190,7 +190,9 @@ const BridgeAction = () => {
           isExecuting
         }
         busy={address && (isQuoteLoading || isRefetching)}
-        className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black'
+        busyClassName='text-white'
+        variant='tertiary'
+        className='w-full h-12 rounded-lg'
       >
         {step === BRIDGE_STAGES.SELECT_ASSET ? (
           "Continue"

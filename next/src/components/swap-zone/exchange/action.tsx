@@ -88,7 +88,8 @@ const ExchangeAction = () => {
   return (
     <Button
       onClick={handleNextStep}
-      className='w-full h-12 rounded-lg bg-primary dark:bg-white dark:text-black'
+      variant='tertiary'
+      className='w-full h-12 rounded-lg'
       disabled={!isNextStepEnabled}
     >
       {step !== EXCHANGE_STEPS.TRANSACTION_DETAILS ? "Continue" : "Start Transaction"}

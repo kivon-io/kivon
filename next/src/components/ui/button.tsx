@@ -10,6 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        tertiary: "bg-secondary-custom text-white shadow-xs hover:bg-secondary-custom/80",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
@@ -39,6 +40,7 @@ function Button({
   asChild = false,
   busy = false,
   busyVariant = "default",
+  busyClassName,
   children,
   ...props
 }: React.ComponentProps<"button"> &
@@ -46,6 +48,7 @@ function Button({
     asChild?: boolean
     busy?: boolean
     busyVariant?: "default" | "secondary"
+    busyClassName?: string
     children?: React.ReactNode
   }) {
   const Comp = asChild ? Slot : "button"
@@ -60,7 +63,8 @@ function Button({
         <svg
           className={cn(
             "animate-spin h-4 w-4 text-black",
-            busyVariant === "default" ? "text-black" : "text-white"
+            busyVariant === "default" ? "text-black" : "text-white",
+            busyClassName
           )}
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
