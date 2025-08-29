@@ -2,8 +2,9 @@ import transactionFailed from "@/data/transaction-failed.json"
 import transactionHash from "@/data/transaction-hash.json"
 import { RELAY_LINK_API_URL, SIMMULATE_FAILED } from "@/lib/shared/constants"
 import { useState } from "react"
-import { useAccount, useSwitchChain, useWalletClient } from "wagmi"
+import { useSwitchChain, useWalletClient } from "wagmi"
 import { sendTransaction } from "wagmi/actions"
+import { useDynamicWallet } from "./use-dynamic-wallet"
 import { wagmiConfig } from "./wagmi"
 
 export type StepStatus = "incomplete" | "pending" | "complete" | "failed"
@@ -21,7 +22,7 @@ export type CheckResultT = {
 }
 
 export const useExecuteSteps = () => {
-  const { address, chainId } = useAccount()
+  const { address, chainId } = useDynamicWallet()
   const { data: walletClient } = useWalletClient()
   const { switchChainAsync } = useSwitchChain()
 

@@ -74,6 +74,9 @@ export function useDynamicWallet(): UseDynamicWalletResult {
     }
   }, [primaryWallet, wagmiConnector])
 
+  console.log("primaryWallet: ", primaryWallet)
+  console.log("chain: ", chain)
+
   const address = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dynamicAddress: `0x${string}` | undefined = (primaryWallet as any)?.address
@@ -92,9 +95,7 @@ export function useDynamicWallet(): UseDynamicWalletResult {
     const nameFromWagmi = chain?.name
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const nameFromDynamic: string | undefined = (primaryWallet as any)?.connector?.activeChain?.name
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const nameFromWallet: string | undefined = (primaryWallet as any)?.chain
-    return nameFromWagmi ?? nameFromDynamic ?? nameFromWallet
+    return nameFromWagmi ?? nameFromDynamic
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chain?.name, primaryWallet, primaryWalletNetworkChanged])
@@ -111,7 +112,6 @@ export function useDynamicWallet(): UseDynamicWalletResult {
   }, [primaryWallet, wagmiChainId, primaryWalletNetworkChanged])
 
   const chainObj = useMemo(() => {
-    // Prefer wagmi chain object; fallback to Dynamic activeChain object
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return chain ?? (primaryWallet as any)?.connector?.activeChain
     // eslint-disable-next-line react-hooks/exhaustive-deps

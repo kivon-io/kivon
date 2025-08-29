@@ -11,10 +11,10 @@ import { useBridge } from "@/context/bridge-context"
 import { useBridgeUrl } from "@/hooks/use-bridge-url"
 import { EXCHANGE_TYPE } from "@/lib/shared/constants"
 import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
+import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { motion } from "framer-motion"
 import { UseFormReturn } from "react-hook-form"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
-import { useAccount } from "wagmi"
 import ChangeTransactionDirection from "../change-transaction-direction"
 import AddressDisplay from "./address-display"
 import AmountComponent from "./amount"
@@ -67,7 +67,7 @@ const AmountDetails = ({
   minExchangeAmount?: number
   quote?: Quote | null
 }) => {
-  const { address } = useAccount()
+  const { address } = useDynamicWallet()
   const { handleType, toggleBridgeTokenList } = useAppContext()
 
   const handleSelectCoin = () => {
@@ -177,7 +177,7 @@ const AmountDetails = ({
 
 const BalanceComponent = ({ type }: { type: "send" | "receive" }) => {
   const { form } = useBridge()
-  const { address } = useAccount()
+  const { address } = useDynamicWallet()
   const chainId = form.watch("origin.chainId")
   const token = form.watch("origin.tokenContractAddress")
 
