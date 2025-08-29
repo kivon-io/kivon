@@ -6,11 +6,11 @@ import { trpc } from "@/trpc/client"
 import { Network } from "alchemy-sdk"
 import Image from "next/image"
 import { useEffect } from "react"
-import { useAccount } from "wagmi"
+import { useDynamicWallet } from "./use-dynamic-wallet"
 
 const WalletBalances = () => {
   const { updateTotalUSD } = useAppContext()
-  const { address } = useAccount()
+  const { address } = useDynamicWallet()
   const { data: balances } = trpc.getTokenBalances.useQuery(
     {
       address: address ?? "",

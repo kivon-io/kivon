@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button"
 import { useBridge } from "@/context/bridge-context"
 import { checkIfUserNeedsToProvideWalletAddress, isConnectedChainEnabled } from "@/lib/utils"
 import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
+import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { trpc } from "@/trpc/client"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { useEffect } from "react"
 import { useDebounceValue } from "usehooks-ts"
-import { useAccount, useSwitchChain } from "wagmi"
+import { useSwitchChain } from "wagmi"
 import DataError from "../network-error"
 import { BRIDGE_STAGES, VM_TYPES } from "./constants"
 import ExecuteTransaction from "./execute-transaction"
@@ -28,7 +29,7 @@ const BridgeAction = () => {
     executionStatus,
   } = useBridge()
   const { switchChainAsync } = useSwitchChain()
-  const { address, isConnected, chain, chainId } = useAccount()
+  const { address, isConnected, chainId, chain } = useDynamicWallet()
   const { openConnectModal } = useConnectModal()
   const { origin, destination } = form.watch()
   const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0] || 0

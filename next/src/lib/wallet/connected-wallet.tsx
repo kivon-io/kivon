@@ -14,21 +14,20 @@ import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { useState } from "react"
 import { BsCheck, BsCopy, BsPower } from "react-icons/bs"
 import { useMediaQuery } from "usehooks-ts"
-import { useAccount } from "wagmi"
 import { formatAddress } from "../utils"
 import TotalBalance from "./total-balance"
+import { useDynamicWallet } from "./use-dynamic-wallet"
 import WalletBalances from "./wallet-balances"
 import WalletIcon from "./wallet-icon"
 
 const ConnectedWallet = () => {
-  const { address: wagmiAddress, chain } = useAccount()
+  const { address, connectedChain } = useDynamicWallet()
   const { handleLogOut, primaryWallet } = useDynamicContext()
   const [isCopied, setIsCopied] = useState(false)
   const mediaQuery = useMediaQuery("(min-width: 768px)")
 
   const connected = Boolean(primaryWallet)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const address = (wagmiAddress as string | undefined) ?? (primaryWallet as any)?.address
+
   if (!connected || !address) return null
 
   const handleCopy = () => {
@@ -69,10 +68,7 @@ const ConnectedWallet = () => {
               <div className='flex gap-2'>
                 <WalletIcon className='h-8 w-8' />
                 <div className='flex flex-col'>
-                  <p className='text-sm font-medium'>
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {chain?.name ?? (primaryWallet as any)?.chain}
-                  </p>
+                  <p className='text-sm font-medium'>{connectedChain}</p>
                   <Address className='text-xs font-medium' address={address as string} />
                 </div>
               </div>

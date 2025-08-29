@@ -1,43 +1,14 @@
 import Image from "next/image"
-import { useEffect, useState } from "react"
-import { useAccount } from "wagmi"
 import { cn } from "../utils"
+import { useDynamicWallet } from "./use-dynamic-wallet"
 
 const WalletIcon = ({ className }: { className?: string }) => {
-  const { connector } = useAccount()
-
-  const [connectorIcon, setConnectorIcon] = useState<string | null>(null)
-
-  // Fetch connector icon
-  useEffect(() => {
-    const fetchConnectorIcon = async () => {
-      if (connector?.icon) {
-        setConnectorIcon(connector.icon)
-        return
-      }
-
-      // @ts-expect-error - rkDetails.iconUrl is a known property from the connector
-      if (connector?.rkDetails?.iconUrl) {
-        try {
-          // @ts-expect-error - iconUrl is an async function
-          const icon = await connector.rkDetails.iconUrl()
-          setConnectorIcon(icon)
-        } catch (error) {
-          console.error("Failed to fetch connector icon:", error)
-          setConnectorIcon(null)
-        }
-      }
-    }
-
-    fetchConnectorIcon()
-  }, [connector])
-
-  //   console.log("connector: ", connector)
+  const { connectorName, connectorIcon } = useDynamicWallet()
 
   return connectorIcon ? (
     <Image
       src={connectorIcon}
-      alt={connector?.name || "Wallet"}
+      alt={connectorName || "Wallet"}
       width={24}
       height={24}
       className={cn("rounded-sm", className)}

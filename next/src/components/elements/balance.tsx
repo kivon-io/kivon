@@ -1,10 +1,10 @@
 import { useBridge } from "@/context/bridge-context"
 import { cn } from "@/lib/utils"
 import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
-import { useAccount } from "wagmi"
+import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 
 const Balance = ({ className }: { className?: string }) => {
-  const { address } = useAccount()
+  const { address } = useDynamicWallet()
   const { form } = useBridge()
   const chainId = form.watch("origin.chainId")
   const token = form.watch("origin.tokenContractAddress")
@@ -12,7 +12,7 @@ const Balance = ({ className }: { className?: string }) => {
   const isNative = form.watch("origin.tokenIsNative")
 
   const { hasInsufficientBalance, balanceSmartFormatted } = useBalanceCheck(
-    address,
+    address as `0x${string}`,
     token,
     chainId,
     amount,
