@@ -21,12 +21,15 @@ import WalletBalances from "./wallet-balances"
 import WalletIcon from "./wallet-icon"
 
 const ConnectedWallet = () => {
-  const { address, isConnected, chain } = useAccount()
-  const { handleLogOut } = useDynamicContext()
+  const { address: wagmiAddress, chain } = useAccount()
+  const { handleLogOut, primaryWallet } = useDynamicContext()
   const [isCopied, setIsCopied] = useState(false)
   const mediaQuery = useMediaQuery("(min-width: 768px)")
 
-  if (!isConnected) return null
+  const connected = Boolean(primaryWallet)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const address = (wagmiAddress as string | undefined) ?? (primaryWallet as any)?.address
+  if (!connected || !address) return null
 
   const handleCopy = () => {
     navigator.clipboard.writeText(address as string)
@@ -66,7 +69,10 @@ const ConnectedWallet = () => {
               <div className='flex gap-2'>
                 <WalletIcon className='h-8 w-8' />
                 <div className='flex flex-col'>
-                  <p className='text-sm font-medium'>{chain?.name}</p>
+                  <p className='text-sm font-medium'>
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                    {chain?.name ?? (primaryWallet as any)?.chain}
+                  </p>
                   <Address className='text-xs font-medium' address={address as string} />
                 </div>
               </div>
@@ -90,19 +96,9 @@ const ConnectedWallet = () => {
               </div>
             </div>
             <div className='border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 flex flex-col gap-2'>
-              {/* {Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className='flex items-center justify-between'>
-                  <div className='flex items-center gap-2'>
-                    <div className='h-4 w-4 bg-zinc-200 dark:bg-zinc-900 rounded-full' />
-                    <p className='text-sm font-medium'>ETH</p>
-                  </div>
-                  <p className='text-sm text-zinc-500 dark:text-zinc-400 font-medium'>$0.007</p>
-                </div>
-              ))} */}
               <TotalBalance />
             </div>
           </div>
-          {/* show all tokens in the wallet and balances */}
           <WalletBalances />
         </div>
       </SheetContent>

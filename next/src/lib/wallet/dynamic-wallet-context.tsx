@@ -19,7 +19,7 @@ import {
 import { useTheme } from "next-themes"
 import Link from "next/link"
 import { WagmiProvider } from "wagmi"
-import { APP_NAME, APP_URL, DYNAMIC_ENVIRONMENT_ID } from "../shared/constants"
+import { APP_LOGO_URL, APP_NAME, APP_URL, DYNAMIC_ENVIRONMENT_ID } from "../shared/constants"
 import { wagmiConfig } from "./wagmi"
 
 const DynamicWalletContext = ({ children }: { children: React.ReactNode }) => {
@@ -30,6 +30,7 @@ const DynamicWalletContext = ({ children }: { children: React.ReactNode }) => {
       theme={dynamicTheme}
       settings={{
         appName: APP_NAME,
+        appLogoUrl: APP_LOGO_URL,
         environmentId: DYNAMIC_ENVIRONMENT_ID,
         walletConnectors: [
           AlgorandWalletConnectors,

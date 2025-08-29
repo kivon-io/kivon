@@ -132,6 +132,7 @@ export default MobileNavbar
 
 const ConnectWallet = () => {
   const { primaryWallet, setShowAuthFlow } = useDynamicContext()
+
   return !primaryWallet ? (
     <Button
       className='rounded-lg bg-[#1B1B1B] dark:bg-white dark:text-black w-fit'
