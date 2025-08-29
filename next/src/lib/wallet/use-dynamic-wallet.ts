@@ -105,8 +105,19 @@ export function useDynamicWallet(): UseDynamicWalletResult {
   }, [primaryWallet, isWagmiConnected])
 
   const chainId = useMemo(() => {
+    // Normalize to number, handling bigint or string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return wagmiChainId ?? (primaryWallet as any)?.connector?.activeChain?.id
+    const idFromDynamic: unknown = (primaryWallet as any)?.connector?.activeChain?.id
+    const normalize = (val: unknown): number | undefined => {
+      if (typeof val === "number") return val
+      if (typeof val === "bigint") return Number(val)
+      if (typeof val === "string") {
+        const n = Number(val)
+        return Number.isFinite(n) ? n : undefined
+      }
+      return undefined
+    }
+    return normalize(wagmiChainId) ?? normalize(idFromDynamic)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [primaryWallet, wagmiChainId, primaryWalletNetworkChanged])
