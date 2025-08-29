@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import ConnectedWallet from "@/lib/wallet/connected-wallet"
-import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react"
 import { useState } from "react"
 import Logo from "../logo"
@@ -26,7 +26,7 @@ type Props = {
 const DesktopNavbar = ({ items, logo }: Props) => {
   const { scrollY } = useScroll()
   const [showBackground, setShowBackground] = useState(false)
-  const { openConnectModal } = useConnectModal()
+  const { primaryWallet, setShowAuthFlow } = useDynamicContext()
 
   useMotionValueEvent(scrollY, "change", (value) => {
     if (value > 100) {
@@ -85,11 +85,11 @@ const DesktopNavbar = ({ items, logo }: Props) => {
           ))}
         </div>
         <div className='flex space-x-2 items-center'>
-          {openConnectModal ? (
+          {!primaryWallet ? (
             <Button
               className='rounded-lg bg-primary dark:bg-white dark:text-black'
               size='lg'
-              onClick={() => openConnectModal?.()}
+              onClick={() => setShowAuthFlow(true)}
             >
               Connect Wallet
             </Button>

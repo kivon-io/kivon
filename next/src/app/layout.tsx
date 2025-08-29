@@ -8,7 +8,7 @@ import { Metadata, Viewport } from "next"
 import { Toaster } from "@/components/ui/sonner"
 import { generateMetadataObject } from "@/lib/shared/metadata"
 import fetchContentType from "@/lib/strapi/fetchContentType"
-import { WalletProvider } from "@/lib/wallet/wallet-context"
+import DynamicWalletContext from "@/lib/wallet/dynamic-wallet-context"
 import { Barlow, Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 
@@ -111,22 +111,21 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <TRPCProvider>
-          <WalletProvider>
-            <AppProvider>
-              <ThemeProvider
-                attribute='class'
-                defaultTheme='system'
-                enableSystem
-                disableTransitionOnChange
-              >
+          <AppProvider>
+            <ThemeProvider
+              attribute='class'
+              defaultTheme='system'
+              enableSystem
+              disableTransitionOnChange
+            >
+              <DynamicWalletContext>
                 <Navbar {...navbar} />
                 {children}
                 <Toaster />
-
                 <Footer {...footer} social_media_links={globalData?.contact?.social_media_links} />
-              </ThemeProvider>
-            </AppProvider>
-          </WalletProvider>
+              </DynamicWalletContext>
+            </ThemeProvider>
+          </AppProvider>
         </TRPCProvider>
       </body>
     </html>

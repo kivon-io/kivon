@@ -87,7 +87,6 @@ const SelectSwapType = () => {
                 <div className='hidden md:flex absolute top-6 left-0 w-full h-[1px] bg-zinc-300 dark:bg-zinc-700/50' />
                 <div className='hidden md:flex absolute bottom-6 left-0 w-full h-[1px] bg-zinc-300 dark:bg-zinc-700/50' />
 
-                {/* only show on mobile, md: show on hover */}
                 <BorderBeam
                   duration={8}
                   size={100}

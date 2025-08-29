@@ -3,7 +3,7 @@
 import { useIsIndex, useIsReviews } from "@/hooks/use-is-reviews"
 import { cn } from "@/lib/utils"
 import ConnectedWallet from "@/lib/wallet/connected-wallet"
-import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { useMotionValueEvent, useScroll } from "motion/react"
 import Link from "next/link"
 import { useState } from "react"
@@ -27,7 +27,7 @@ type Props = {
 
 const MobileNavbar = ({ items, logo }: Props) => {
   const [open, setOpen] = useState(false)
-  const { openConnectModal } = useConnectModal()
+  const { primaryWallet, setShowAuthFlow } = useDynamicContext()
   const isReviews = useIsReviews()
   const isIndex = useIsIndex()
 
@@ -108,11 +108,11 @@ const MobileNavbar = ({ items, logo }: Props) => {
             >
               Connect Wallet
             </Button> */}
-            {openConnectModal ? (
+            {!primaryWallet ? (
               <Button
                 className='rounded-lg bg-[#1B1B1B] dark:bg-white dark:text-black w-full'
                 size='lg'
-                onClick={() => openConnectModal?.()}
+                onClick={() => setShowAuthFlow(true)}
               >
                 Connect Wallet
               </Button>
@@ -131,12 +131,12 @@ const MobileNavbar = ({ items, logo }: Props) => {
 export default MobileNavbar
 
 const ConnectWallet = () => {
-  const { openConnectModal } = useConnectModal()
-  return openConnectModal ? (
+  const { primaryWallet, setShowAuthFlow } = useDynamicContext()
+  return !primaryWallet ? (
     <Button
       className='rounded-lg bg-[#1B1B1B] dark:bg-white dark:text-black w-fit'
       size='sm'
-      onClick={() => openConnectModal?.()}
+      onClick={() => setShowAuthFlow(true)}
     >
       Connect
     </Button>

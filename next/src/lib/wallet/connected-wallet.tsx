@@ -10,10 +10,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { useState } from "react"
 import { BsCheck, BsCopy, BsPower } from "react-icons/bs"
 import { useMediaQuery } from "usehooks-ts"
-import { useAccount, useDisconnect } from "wagmi"
+import { useAccount } from "wagmi"
 import { formatAddress } from "../utils"
 import TotalBalance from "./total-balance"
 import WalletBalances from "./wallet-balances"
@@ -21,7 +22,7 @@ import WalletIcon from "./wallet-icon"
 
 const ConnectedWallet = () => {
   const { address, isConnected, chain } = useAccount()
-  const { disconnect } = useDisconnect()
+  const { handleLogOut } = useDynamicContext()
   const [isCopied, setIsCopied] = useState(false)
   const mediaQuery = useMediaQuery("(min-width: 768px)")
 
@@ -82,7 +83,7 @@ const ConnectedWallet = () => {
                   variant='outline'
                   size='icon'
                   className='hover:bg-zinc-200 dark:hover:bg-zinc-950'
-                  onClick={() => disconnect()}
+                  onClick={() => handleLogOut()}
                 >
                   <BsPower className='size-3' />
                 </Button>
