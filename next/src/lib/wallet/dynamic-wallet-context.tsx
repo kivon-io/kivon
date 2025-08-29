@@ -11,6 +11,7 @@ import { SdkViewSectionType, SdkViewType } from "@dynamic-labs/sdk-api-core"
 import { SolanaWalletConnectors } from "@dynamic-labs/solana"
 import { StarknetWalletConnectors } from "@dynamic-labs/starknet"
 import { SuiWalletConnectors } from "@dynamic-labs/sui"
+import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector"
 import {
   isAccountAbstractionConnector,
   isDynamicWaasConnector,
@@ -68,7 +69,9 @@ const DynamicWalletContext = ({ children }: { children: React.ReactNode }) => {
           }),
       }}
     >
-      <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>
+      <WagmiProvider config={wagmiConfig}>
+        <DynamicWagmiConnector suppressChainMismatchError>{children}</DynamicWagmiConnector>
+      </WagmiProvider>
     </DynamicContextProvider>
   )
 }

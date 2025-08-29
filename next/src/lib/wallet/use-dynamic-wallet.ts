@@ -30,6 +30,17 @@ export function useDynamicWallet(): UseDynamicWalletResult {
     chainId: wagmiChainId,
   } = useAccount()
 
+  console.log("wagmi:", {
+    wagmiAddress,
+    wagmiChain: chain,
+    wagmiConnector,
+    isWagmiConnected,
+    wagmiChainId,
+  })
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  console.log("primaryWallet: ", (primaryWallet as any)?._connector)
+
   const [iconUrl, setIconUrl] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -74,8 +85,7 @@ export function useDynamicWallet(): UseDynamicWalletResult {
     }
   }, [primaryWallet, wagmiConnector])
 
-  console.log("primaryWallet: ", primaryWallet)
-  console.log("chain: ", chain)
+  // Mobile can report undefined wagmi chain; fall back to Dynamic's internal connector
 
   const address = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,14 +97,15 @@ export function useDynamicWallet(): UseDynamicWalletResult {
     // Prefer wagmi connector name if available
     const nameFromWagmi = wagmiConnector?.name
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const nameFromDynamic: string | undefined = (primaryWallet as any)?.connector?.name
+    const nameFromDynamic: string | undefined = (primaryWallet as any)?._connector?.name
     return nameFromWagmi ?? nameFromDynamic
   }, [primaryWallet, wagmiConnector])
 
   const connectedChain = useMemo(() => {
     const nameFromWagmi = chain?.name
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const nameFromDynamic: string | undefined = (primaryWallet as any)?.connector?.activeChain?.name
+    const nameFromDynamic: string | undefined = (primaryWallet as any)?._connector?.activeChain
+      ?.name
     return nameFromWagmi ?? nameFromDynamic
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,7 +118,7 @@ export function useDynamicWallet(): UseDynamicWalletResult {
   const chainId = useMemo(() => {
     // Normalize to number, handling bigint or string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const idFromDynamic: unknown = (primaryWallet as any)?.connector?.activeChain?.id
+    const idFromDynamic: unknown = (primaryWallet as any)?._connector?.activeChain?.id
     const normalize = (val: unknown): number | undefined => {
       if (typeof val === "number") return val
       if (typeof val === "bigint") return Number(val)
@@ -124,7 +135,7 @@ export function useDynamicWallet(): UseDynamicWalletResult {
 
   const chainObj = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return chain ?? (primaryWallet as any)?.connector?.activeChain
+    return chain ?? (primaryWallet as any)?._connector?.activeChain
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chain, primaryWallet, primaryWalletNetworkChanged])
 
