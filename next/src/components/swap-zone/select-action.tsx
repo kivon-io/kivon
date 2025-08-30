@@ -11,8 +11,6 @@ import { Grid } from "../decorations/grid"
 import { Heading } from "../elements/heading"
 import SwapZoneContainer from "./swap-zone-container"
 
-// RiP2pLine
-
 const actions = [
   {
     id: 1,
@@ -64,7 +62,7 @@ const SelectSwapType = () => {
         Select an action to get started
       </Heading>
       <div className='grid grid-cols-2 gap-2 md:gap-4'>
-        {actions.map((action) => (
+        {actions.map((action, index) => (
           <motion.div
             key={action.id}
             whileHover={{ scale: 1.05 }}
@@ -88,7 +86,8 @@ const SelectSwapType = () => {
                 <div className='hidden md:flex absolute bottom-6 left-0 w-full h-[1px] bg-zinc-300 dark:bg-zinc-700/50' />
 
                 <BorderBeam
-                  duration={8}
+                  delay={(index + 1) * 0.5}
+                  duration={(index + 1) * 5}
                   size={100}
                   className='opacity-100 group-hover:opacity-100 transition-opacity duration-300 md:opacity-0'
                 />

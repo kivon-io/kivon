@@ -6,7 +6,7 @@ import { checkIfUserNeedsToProvideWalletAddress, isConnectedChainEnabled } from 
 import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
 import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { trpc } from "@/trpc/client"
-import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { useEffect } from "react"
 import { useDebounceValue } from "usehooks-ts"
 import { useSwitchChain } from "wagmi"
@@ -30,7 +30,7 @@ const BridgeAction = () => {
   } = useBridge()
   const { switchChainAsync } = useSwitchChain()
   const { address, isConnected, chainId, chain } = useDynamicWallet()
-  const { openConnectModal } = useConnectModal()
+  const { setShowAuthFlow } = useDynamicContext()
   const { origin, destination } = form.watch()
   const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0] || 0
 
@@ -94,7 +94,7 @@ const BridgeAction = () => {
 
     // if not connected, connect to the first connector
     if (!isConnected) {
-      openConnectModal?.()
+      setShowAuthFlow(true)
       return
     }
     if (chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM) {
@@ -185,7 +185,6 @@ const BridgeAction = () => {
             !isChainSwitched &&
             debouncedAmount <= 0) ||
           !checkChainisEnabled ||
-          // Don't disable on quote error if we need to collect recipient address
           (!isChainSwitched && !!quoteError && !checkifExtraWalletAddressIsNeeded) ||
           (address && hasInsufficientBalance) ||
           isExecuting
@@ -208,7 +207,7 @@ const BridgeAction = () => {
         ) : !checkChainisEnabled ? (
           `Chain is currently unavailable`
         ) : checkifExtraWalletAddressIsNeeded && !form.watch("isRecipientAddressValid") ? (
-          `Enter ${destination.chainName} Address`
+          <CheckIfUserNeedsToProvideWalletAddress chain={destination.chainName} />
         ) : hasInsufficientBalance ? (
           `Insufficient balance`
         ) : isExecuting && executionStatus === "executing" ? (
@@ -234,6 +233,14 @@ const SwitchChainText = ({ chainName }: { chainName: string }) => {
   return (
     <span>
       Switch Chain to <span className='capitalize'>{chainName}</span>{" "}
+    </span>
+  )
+}
+
+const CheckIfUserNeedsToProvideWalletAddress = ({ chain }: { chain: string }) => {
+  return (
+    <span>
+      Enter <span className='capitalize'>{chain}</span> Address
     </span>
   )
 }

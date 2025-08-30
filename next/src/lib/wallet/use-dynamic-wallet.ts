@@ -30,17 +30,6 @@ export function useDynamicWallet(): UseDynamicWalletResult {
     chainId: wagmiChainId,
   } = useAccount()
 
-  console.log("wagmi:", {
-    wagmiAddress,
-    wagmiChain: chain,
-    wagmiConnector,
-    isWagmiConnected,
-    wagmiChainId,
-  })
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  console.log("primaryWallet: ", (primaryWallet as any)?._connector)
-
   const [iconUrl, setIconUrl] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -84,8 +73,6 @@ export function useDynamicWallet(): UseDynamicWalletResult {
       cancelled = true
     }
   }, [primaryWallet, wagmiConnector])
-
-  // Mobile can report undefined wagmi chain; fall back to Dynamic's internal connector
 
   const address = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
