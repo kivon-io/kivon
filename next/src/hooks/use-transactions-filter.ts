@@ -31,7 +31,9 @@ export const useTransactionsFilter = () => {
 
   const updateFilterParams = useCallback(
     (params: Partial<TransactionFilterParams>) => {
-      const newSearchParams = new URLSearchParams(searchParams.toString())
+      // Always base updates on the latest URL, not a stale searchParams snapshot
+      const currentSearch = typeof window !== "undefined" ? window.location.search : ""
+      const newSearchParams = new URLSearchParams(currentSearch)
 
       Object.entries(params).forEach(([key, value]) => {
         if (value) {
@@ -41,13 +43,17 @@ export const useTransactionsFilter = () => {
         }
       })
 
-      // Reset to first page when filters change
+      // Reset to first page when filters change (but not when only page/perPage changes)
       if (Object.keys(params).some((key) => key !== "page" && key !== "perPage")) {
         newSearchParams.delete("page")
       }
 
       const queryString = newSearchParams.toString()
-      const newUrl = queryString ? `?${queryString}` : window.location.pathname
+      const newUrl = queryString
+        ? `?${queryString}`
+        : typeof window !== "undefined"
+          ? window.location.pathname
+          : ""
 
       router.replace(newUrl, { scroll: false })
     },

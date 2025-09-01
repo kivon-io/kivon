@@ -242,9 +242,10 @@ const TransactionsTable = ({
               size='sm'
               onClick={() => handlePageChange((currentPage || 1) - 1)}
               disabled={(currentPage || 1) <= 1}
+              className='cursor-pointer'
             >
               <ChevronLeft className='h-4 w-4' />
-              Previous
+              <p className='hidden md:block'>Previous</p>
             </Button>
 
             <div className='flex items-center space-x-1'>
@@ -256,7 +257,7 @@ const TransactionsTable = ({
                     variant={pageNum === (currentPage || 1) ? "default" : "outline"}
                     size='sm'
                     onClick={() => handlePageChange(pageNum)}
-                    className='w-8 h-8 p-0'
+                    className='w-8 h-8 p-0 cursor-pointer'
                   >
                     {pageNum}
                   </Button>
@@ -270,7 +271,7 @@ const TransactionsTable = ({
                     variant='outline'
                     size='sm'
                     onClick={() => handlePageChange(totalPages)}
-                    className='w-8 h-8 p-0'
+                    className='w-8 h-8 p-0 cursor-pointer'
                   >
                     {totalPages}
                   </Button>
@@ -283,8 +284,9 @@ const TransactionsTable = ({
               size='sm'
               onClick={() => handlePageChange((currentPage || 1) + 1)}
               disabled={(currentPage || 1) >= totalPages}
+              className='cursor-pointer'
             >
-              Next
+              <p className='hidden md:block'>Next</p>
               <ChevronRight className='h-4 w-4' />
             </Button>
           </div>

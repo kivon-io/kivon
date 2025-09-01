@@ -26,7 +26,7 @@ export default function TransactionsPage() {
       filter_type?: string
     } = {
       page: parseInt(filterParams.page || "1"),
-      per_page: parseInt(filterParams.perPage || "3"),
+      per_page: parseInt(filterParams.perPage || "20"),
     }
 
     if (filterParams.address) {
