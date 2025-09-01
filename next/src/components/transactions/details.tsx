@@ -138,7 +138,7 @@ export const TransactionDetailsContent = ({ transaction }: { transaction: Transa
                 },
               },
               {
-                label: "Sent amount",
+                label: "From Amount",
                 value: {
                   text: (
                     <Amount
@@ -237,14 +237,18 @@ export const TransactionDetailsContent = ({ transaction }: { transaction: Transa
                 value: {
                   text: (
                     <Hash
-                      hash={transaction.output_hash_explorer_url || ""}
-                      text={transaction.output_tx_hash || ""}
+                      hash={
+                        transaction.output_tx_hash
+                          ? transaction.output_hash_explorer_url || ""
+                          : "-"
+                      }
+                      text={transaction.output_tx_hash || "-"}
                     />
                   ),
                 },
               },
               {
-                label: "Sent amount",
+                label: "To Amount",
                 value: {
                   text: (
                     <Amount

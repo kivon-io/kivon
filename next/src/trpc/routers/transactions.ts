@@ -143,21 +143,46 @@ export const transactionRouter = createTRPCRouter({
     return data
   }),
 
-  getTransactions: publicProcedure.query(async () => {
-    const response = await fetch(`${TRANSACTION_API_BASE_URL}/transactions`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+  getTransactions: publicProcedure
+    .input(
+      z
+        .object({
+          page: z.number().optional().default(1),
+          per_page: z.number().optional().default(20),
+          user_address: z.string().optional(),
+          from_chain_id: z.number().optional(),
+          to_chain_id: z.number().optional(),
+          search: z.string().optional(),
+          filter_type: z.string().optional(),
+        })
+        .optional()
+        .default({ page: 1, per_page: 20 })
+    )
+    .query(async ({ input }) => {
+      const params = new URLSearchParams({
+        page: input.page.toString(),
+        per_page: input.per_page.toString(),
+        ...(input.user_address && { user_address: input.user_address }),
+        ...(input.from_chain_id && { from_chain_id: input.from_chain_id.toString() }),
+        ...(input.to_chain_id && { to_chain_id: input.to_chain_id.toString() }),
+        ...(input.search && { q: input.search }),
+        ...(input.filter_type && { filter_type: input.filter_type }),
+      })
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch transactions: ${response.status}`)
-    }
+      const response = await fetch(`${TRANSACTION_API_BASE_URL}/transactions?${params}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
-    const data = await response.json()
-    return data as Transaction[]
-  }),
+      if (!response.ok) {
+        throw new Error(`Failed to fetch transactions: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data as TransactionResponse
+    }),
 
   // Helper procedure to get transaction by id
   getTransactionById: publicProcedure

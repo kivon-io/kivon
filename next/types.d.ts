@@ -604,3 +604,13 @@ type Transaction = {
     amount_usd: string
   }
 }
+
+type TransactionResponse = {
+  transactions: Transaction[]
+  total: number
+  page: number
+  per_page: number
+  total_pages: number
+  has_next: boolean
+  has_prev: boolean
+}
