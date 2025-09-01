@@ -552,3 +552,55 @@ type Quote = {
     }
   }
 }
+
+type Transaction = {
+  id: string
+  transaction_type: string
+  user_address: string
+  from_amount: string
+  to_amount: string
+  from_amount_usd: string
+  to_amount_usd: string
+  exchange_rate: string | null
+  sender_address: string
+  recipient_address: string
+  input_tx_hash: string | null
+  output_tx_hash: string | null
+  input_hash_explorer_url: string | null
+  output_hash_explorer_url: string | null
+  external_transaction_id: string
+  completed_at: string | null
+  time_estimate: string | null
+  from_currency: {
+    currency_role: string
+    chain_id: number
+    chain_name: string
+    chain_symbol: string
+    chain_logo_uri: string
+    currency_address: string
+    currency_symbol: string
+    currency_name: string
+    currency_logo_uri: string
+    decimals: number
+    is_native: boolean
+    amount: string
+    amount_formatted: string
+    amount_usd: string
+  }
+  to_currency: {
+    currency_role: string
+    chain_id: number
+    chain_name: string
+    chain_symbol: string
+    chain_logo_uri: string
+    currency_address: string
+    currency_symbol: string
+    currency_name: string
+    currency_logo_uri: string
+    decimals: number
+    is_native: boolean
+    amount: string
+    amount_formatted: string
+    amount_usd: string
+  }
+}

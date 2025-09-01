@@ -10,8 +10,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { useBridge } from "@/context/bridge-context"
+import { buildBridgeTransaction } from "@/lib/transactions/build-transaction"
 import { cn, formatAddress } from "@/lib/utils"
+import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { CheckResultT } from "@/lib/wallet/use-execute-steps"
+import { trpc } from "@/trpc/client"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useEffect } from "react"
@@ -37,6 +40,39 @@ const ExecuteTransaction = ({
     checkResult,
   } = useBridge()
   const { origin, destination } = form.watch()
+  const { address } = useDynamicWallet()
+  const saveTx = trpc.createTransaction.useMutation()
+
+  // save the transaction if checkResult is success
+  useEffect(() => {
+    if (!quote || !checkResult || checkResult.status !== "success" || !address) return
+
+    // Build payload from quote/check/origin/destination
+    const payload = buildBridgeTransaction({
+      quote,
+      checkResult,
+      userAddress: address,
+      origin: {
+        chainId: origin.chainId,
+        chainName: origin.chainName,
+        chainImage: origin.chainImage,
+        tokenSymbol: origin.tokenSymbol,
+        explorerUrl: origin.explorerUrl ?? "",
+      },
+      destination: {
+        chainId: destination.chainId,
+        chainName: destination.chainName,
+        chainImage: destination.chainImage,
+        tokenSymbol: destination.tokenSymbol,
+        explorerUrl: destination.explorerUrl ?? "",
+      },
+    })
+
+    console.log("payload: ", payload)
+
+    saveTx.mutate(payload)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkResult?.status])
 
   useEffect(() => {
     if (executionStatus === "failed" && executionError === "USER_REJECTED") {
@@ -226,34 +262,6 @@ const ExecuteTransaction = ({
 
 export default ExecuteTransaction
 
-{
-  /* Execute Button */
-}
-{
-  /* <div className='flex gap-2 mt-4'>
-            <Button
-              onClick={handleExecute}
-              disabled={isExecuting || executionStatus === "success"}
-              className='flex-1'
-              size='lg'
-              variant={executionStatus === "success" ? "outline" : "default"}
-            >
-              {executionStatus === "success"
-                ? "Transaction Complete"
-                : isExecuting
-                ? executionStatus === "polling"
-                  ? "Confirming..."
-                  : "Executing..."
-                : "Execute Transaction"}
-            </Button>
-            {executionStatus === "success" && (
-              <Button variant='outline' onClick={() => onOpenChange(false)}>
-                Close
-              </Button>
-            )}
-          </div> */
-}
-
 const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) => {
   const { handleOpenExecuteTransactionDialog, resetExecution, form, quote, handleSetQuote } =
     useBridge()
@@ -266,6 +274,8 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
     handleSetQuote(null)
   }
 
+  const requestId = quote?.steps?.find((s) => Boolean(s.requestId))?.requestId
+
   return (
     <div className='flex flex-col gap-3 items-center justify-center'>
       <div className='flex flex-col gap-2'>
@@ -277,7 +287,7 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
         >
           <LuCircleCheckBig className='size-10 text-emerald-500' />
         </motion.div>
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-3 w-full'>
           <p className='text-sm font-medium text-center'>Successfully completed</p>
           <div className='grid grid-cols-12 gap-2'>
             <div className='col-span-12 md:col-span-5 bg-zinc-200/60 dark:bg-neutral-900 rounded-lg p-2.5'>
@@ -343,9 +353,11 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
           })}
       </div>
       <div className='w-full grid grid-cols-2 gap-3'>
-        <Button className='w-full' size='lg' variant='outline'>
-          View Details
-        </Button>
+        <Link href={`/transactions/${requestId}`}>
+          <Button className='w-full' size='lg' variant='outline'>
+            View Details
+          </Button>
+        </Link>
         <Button className='w-full' size='lg' onClick={handleClose}>
           Close
         </Button>

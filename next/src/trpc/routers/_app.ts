@@ -5,6 +5,7 @@ import { createTRPCRouter, mergeRouters } from "../trpc"
 import { alchemyRouter } from "./alchemy"
 import { bridgeRouter } from "./bridge"
 import { swapRouter } from "./swap"
+import { transactionRouter } from "./transactions"
 import { validateAddressRouter } from "./validate-address"
 
 const getTokenInfo = createTRPCRouter({
@@ -61,6 +62,7 @@ export const appRouter = mergeRouters(
   getTokenInfo,
   getTokenInfos,
   bridgeRouter,
-  alchemyRouter
+  alchemyRouter,
+  transactionRouter
 )
 export type AppRouter = typeof appRouter

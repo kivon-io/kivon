@@ -2,10 +2,13 @@ import { Network } from "alchemy-sdk"
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME
 export const APP_LOGO_URL = process.env.NEXT_PUBLIC_APP_LOGO_URL!
+
 export const CHANGE_NOW_API_URL = process.env.NEXT_PUBLIC_CHANGE_NOW_API_URL
 export const CHANGE_NOW_API_URL_v1 = process.env.NEXT_PUBLIC_CHANGE_NOW_API_URL_V1
 export const APP_URL = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL!
 export const RELAY_LINK_API_URL = process.env.NEXT_PUBLIC_RELAY_LINK_BASE_URL
+
+export const TRANSACTION_API_BASE_URL = process.env.TRANSACTION_API_BASE_URL!
 
 export const DYNAMIC_ENVIRONMENT_ID = process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID!
 

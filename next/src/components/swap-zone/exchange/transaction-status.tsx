@@ -28,13 +28,10 @@ const TransactionStatus = ({ currentStatus }: { currentStatus?: string }) => {
       {STATUSES.map((status, idx) => {
         let icon = null
         if (idx < currentIndex) {
-          // Passed: show check
           icon = <IoCheckmarkDoneCircleSharp className='text-emerald-600 text-2xl relative z-10' />
         } else if (idx === currentIndex) {
-          // Current: show loader
           icon = <Loader className='text-secondary-custom relative left-1' />
         } else {
-          // Not reached: show empty circle
           icon = (
             <div className='h-5 w-5 rounded-full relative z-10 bg-zinc-100 dark:bg-neutral-950 border border-zinc-300 dark:border-zinc-800'></div>
           )
@@ -63,35 +60,6 @@ const TransactionStatus = ({ currentStatus }: { currentStatus?: string }) => {
           </div>
         )
       })}
-      {/* {statuses.map((statusItem, index) => {
-        const isCurrent = statusItem.status === status
-        const showLine = index < statuses.length - 1
-
-        return (
-          <div
-            className={cn(
-              "flex gap-4 relative",
-              showLine &&
-                "after:absolute after:left-2.5 after:top-5 after:bottom-0 after:w-px after:bg-zinc-200 after:h-full"
-            )}
-            key={index}
-          >
-            {isCurrent ? (
-              <Loader className=' text-secondary-custom relative left-1' />
-            ) : (
-              <div
-                className={cn(
-                  "h-5 w-5 rounded-full relative z-10 bg-zinc-100 border border-zinc-300"
-                )}
-              ></div>
-            )}
-            <div className='flex flex-col'>
-              <p className='text-sm font-medium'>{statusItem.title}</p>
-              <p className='text-xs text-zinc-600'>{statusItem.description}</p>
-            </div>
-          </div>
-        )
-      })} */}
     </div>
   )
 }
