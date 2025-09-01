@@ -11,6 +11,7 @@ import fetchContentType from "@/lib/strapi/fetchContentType"
 import DynamicWalletContext from "@/lib/wallet/dynamic-wallet-context"
 import { Barlow, Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import { ClientRegisterUser } from "./register-user-client"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -119,6 +120,7 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               <DynamicWalletContext>
+                <ClientRegisterUser />
                 <Navbar {...navbar} />
                 {children}
                 <Toaster />

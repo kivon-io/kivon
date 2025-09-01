@@ -1,11 +1,13 @@
 "use client"
 
 import { useDynamicContext, useDynamicEvents } from "@dynamic-labs/sdk-react-core"
+import { Wallet } from "@dynamic-labs/wallet-connector-core"
 import { useEffect, useMemo, useState } from "react"
 import { Chain } from "viem"
 import { useAccount } from "wagmi"
 
 type UseDynamicWalletResult = {
+  primaryWallet: Wallet | null
   address?: `0x${string}`
   connectorName?: string
   connectorIcon?: string
@@ -127,6 +129,7 @@ export function useDynamicWallet(): UseDynamicWalletResult {
   }, [chain, primaryWallet, primaryWalletNetworkChanged])
 
   return {
+    primaryWallet,
     address,
     connectorIcon: iconUrl,
     connectorName,

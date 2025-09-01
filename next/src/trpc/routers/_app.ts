@@ -1,4 +1,4 @@
-import { CHANGE_NOW_API_URL_v1 } from "@/lib/shared/constants"
+import { CHANGE_NOW_API_URL_v1, TRANSACTION_API_BASE_URL } from "@/lib/shared/constants"
 import { z } from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter, mergeRouters } from "../trpc"
@@ -56,6 +56,34 @@ const getTokenInfos = createTRPCRouter({
       return results as TokenInfoResponse[]
     }),
 })
+
+const userRouter = createTRPCRouter({
+  createUser: publicProcedure
+    .input(z.object({ address: z.string() }))
+    .mutation(async ({ input }) => {
+      const { address } = input
+      const payload = {
+        name: address,
+        wallet_addresses: [address],
+      }
+
+      const response = await fetch(`${TRANSACTION_API_BASE_URL}/user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to create user: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data as { id: string }
+    }),
+})
+
 export const appRouter = mergeRouters(
   swapRouter,
   validateAddressRouter,
@@ -63,6 +91,7 @@ export const appRouter = mergeRouters(
   getTokenInfos,
   bridgeRouter,
   alchemyRouter,
-  transactionRouter
+  transactionRouter,
+  userRouter
 )
 export type AppRouter = typeof appRouter
