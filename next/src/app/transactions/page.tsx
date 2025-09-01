@@ -3,8 +3,10 @@
 import { Heading } from "@/components/elements/heading"
 import Section from "@/components/section"
 import TransactionsTable from "@/components/transactions"
+import { StatsCard } from "@/components/transactions/details"
 import { FilterHeader } from "@/components/transactions/transactions-filter"
 import { useTransactionsFilter } from "@/hooks/use-transactions-filter"
+import { formatSmartBalance } from "@/lib/utils"
 import { trpc } from "@/trpc/client"
 import { useMemo } from "react"
 
@@ -58,6 +60,7 @@ export default function TransactionsPage() {
   }, [filterParams])
 
   const { data, isPending, error } = trpc.getTransactions.useQuery(queryParams)
+  const { data: stats } = trpc.getTransactionStats.useQuery()
   const { data: chains } = trpc.getChains.useQuery()
 
   if (error) {
@@ -72,9 +75,17 @@ export default function TransactionsPage() {
 
   return (
     <Section className='max-w-7xl mx-auto py-20'>
-      <Heading className='text-left text-2xl md:text-xl w-fit ml-0 mb-5'>Transactions</Heading>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-2 mb-10'>
+        <StatsCard title={`Total Tx`} value={stats?.total_transactions.toString() || "0"} />
+        <StatsCard
+          title={`Total Volume`}
+          value={`$${formatSmartBalance(stats?.total_volume_usd || 0)}`}
+        />
+        <StatsCard title={`Total Users`} value={stats?.total_users.toString() || "0"} />
+      </div>
 
       <div className='flex flex-col gap-2 overflow-hidden'>
+        <Heading className='text-left text-lg md:text-xl w-fit ml-0'>Transactions</Heading>
         <FilterHeader chains={chains || []} />
         <TransactionsTable
           transactions={data?.transactions || []}

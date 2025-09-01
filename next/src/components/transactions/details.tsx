@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { FiCheckCircle } from "react-icons/fi"
 import { BlurImage } from "../blur-image"
+import { Grid } from "../decorations/grid"
 import { Heading } from "../elements/heading"
 import { Subheading } from "../elements/sub_heading"
 import Symbol from "../elements/symbol"
@@ -45,6 +46,20 @@ export const TransactionDetailsHeader = () => {
           </Link>
         </Button>
       </div>
+    </div>
+  )
+}
+
+export const StatsCard = ({ title, value }: { title: string; value: string }) => {
+  return (
+    <div className='flex flex-col gap-1 border border-zinc-200 dark:border-zinc-800 rounded-lg p-5 relative overflow-hidden h-32'>
+      <div className='relative z-10 h-full'>
+        <p className='text-xs text-zinc-600 dark:text-zinc-400 font-medium'>{title}</p>
+        <p className='text-2xl md:text-4xl font-barlow text-zinc-900 dark:text-zinc-100 font-bold mt-1'>
+          {value}
+        </p>
+      </div>
+      <Grid size={20} className='absolute -top-5 right-0' />
     </div>
   )
 }

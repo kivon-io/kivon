@@ -208,35 +208,21 @@ export const transactionRouter = createTRPCRouter({
     }),
 
   // Helper procedure to get user transactions
-  getUserTransactions: publicProcedure
-    .input(
-      z.object({
-        user_address: z.string(),
-        limit: z.number().optional().default(10),
-        offset: z.number().optional().default(0),
-      })
-    )
-    .query(async ({ input }) => {
-      const params = new URLSearchParams({
-        user_address: input.user_address,
-        limit: input.limit.toString(),
-        offset: input.offset.toString(),
-      })
+  getTransactionStats: publicProcedure.query(async () => {
+    const response = await fetch(`${TRANSACTION_API_BASE_URL}/transactions/stats`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
 
-      const response = await fetch(`${TRANSACTION_API_BASE_URL}/transactions?${params}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+    if (!response.ok) {
+      throw new Error(`Failed to fetch transaction stats: ${response.status}`)
+    }
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch user transactions: ${response.status}`)
-      }
-
-      const data = await response.json()
-      return data
-    }),
+    const data = await response.json()
+    return data as TransactionStats
+  }),
 })
 
 // Export types for use in other files

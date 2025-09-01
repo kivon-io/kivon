@@ -57,7 +57,6 @@ export const useTransactionsFilter = () => {
 
       router.replace(newUrl, { scroll: false })
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [router]
   )
 

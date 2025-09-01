@@ -614,3 +614,12 @@ type TransactionResponse = {
   has_next: boolean
   has_prev: boolean
 }
+
+type TransactionStats = {
+  total_transactions: number
+  total_volume: number
+  total_volume_usd: number
+  total_fees: number
+  total_fees_usd: number
+  total_users: number
+}
