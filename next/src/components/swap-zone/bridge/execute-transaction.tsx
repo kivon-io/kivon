@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/dialog"
 import { useBridge } from "@/context/bridge-context"
 import { buildBridgeTransaction } from "@/lib/transactions/build-transaction"
-import { cn, formatAddress } from "@/lib/utils"
+import { cn, formatAddress, formatSmartBalance } from "@/lib/utils"
 import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { CheckResultT } from "@/lib/wallet/use-execute-steps"
 import { trpc } from "@/trpc/client"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useEffect } from "react"
-import { HiOutlineArrowRight } from "react-icons/hi"
+import { HiArrowRight, HiOutlineArrowRight } from "react-icons/hi"
 import { LuCircleCheckBig, LuCircleX } from "react-icons/lu"
 import { MdOutlineOpenInNew } from "react-icons/md"
 import { BridgeImageAsset } from "./chain-image"
@@ -278,7 +278,7 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
 
   return (
     <div className='flex flex-col gap-3 items-center justify-center'>
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 w-full'>
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -289,9 +289,9 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
         </motion.div>
         <div className='flex flex-col gap-3 w-full'>
           <p className='text-sm font-medium text-center'>Successfully completed</p>
-          <div className='grid grid-cols-12 gap-2'>
+          <div className='grid grid-cols-12 gap-2 w-full'>
             <div className='col-span-12 md:col-span-5 bg-zinc-200/60 dark:bg-neutral-900 rounded-lg p-2.5'>
-              <div className='flex flex-col gap-2'>
+              <div className='flex flex-row md:flex-col gap-2 items-center md:items-start'>
                 <div className='flex items-center gap-2 relative'>
                   <BridgeImageAsset
                     chainName={origin.chainName}
@@ -301,14 +301,16 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
                   />
                 </div>
                 <p className='text-sm font-semibold'>
-                  {Number(quote?.details.currencyIn.amountFormatted).toFixed(7)}{" "}
+                  {formatSmartBalance(quote?.details.currencyIn.amountFormatted ?? 0)}{" "}
                   {origin.tokenSymbol}
                 </p>
               </div>
             </div>
-            <div className='col-span-12 md:col-span-2 flex items-center justify-center'>to</div>
+            <div className='col-span-12 md:col-span-2 flex items-center justify-center'>
+              <HiArrowRight className='size-4 text-zinc-600 dark:text-zinc-400 transform rotate-90 md:rotate-0' />
+            </div>
             <div className='col-span-12 md:col-span-5 bg-zinc-200/60 dark:bg-neutral-900 rounded-lg p-2.5'>
-              <div className='flex flex-col gap-2'>
+              <div className='flex flex-row md:flex-col gap-2 items-center md:items-start'>
                 <div className='flex items-center gap-2 relative'>
                   <BridgeImageAsset
                     chainName={destination.chainName}
@@ -318,7 +320,7 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
                   />
                 </div>
                 <p className='text-sm font-semibold'>
-                  {Number(quote?.details.currencyOut.amountFormatted).toFixed(7)}{" "}
+                  {formatSmartBalance(quote?.details.currencyOut.amountFormatted ?? 0)}{" "}
                   {destination.tokenSymbol}
                 </p>
               </div>
