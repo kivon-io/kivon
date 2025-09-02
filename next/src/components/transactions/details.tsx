@@ -52,7 +52,7 @@ export const TransactionDetailsHeader = () => {
 
 export const StatsCard = ({ title, value }: { title: string; value: string }) => {
   return (
-    <div className='flex flex-col gap-1 border border-zinc-200 dark:border-zinc-800 rounded-lg p-5 relative overflow-hidden h-32'>
+    <div className='flex flex-col gap-1 border border-zinc-200 dark:border-zinc-800 rounded-lg p-5 relative overflow-hidden h-32 bg-white dark:bg-zinc-900'>
       <div className='relative z-10 h-full'>
         <p className='text-xs text-zinc-600 dark:text-zinc-400 font-medium'>{title}</p>
         <p className='text-2xl md:text-4xl font-barlow text-zinc-900 dark:text-zinc-100 font-bold mt-1'>
