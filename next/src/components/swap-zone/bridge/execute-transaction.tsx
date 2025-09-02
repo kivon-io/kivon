@@ -273,10 +273,10 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
     form.setValue("amount", 0)
     handleSetQuote(null)
   }
-  const orderId = quote?.protocol?.v2?.orderId
-  const requestId = quote?.steps?.find((s) => Boolean(s.requestId))?.requestId
+  // const orderId = quote?.protocol?.v2?.orderId
+  // const requestId = quote?.steps?.find((s) => Boolean(s.requestId))?.requestId
 
-  const transactionId = orderId || requestId
+  // const transactionId = orderId || requestId
 
   return (
     <div className='flex flex-col gap-3 items-center justify-center'>
@@ -356,12 +356,12 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
             )
           })}
       </div>
-      <div className='w-full grid grid-cols-2 gap-3'>
-        <Link href={`/transactions/${transactionId}`}>
+      <div className='w-full grid grid-cols-1 gap-3'>
+        {/* <Link href={`/transactions/${transactionId}`}>
           <Button className='w-full' size='lg' variant='outline'>
             View Details
           </Button>
-        </Link>
+        </Link> */}
         <Button className='w-full' size='lg' onClick={handleClose}>
           Close
         </Button>

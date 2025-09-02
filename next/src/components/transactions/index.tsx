@@ -8,6 +8,7 @@ import Link from "next/link"
 import { BsCheckCircleFill } from "react-icons/bs"
 import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 import { BlurImage } from "../blur-image"
+import Loader from "../loader"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
 import { DataTable } from "../ui/data-table"
@@ -224,7 +225,10 @@ const TransactionsTable = ({
   if (isLoading) {
     return (
       <div className='flex items-center justify-center h-64'>
-        <div className='text-lg'>Loading transactions...</div>
+        <div className='flex items-center'>
+          <Loader className='text-secondary-custom' />
+          <p className='text-sm text-zinc-500 dark:text-zinc-400'>Loading transactions...</p>
+        </div>
       </div>
     )
   }

@@ -41,9 +41,6 @@ const Menu = ({ children }: { children?: React.ReactNode }) => {
               >
                 <div className='flex gap-1 items-center justify-center'>
                   <p>Bridge</p>{" "}
-                  <p className='text-[10px] text-secondary-custom dark:text-secondary-custom font-mono'>
-                    Beta
-                  </p>
                 </div>
               </Link>
             </NavigationMenuLink>
