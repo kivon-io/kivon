@@ -68,8 +68,6 @@ const ExecuteTransaction = ({
       },
     })
 
-    console.log("payload: ", payload)
-
     saveTx.mutate(payload)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkResult?.status])
