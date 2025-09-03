@@ -6,10 +6,9 @@ import { checkIfUserNeedsToProvideWalletAddress, isConnectedChainEnabled } from 
 import { useBalanceCheck } from "@/lib/wallet/use-balance-check"
 import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { trpc } from "@/trpc/client"
-import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
+import { useDynamicContext, useSwitchNetwork } from "@dynamic-labs/sdk-react-core"
 import { useEffect } from "react"
 import { useDebounceValue } from "usehooks-ts"
-import { useSwitchChain } from "wagmi"
 import DataError from "../network-error"
 import { BRIDGE_STAGES, VM_TYPES } from "./constants"
 import ExecuteTransaction from "./execute-transaction"
@@ -28,8 +27,9 @@ const BridgeAction = () => {
     isExecuting,
     executionStatus,
   } = useBridge()
-  const { switchChainAsync } = useSwitchChain()
-  const { address, isConnected, chainId, chain } = useDynamicWallet()
+  const switchNetwork = useSwitchNetwork()
+
+  const { address, isConnected, chainId, chain, primaryWallet } = useDynamicWallet()
   const { setShowAuthFlow } = useDynamicContext()
   const { origin, destination } = form.watch()
   const debouncedAmount = useDebounceValue(form.watch("amount"), 500)[0] || 0
@@ -98,7 +98,7 @@ const BridgeAction = () => {
       return
     }
     if (chainId !== origin.chainId && origin.vmType === VM_TYPES.EVM) {
-      await switchChainAsync({ chainId: origin.chainId })
+      switchNetwork({ wallet: primaryWallet!, network: origin.chainId })
       return
     }
 

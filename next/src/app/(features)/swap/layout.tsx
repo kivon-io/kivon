@@ -79,7 +79,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   })
 
   return (
-    <div className=' relative'>
+    <div className=' relative mb-20'>
       {children}
       <PageContent pageData={pageData} />
       <Blog data={featuredArticles.data} />
