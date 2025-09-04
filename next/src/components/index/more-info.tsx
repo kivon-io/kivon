@@ -70,7 +70,7 @@ const coins = [
 ]
 
 const MoreInfo = () => {
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   const ref = useRef<HTMLDivElement>(null)
@@ -81,10 +81,10 @@ const MoreInfo = () => {
 
   const backgrounds = useMemo(
     () =>
-      theme === "dark"
+      resolvedTheme === "dark"
         ? ["#0b0809", "#000000", "#171717", "#0b0809"]
         : ["#f1f1f1", "#ffffff", "#ffffff", "#f1f1f1"],
-    [theme]
+    [resolvedTheme]
   )
 
   const [gradient, setGradient] = useState(backgrounds[0])
@@ -117,7 +117,7 @@ const MoreInfo = () => {
       return acc
     }, 0)
     setGradient(backgrounds[closestBreakpointIndex % backgrounds.length])
-  }, [theme, backgrounds, scrollYProgress])
+  }, [resolvedTheme, backgrounds, scrollYProgress])
 
   return (
     <div className='w-full py-4'>
@@ -127,7 +127,7 @@ const MoreInfo = () => {
             className='absolute inset-0 h-full w-full'
             squareSize={1}
             gridGap={2}
-            color={theme === "dark" ? "#f0f0f0" : "#000000"}
+            color={resolvedTheme === "dark" ? "#f0f0f0" : "#000000"}
             maxOpacity={0.5}
             flickerChance={0.1}
           />

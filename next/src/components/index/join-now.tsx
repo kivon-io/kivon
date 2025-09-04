@@ -9,7 +9,7 @@ import Section from "../section"
 import WaitlistForm from "./waitlist-form"
 
 const JoinNow = () => {
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const JoinNow = () => {
             }}
           ></div>
           <StarBackground className='absolute -top-[20rem] z-10' />
-          {mounted && theme === "dark" ? (
+          {mounted && resolvedTheme === "dark" ? (
             <div
               className='absolute inset-0 rounded-[50%] z-10'
               style={{
