@@ -1,7 +1,8 @@
 "use client"
 
 import { useTransactionsFilter } from "@/hooks/use-transactions-filter"
-import { formatAddress, formatSmartBalance } from "@/lib/utils"
+import { TRANSACTION_TYPE } from "@/lib/shared/constants"
+import { cn, formatAddress, formatSmartBalance } from "@/lib/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
@@ -29,22 +30,26 @@ const columns: ColumnDef<Transaction>[] = [
                 <BlurImage
                   src={from_currency.currency_logo_uri}
                   alt={from_currency.currency_name}
-                  className='object-contain object-center w-8 h-8 rounded-full shrink-0'
+                  className={cn(
+                    "object-contain object-center w-8 h-8 shrink-0",
+                    row.original.transaction_type === TRANSACTION_TYPE.BRIDGE && "rounded-full"
+                  )}
                   width={32}
                   height={32}
                 />
               )}
-              {from_currency.chain_logo_uri && (
-                <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
-                  <BlurImage
-                    src={from_currency.chain_logo_uri}
-                    alt={from_currency.chain_name}
-                    className='object-cover object-center w-4 h-4 rounded-full'
-                    width={16}
-                    height={16}
-                  />
-                </div>
-              )}
+              {from_currency.chain_logo_uri &&
+                row.original.transaction_type === TRANSACTION_TYPE.BRIDGE && (
+                  <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
+                    <BlurImage
+                      src={from_currency.chain_logo_uri}
+                      alt={from_currency.chain_name}
+                      className='object-cover object-center w-4 h-4 rounded-full'
+                      width={16}
+                      height={16}
+                    />
+                  </div>
+                )}
             </div>
             <div className='flex flex-col'>
               <p className='text-sm font-medium group-hover:underline'>
@@ -73,22 +78,26 @@ const columns: ColumnDef<Transaction>[] = [
                 <BlurImage
                   src={to_currency.currency_logo_uri}
                   alt={to_currency.currency_name}
-                  className='object-contain object-center w-8 h-8 rounded-full shrink-0'
+                  className={cn(
+                    "object-contain object-center w-8 h-8 shrink-0",
+                    row.original.transaction_type === TRANSACTION_TYPE.BRIDGE && "rounded-full"
+                  )}
                   width={32}
                   height={32}
                 />
               )}
-              {to_currency.chain_logo_uri && (
-                <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
-                  <BlurImage
-                    src={to_currency.chain_logo_uri}
-                    alt={to_currency.chain_name}
-                    className='object-cover object-center w-4 h-4 rounded-full'
-                    width={16}
-                    height={16}
-                  />
-                </div>
-              )}
+              {to_currency.chain_logo_uri &&
+                row.original.transaction_type === TRANSACTION_TYPE.BRIDGE && (
+                  <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
+                    <BlurImage
+                      src={to_currency.chain_logo_uri}
+                      alt={to_currency.chain_name}
+                      className='object-cover object-center w-4 h-4 rounded-full'
+                      width={16}
+                      height={16}
+                    />
+                  </div>
+                )}
             </div>
             <div className='flex flex-col'>
               <p className='text-sm font-medium group-hover:underline'>
@@ -114,7 +123,7 @@ const columns: ColumnDef<Transaction>[] = [
           <p className='text-sm font-medium'>
             {formatSmartBalance(from_currency.amount_formatted)} {from_currency.currency_symbol}
           </p>
-          <p className='text-xs text-zinc-500 dark:text-zinc-400'>${from_currency.amount_usd}</p>
+          <AmountUsd amount={from_currency.amount_usd} />
         </div>
       )
     },
@@ -130,7 +139,7 @@ const columns: ColumnDef<Transaction>[] = [
           <p className='text-sm font-medium'>
             {formatSmartBalance(to_currency.amount_formatted)} {to_currency.currency_symbol}
           </p>
-          <p className='text-xs text-zinc-500 dark:text-zinc-400'>${to_currency.amount_usd}</p>
+          <AmountUsd amount={to_currency.amount_usd} />
         </div>
       )
     },
@@ -301,3 +310,8 @@ const TransactionsTable = ({
 }
 
 export default TransactionsTable
+
+const AmountUsd = ({ amount }: { amount: string }) => {
+  if (Number(amount) === 0) return null
+  return <p className='text-xs text-zinc-500 dark:text-zinc-400'>${amount}</p>
+}

@@ -43,8 +43,6 @@ const ExchangeAction = () => {
     })
 
     form.setValue("exchangeTransaction", response)
-    // add transaction id to the current url
-    router.push(`/swap?id=${response.id}`)
   }
 
   const isNextStepEnabled = useMemo(() => {
@@ -70,15 +68,12 @@ const ExchangeAction = () => {
   const handleNextStep = () => {
     if (step === EXCHANGE_STEPS.SELECT_COIN) {
       setStep(EXCHANGE_STEPS.TRANSACTION_DETAILS)
-      // set step to transaction-details in the url
-      // i need to preserve the route and just change the step
-      router.push(`${pathname}?step=transaction-details`)
+      router.push(`${pathname}?step=td`)
     }
 
     if (step === EXCHANGE_STEPS.TRANSACTION_DETAILS) {
       setStep(EXCHANGE_STEPS.SEND_TRANSACTION)
-      // set step to send-transaction in the url
-      router.push(`${pathname}?step=send-transaction`)
+      router.push(`${pathname}?step=st`)
       handleCreateExchangeTransaction()
     }
   }

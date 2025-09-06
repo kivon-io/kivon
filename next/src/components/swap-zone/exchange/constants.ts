@@ -59,9 +59,9 @@ export const exchangeFormSchema = z
 export type ExchangeFormSchema = z.infer<typeof exchangeFormSchema>
 
 export const EXCHANGE_STEPS = {
-  SELECT_COIN: "select-coin",
-  TRANSACTION_DETAILS: "transaction-details",
-  SEND_TRANSACTION: "send-transaction",
+  SELECT_COIN: "sc",
+  TRANSACTION_DETAILS: "td",
+  SEND_TRANSACTION: "st",
 } as const
 
 export const EXCHANGE_STATUS = {

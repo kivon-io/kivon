@@ -1,6 +1,6 @@
 "use client"
-import { APP_NAME } from "@/lib/shared/constants"
-import { formatDate, formatSmartBalance } from "@/lib/utils"
+import { APP_NAME, TRANSACTION_TYPE } from "@/lib/shared/constants"
+import { cn, formatDate, formatSmartBalance } from "@/lib/utils"
 import { Check, Copy } from "lucide-react"
 import { motion } from "motion/react"
 import Link from "next/link"
@@ -74,31 +74,33 @@ export const TransactionDetailsContent = ({ transaction }: { transaction: Transa
               <BlurImage
                 src={transaction.from_currency.currency_logo_uri}
                 alt={transaction.from_currency.currency_name}
-                className='object-contain object-center w-8 h-8 rounded-full shrink-0'
+                className={cn(
+                  "object-contain object-center w-8 h-8 shrink-0",
+                  transaction.transaction_type === TRANSACTION_TYPE.BRIDGE && "rounded-full"
+                )}
                 width={32}
                 height={32}
               />
             )}
-            {transaction.from_currency.chain_logo_uri && (
-              <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
-                <BlurImage
-                  src={transaction.from_currency.chain_logo_uri}
-                  alt={transaction.from_currency.chain_name}
-                  className='object-cover object-center w-4 h-4 rounded-full'
-                  width={16}
-                  height={16}
-                />
-              </div>
-            )}
+            {transaction.from_currency.chain_logo_uri &&
+              transaction.transaction_type === TRANSACTION_TYPE.BRIDGE && (
+                <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
+                  <BlurImage
+                    src={transaction.from_currency.chain_logo_uri}
+                    alt={transaction.from_currency.chain_name}
+                    className='object-cover object-center w-4 h-4 rounded-full'
+                    width={16}
+                    height={16}
+                  />
+                </div>
+              )}
           </div>
           <div className='flex flex-col'>
             <p className='text-sm font-medium text-zinc-900 dark:text-zinc-100'>
               {formatSmartBalance(transaction.from_currency.amount_formatted)}{" "}
               {transaction.from_currency.currency_symbol}
             </p>
-            <p className='text-xs text-zinc-500 dark:text-zinc-400'>
-              {transaction.from_currency.amount_usd} USD
-            </p>
+            <AmountUsd amount={transaction.from_currency.amount_usd} />
           </div>
         </div>
         <div className='grid grid-cols-12 items-center gap-2'>
@@ -110,7 +112,10 @@ export const TransactionDetailsContent = ({ transaction }: { transaction: Transa
               <BlurImage
                 src={transaction.from_currency.currency_logo_uri}
                 alt={transaction.from_currency.currency_name}
-                className='object-contain object-center w-6 h-6 rounded-full shrink-0'
+                className={cn(
+                  "object-contain object-center w-6 h-6 shrink-0",
+                  transaction.transaction_type === TRANSACTION_TYPE.BRIDGE && "rounded-full"
+                )}
                 width={16}
                 height={16}
               />
@@ -180,31 +185,33 @@ export const TransactionDetailsContent = ({ transaction }: { transaction: Transa
               <BlurImage
                 src={transaction.to_currency.currency_logo_uri}
                 alt={transaction.to_currency.currency_name}
-                className='object-contain object-center w-8 h-8 rounded-full shrink-0'
+                className={cn(
+                  "object-contain object-center w-8 h-8 shrink-0",
+                  transaction.transaction_type === TRANSACTION_TYPE.BRIDGE && "rounded-full"
+                )}
                 width={32}
                 height={32}
               />
             )}
-            {transaction.to_currency.chain_logo_uri && (
-              <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
-                <BlurImage
-                  src={transaction.to_currency.chain_logo_uri}
-                  alt={transaction.to_currency.chain_name}
-                  className='object-cover object-center w-4 h-4 rounded-full'
-                  width={16}
-                  height={16}
-                />
-              </div>
-            )}
+            {transaction.to_currency.chain_logo_uri &&
+              transaction.transaction_type === TRANSACTION_TYPE.BRIDGE && (
+                <div className='absolute -bottom-1 -right-1 bg-white dark:bg-neutral-950 border border-zinc-200 dark:border-zinc-700 rounded-full'>
+                  <BlurImage
+                    src={transaction.to_currency.chain_logo_uri}
+                    alt={transaction.to_currency.chain_name}
+                    className='object-cover object-center w-4 h-4 rounded-full'
+                    width={16}
+                    height={16}
+                  />
+                </div>
+              )}
           </div>
           <div className='flex flex-col'>
             <p className='text-sm font-medium text-zinc-900 dark:text-zinc-100'>
               {formatSmartBalance(transaction.from_currency.amount_formatted)}{" "}
               {transaction.to_currency.currency_symbol}
             </p>
-            <p className='text-xs text-zinc-500 dark:text-zinc-400'>
-              {transaction.to_currency.amount_usd} USD
-            </p>
+            <AmountUsd amount={transaction.to_currency.amount_usd} />
           </div>
         </div>
         <div className='grid grid-cols-12 items-center gap-2'>
@@ -216,7 +223,10 @@ export const TransactionDetailsContent = ({ transaction }: { transaction: Transa
               <BlurImage
                 src={transaction.to_currency.currency_logo_uri}
                 alt={transaction.to_currency.currency_name}
-                className='object-contain object-center w-6 h-6 rounded-full shrink-0'
+                className={cn(
+                  "object-contain object-center w-6 h-6 shrink-0",
+                  transaction.transaction_type === TRANSACTION_TYPE.BRIDGE && "rounded-full"
+                )}
                 width={16}
                 height={16}
               />
@@ -355,4 +365,9 @@ const Amount = ({ amount, currency }: { amount: number; currency: string }) => {
 
 const Text = ({ text }: { text: string }) => {
   return <p className='text-xs text-zinc-900 dark:text-zinc-100 font-medium break-words'>{text}</p>
+}
+
+const AmountUsd = ({ amount }: { amount: string }) => {
+  if (Number(amount) === 0) return null
+  return <p className='text-xs text-zinc-500 dark:text-zinc-400'>{amount} USD</p>
 }

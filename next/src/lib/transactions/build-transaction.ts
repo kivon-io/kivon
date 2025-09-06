@@ -1,6 +1,7 @@
 import type { CheckResultT } from "@/lib/wallet/use-execute-steps"
 import type { TransactionInput } from "@/trpc/routers/transactions"
-import { RELAY_APP_NAME } from "../shared/constants"
+import { EXCHANGE_APP_NAME, RELAY_APP_NAME } from "../shared/constants"
+import { appendUrlToTxHash } from "../utils"
 
 type BridgeBuildArgs = {
   quote: Quote
@@ -20,6 +21,20 @@ type BridgeBuildArgs = {
     explorerUrl: string
   }
   userAddress: `0x${string}`
+}
+
+type ExchangeBuildArgs = {
+  exchangeTransaction: ExchangeStatusResponse
+  origin: TokenInfoResponse
+  destination: TokenInfoResponse
+  userAddress: `0x${string}`
+  fromAmountUsd: string
+  toAmountUsd: string
+  chains: Chain[]
+}
+
+const getChainInfoFromNetwork = (network: string, chains: Chain[]) => {
+  return chains.find((chain) => chain.name === network)
 }
 
 export function buildBridgeTransaction(args: BridgeBuildArgs): TransactionInput {
@@ -100,6 +115,107 @@ export function buildBridgeTransaction(args: BridgeBuildArgs): TransactionInput 
         protocol_name: RELAY_APP_NAME,
         order_id: orderId || requestId,
         request_id: requestId || orderId,
+      },
+    ],
+  }
+
+  return payload
+}
+
+export const buildExchangeTransaction = (args: ExchangeBuildArgs): TransactionInput => {
+  const {
+    exchangeTransaction,
+    origin,
+    destination,
+    userAddress,
+    chains,
+    fromAmountUsd,
+    toAmountUsd,
+  } = args
+
+  const fromChainInfo = getChainInfoFromNetwork(exchangeTransaction.fromNetwork, chains)
+  const toChainInfo = getChainInfoFromNetwork(exchangeTransaction.toNetwork, chains)
+
+  const fromAmount =
+    exchangeTransaction.amountFrom?.toString() ||
+    exchangeTransaction.expectedAmountFrom?.toString() ||
+    "0"
+  const toAmount =
+    exchangeTransaction.amountTo?.toString() ||
+    exchangeTransaction.expectedAmountTo?.toString() ||
+    "0"
+
+  const calculateEstimatedTime = () => {
+    const depositReceivedAt = new Date(exchangeTransaction.depositReceivedAt || "")
+    const updatedAt = new Date(exchangeTransaction.updatedAt || "")
+    const timeDifference = updatedAt.getTime() - depositReceivedAt.getTime()
+
+    return Math.ceil(timeDifference / 1000)
+  }
+
+  const currencies: TransactionInput["currencies"] = [
+    {
+      chain_id: fromChainInfo?.id || 0,
+      chain_name: fromChainInfo?.name || "",
+      chain_symbol: fromChainInfo?.currency.symbol || "",
+      chain_logo_uri: fromChainInfo?.iconUrl || "",
+      currency_role: "from" as const,
+      currency_address: "",
+      currency_symbol: exchangeTransaction.fromCurrency.toUpperCase(),
+      currency_name: origin.name,
+      currency_logo_uri: origin.image,
+      decimals: 18,
+      is_native: false,
+      amount: fromAmount,
+      amount_formatted: fromAmount,
+      amount_usd: fromAmountUsd,
+    },
+    {
+      chain_id: toChainInfo?.id || 0,
+      chain_name: toChainInfo?.name || "",
+      chain_symbol: toChainInfo?.currency.symbol || "",
+      chain_logo_uri: toChainInfo?.iconUrl || "",
+      currency_role: "to" as const,
+      currency_address: "",
+      currency_symbol: exchangeTransaction.toCurrency.toUpperCase(),
+      currency_name: destination.name,
+      currency_logo_uri: destination.image,
+      decimals: 18,
+      is_native: false,
+      amount: toAmount,
+      amount_formatted: toAmount,
+      amount_usd: toAmountUsd,
+    },
+  ]
+
+  const payload: TransactionInput = {
+    transaction_type: "swap",
+    user_address: userAddress,
+    from_amount: fromAmount,
+    to_amount: toAmount,
+    from_amount_usd: fromAmountUsd,
+    to_amount_usd: toAmountUsd,
+    external_transaction_id: exchangeTransaction.id,
+    sender_address: exchangeTransaction.payinAddress,
+    recipient_address: exchangeTransaction.payoutAddress,
+    input_tx_hash: exchangeTransaction.payinHash || "",
+    output_tx_hash: exchangeTransaction.payoutHash || "",
+    input_hash_explorer_url: appendUrlToTxHash(
+      origin.addressExplorerMask,
+      exchangeTransaction.payinHash || ""
+    ),
+    output_hash_explorer_url: appendUrlToTxHash(
+      destination.addressExplorerMask,
+      exchangeTransaction.payoutHash || ""
+    ),
+    time_estimate: calculateEstimatedTime().toString(),
+    currencies,
+    fees: [],
+    protocol: [
+      {
+        protocol_name: EXCHANGE_APP_NAME,
+        order_id: exchangeTransaction.id,
+        request_id: exchangeTransaction.id,
       },
     ],
   }

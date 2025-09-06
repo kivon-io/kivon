@@ -32,6 +32,11 @@ export const EXCHANGE_TYPE = {
   RECEIVE: "receive",
 } as const
 
+export const TRANSACTION_TYPE = {
+  EXCHANGE: "swap",
+  BRIDGE: "bridge",
+} as const
+
 export const DEFAULT_DECIMALS = 18
 
 export const DEFAULT_ALCHEMY_NETWORK = Network.ETH_MAINNET
@@ -43,4 +48,5 @@ export const PROTOCOL_VERSION = {
 }
 
 export const RELAY_APP_NAME = "Relay"
+export const EXCHANGE_APP_NAME = "ChangeNOW"
 export const SIMMULATE_FAILED = false

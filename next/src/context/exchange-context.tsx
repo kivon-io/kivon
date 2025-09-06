@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
 import { useForm, UseFormReturn } from "react-hook-form"
 
-type Step = "select-coin" | "transaction-details" | "send-transaction"
+type Step = "sc" | "td" | "st"
 
 const ExchangeContext = createContext<{
   form: UseFormReturn<ExchangeFormSchema>
@@ -19,7 +19,7 @@ const ExchangeContext = createContext<{
   setStep: (step: Step) => void
 }>({
   form: {} as UseFormReturn<ExchangeFormSchema>,
-  step: "select-coin" as Step,
+  step: "sc" as Step,
   currencies: undefined,
   exchangeTransactionStatus: {} as ExchangeStatusResponse,
   from: undefined,
@@ -40,11 +40,8 @@ const ExchangeProvider = ({
   to?: string
 }) => {
   const searchParams = useSearchParams()
-  const transactionId = searchParams.get("id")
   const stepParam = searchParams.get("step")
-  const [step, setStep] = useState<Step>(
-    stepParam ? (stepParam as Step) : transactionId ? "send-transaction" : "select-coin"
-  )
+  const [step, setStep] = useState<Step>((stepParam && (stepParam as Step)) || "sc")
   const [exchangeTransactionStatus, setExchangeTransactionStatus] =
     useState<ExchangeStatusResponse>({} as ExchangeStatusResponse)
 

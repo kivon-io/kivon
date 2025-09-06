@@ -9,7 +9,6 @@ import SendTransaction from "./exchange/send-transaction"
 import { DialogTips } from "./exchange/tips"
 import TransactionDetails from "./exchange/transaction-details"
 import Menu from "./menu"
-import NewTransaction from "./new-transaction"
 import TransactionId from "./transaction-id"
 
 const Exchange = () => {
@@ -28,8 +27,6 @@ const Exchange = () => {
         <SendTransaction />
         <ExchangeAction />
         <div className='border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-1 flex flex-col gap-4'>
-          <NewTransaction />
-          {/* <CancelTransaction /> */}
           <DialogTips />
         </div>
       </motion.div>
