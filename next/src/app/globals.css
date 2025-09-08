@@ -226,4 +226,17 @@
   .markdown  {
     all: revert;
   }
+
+  .chart-container,
+  .tradingview-widget-container iframe.tv-widget-chart>.tv-widget-chart--with-border {
+    @apply border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden;
+  }
+
+  /* Crop the iframe by 1px on all sides to hide widget border */
+  .chart-container iframe {
+    border: 0 !important;
+    clip-path: inset(1px round var(--radius));
+    -webkit-clip-path: inset(1px round var(--radius));
+  }
+
 }
