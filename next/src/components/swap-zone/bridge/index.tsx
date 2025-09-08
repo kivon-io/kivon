@@ -11,7 +11,7 @@ const BridgeInterface = ({ chains }: { chains: Chain[] }) => {
   return (
     <BridgeProvider chains={chains}>
       <TradingViewProvider>
-        <SwapZoneContainer className='relative z-10 mb-20 mt-20 md:mt-0'>
+        <SwapZoneContainer className='relative z-10 mb-20 mt-20 md:mt-0 max-w-7xl mx-auto'>
           <Bridge />
           <BridgeTokenList />
           <RecipientAddress />
