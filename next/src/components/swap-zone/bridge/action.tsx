@@ -76,7 +76,7 @@ const BridgeAction = () => {
           debouncedAmount > 0 &&
           checkChainisEnabled &&
           step === BRIDGE_STAGES.TRANSACTION_INFORMATION &&
-          (!checkifExtraWalletAddressIsNeeded ||
+          ((isConnected && !checkifExtraWalletAddressIsNeeded) ||
             (!!form.watch("recipient") && form.watch("isRecipientAddressValid")))
 
         return shouldEnable
