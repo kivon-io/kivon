@@ -11,7 +11,7 @@ export const ArticleHeader = ({ article }: { article: Article }) => {
     <div className='grid grid-cols-12 gap-5 '>
       <div className='col-span-12 md:col-span-6'>
         <div className='flex flex-col gap-3'>
-          <Category category={article.categories[0].name} />
+          <Category category={article.categories.length > 0 ? article.categories[0].name : ""} />
           <Heading as='h2' className='text-4xl md:text-6xl font-bold text-left'>
             {article.title}
           </Heading>
@@ -53,7 +53,7 @@ export const ArticleCard = ({ article }: { article: Article }) => {
             <p className='text-xs text-zinc-500 dark:text-zinc-400'>
               {formatDateToLocaleString(article.createdAt)}
             </p>
-            <Category category={article.categories[0].name} />
+            <Category category={article.categories.length > 0 ? article.categories[0].name : ""} />
           </div>
         </div>
       </div>
@@ -80,5 +80,8 @@ export const CategoryTag = ({ category, className }: { category: string; classNa
 }
 
 export const Category = ({ category, className }: { category: string; className?: string }) => {
+  if (category === "") {
+    return null
+  }
   return <div className={cn("text-xs text-secondary-custom", className)}>#{category}</div>
 }

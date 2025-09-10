@@ -14,7 +14,12 @@ const FeaturedArticles = ({ data }: { data: Article[] }) => {
       <div className='grid grid-cols-12 gap-5 max-w-7xl mx-auto relative z-10'>
         <div className='col-span-12 md:col-span-6'>
           <div className='flex flex-col gap-3'>
-            <Category className='text-sm' category={featuredArticle.categories[0].name} />
+            <Category
+              className='text-sm'
+              category={
+                featuredArticle.categories.length > 0 ? featuredArticle.categories[0].name : ""
+              }
+            />
             <Heading as='h2' className='text-4xl md:text-6xl font-bold text-left'>
               {featuredArticle.title}
             </Heading>

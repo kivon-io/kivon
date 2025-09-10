@@ -1,8 +1,37 @@
 import { ArticleHeader } from "@/components/articles/article-components"
 import Section from "@/components/section"
 import fetchContentType from "@/lib/strapi/fetchContentType"
+import { strapiImage } from "@/lib/strapi/strapiImage"
+import { Metadata } from "next"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const articleData = await fetchContentType("articles", {
+    filters: { slug: slug },
+    populate: {
+      image: {
+        fields: ["url", "name", "alternativeText"],
+      },
+      categories: true,
+    },
+  })
+  const article = articleData?.data[0] as Article
+  return {
+    title: article.title,
+    description: article.description,
+    openGraph: {
+      title: article.title,
+      description: article.description,
+      images: [{ url: strapiImage(article.image.url) }],
+    },
+  }
+}
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params

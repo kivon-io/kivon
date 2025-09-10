@@ -31,7 +31,6 @@ export default async function BlogPage() {
     },
   })
 
-  // fetch categories that have articles and count the number of articles in each category
   const categories = await fetchContentType("categories", {
     filters: {
       articles: {
