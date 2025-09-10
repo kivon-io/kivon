@@ -42,6 +42,9 @@
     },
     "featured": {
       "type": "boolean"
+    },
+    "content": {
+      "type": "richtext"
     }
   }
 }
