@@ -27,6 +27,14 @@ export const formatDate = (date: string) => {
   })
 }
 
+export const formatDateToLocaleString = (date: string) => {
+  return new Date(date).toLocaleString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  })
+}
+
 export const appendUrlToTxHash = (url: string, txHash: string) => {
   // example: "https://www.oklink.com/base/tx/$$" replace $$ with txHash
   return url.replace("$$", txHash)

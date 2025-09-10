@@ -2,20 +2,14 @@
 
 import articlesData from "@/data/articles.json"
 import { strapiImage } from "@/lib/strapi/strapiImage"
+import { formatDateToLocaleString } from "@/lib/utils"
 import { motion } from "motion/react"
+import Link from "next/link"
 import { BlurImage } from "../blur-image"
 import Lines from "../decorations/lines"
 import { Heading } from "../elements/heading"
 import { Subheading } from "../elements/sub_heading"
 import Section from "../section"
-
-interface Article {
-  id: number
-  title: string
-  description: string
-  image: ImageType
-  createdAt: string
-}
 
 const Blog = ({ data }: { data: Article[] }) => {
   const { heading, description } = articlesData
@@ -51,32 +45,30 @@ export default Blog
 
 const Article = ({ article }: { article: Article }) => {
   return (
-    <div className='relative flex-shrink-0 w-5/6 md:w-full'>
-      <div className='h-40 w-full relative rounded-2xl'>
-        {article.image && article.image.url && (
-          <BlurImage
-            src={strapiImage(article.image.url)}
-            alt={article.title}
-            fill
-            className='object-cover rounded-2xl'
-          />
-        )}
-      </div>
-      <div className='flex flex-col gap-3 mt-2'>
-        <p className='text-xs font-medium text-neutral-500 dark:text-neutral-400'>
-          {new Date(article.createdAt).toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </p>
-        <div className='flex flex-col gap-1'>
-          <h3 className='text-base font-bold text-black dark:text-white'>{article.title}</h3>
-          <p className='text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2'>
-            {article.description}
+    <Link href={`/blog/${article.slug}`}>
+      <div className='relative flex-shrink-0 w-5/6 md:w-full'>
+        <div className='h-40 w-full relative rounded-2xl'>
+          {article.image && article.image.url && (
+            <BlurImage
+              src={strapiImage(article.image.url)}
+              alt={article.title}
+              fill
+              className='object-cover rounded-2xl'
+            />
+          )}
+        </div>
+        <div className='flex flex-col gap-3 mt-2'>
+          <p className='text-xs font-medium text-neutral-500 dark:text-neutral-400'>
+            {formatDateToLocaleString(article.createdAt)}
           </p>
+          <div className='flex flex-col gap-1'>
+            <h3 className='text-base font-bold text-black dark:text-white'>{article.title}</h3>
+            <p className='text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2'>
+              {article.description}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

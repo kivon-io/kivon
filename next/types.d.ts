@@ -1,3 +1,21 @@
+type Article = {
+  id: number
+  title: string
+  description: string
+  slug: string
+  image: ImageType
+  createdAt: string
+  categories: Category[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  contents: any
+  content: string
+}
+
+type Category = {
+  id: number
+  name: string
+}
+
 type NavbarItem = {
   href: never
   children: ReactNode
