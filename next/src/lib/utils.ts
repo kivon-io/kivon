@@ -142,19 +142,29 @@ export const checkIfUserNeedsToProvideWalletAddress = (
 export const formatSmartBalance = (balance: string | number): string => {
   if (!balance) return "0"
 
-  const num = typeof balance === "string" ? parseFloat(balance) : balance
+  const num = typeof balance === "string" ? parseFloat(balance.replace(/,/g, "")) : balance
 
   if (isNaN(num)) return "0"
   if (num === 0) return "0"
 
+  const addCommas = (value: string): string => {
+    const [intPart, decPart] = value.split(".")
+    const intWithCommas = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    return decPart ? `${intWithCommas}.${decPart}` : intWithCommas
+  }
+
+  let formatted = "0"
+
   // For amounts >= 10, show 1 decimal place
   if (num >= 10) {
-    return num.toFixed(1)
+    formatted = num.toFixed(1)
+    return addCommas(formatted)
   }
 
   // For amounts between 1 and 10, show 4 decimal places for precision
   if (num >= 1) {
-    return num.toFixed(4)
+    formatted = num.toFixed(4)
+    return addCommas(formatted)
   }
 
   // For amounts < 1, find the first non-zero decimal and show 2 more digits
@@ -162,7 +172,8 @@ export const formatSmartBalance = (balance: string | number): string => {
   if (str.includes("e")) {
     // Handle scientific notation (very small numbers)
     const decimalPlaces = Math.max(6, Math.abs(parseInt(str.split("e-")[1])) + 2)
-    return num.toFixed(decimalPlaces)
+    formatted = num.toFixed(decimalPlaces)
+    return addCommas(formatted)
   }
 
   const decimalPart = str.split(".")[1] || ""
@@ -179,5 +190,6 @@ export const formatSmartBalance = (balance: string | number): string => {
 
   // Show up to the first non-zero digit + 2 more digits
   const decimalPlaces = Math.min(firstNonZeroIndex + 3, 8) // Cap at 8 decimal places
-  return num.toFixed(decimalPlaces)
+  formatted = num.toFixed(decimalPlaces)
+  return addCommas(formatted)
 }
