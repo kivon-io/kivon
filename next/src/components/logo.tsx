@@ -1,6 +1,6 @@
 "use client"
 
-import { useIsIndex, useIsReviews } from "@/hooks/use-is-reviews"
+import { useIsIndex, useIsReviews, useIsTradingCompetition } from "@/hooks/use-is-reviews"
 import { APP_NAME } from "@/lib/shared/constants"
 import { strapiImage } from "@/lib/strapi/strapiImage"
 import { cn } from "@/lib/utils"
@@ -10,8 +10,8 @@ import { BlurImage } from "./blur-image"
 const Logo = ({ logo, showBackground }: { logo?: ImageType; showBackground?: boolean }) => {
   const isReviews = useIsReviews()
   const isIndex = useIsIndex()
-
-  const isChangeColor = isReviews || isIndex
+  const isTradingCompetition = useIsTradingCompetition()
+  const isChangeColor = isReviews || isIndex || isTradingCompetition
 
   return (
     <Link href={`/`} className='font-normal flex space-x-2 items-center text-sm mr-4 relative z-20'>

@@ -1,4 +1,4 @@
-import { useIsIndex, useIsReviews } from "@/hooks/use-is-reviews"
+import { useIsIndex, useIsReviews, useIsTradingCompetition } from "@/hooks/use-is-reviews"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -17,8 +17,9 @@ const NavbarItem = ({ href, children, active, className, target, showBackground 
   const pathname = usePathname()
   const isReviews = useIsReviews()
   const isIndex = useIsIndex()
+  const isTradingCompetition = useIsTradingCompetition()
 
-  const isChangeColor = isReviews || isIndex
+  const isChangeColor = isReviews || isIndex || isTradingCompetition
   return (
     <Link
       href={href}

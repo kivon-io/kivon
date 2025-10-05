@@ -641,3 +641,46 @@ type TransactionStats = {
   total_fees_usd: number
   total_users: number
 }
+
+type ResponseChain = {
+  chainId: string
+  chainName: string
+  chainSymbol: string
+  chainLogoUri: string
+  chainAddress: string
+}
+
+type CompetitionCurrency = {
+  currencyName: string
+  currencySymbol: string
+  currencyAddress: string
+  currencyId: string
+  currencyLogoUri: string
+}
+
+type PrizeStructure = {
+  position: number
+  prizeAmount: number
+  description: string
+}
+
+type Competition = {
+  id: string
+  title: string
+  description: string
+  image: string
+  startDate: string
+  endDate: string
+  originChain: ResponseChain
+  destinationChain: ResponseChain
+  originCurrency: CompetitionCurrency
+  destinationCurrency: CompetitionCurrency
+  prizeStructures: PrizeStructure[]
+  participantsCount: number
+  winnersCount: number
+  createdAt: string
+  updatedAt: string
+  prizeAmount: number
+  minimumVolumeRequired: number
+  enableNetworkToNetworkTrading: boolean
+}

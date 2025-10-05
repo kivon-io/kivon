@@ -8,6 +8,8 @@ export const CHANGE_NOW_API_URL_v1 = process.env.NEXT_PUBLIC_CHANGE_NOW_API_URL_
 export const APP_URL = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL!
 export const RELAY_LINK_API_URL = process.env.NEXT_PUBLIC_RELAY_LINK_BASE_URL
 
+export const COMPETITIONS_API_URL = process.env.NEXT_PUBLIC_COMPETITIONS_API_URL!
+
 export const TRANSACTION_API_BASE_URL = process.env.TRANSACTION_API_BASE_URL!
 
 export const DYNAMIC_ENVIRONMENT_ID = process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID!

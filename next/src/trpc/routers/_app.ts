@@ -4,6 +4,7 @@ import publicProcedure from "../procedures/public"
 import { createTRPCRouter, mergeRouters } from "../trpc"
 import { alchemyRouter } from "./alchemy"
 import { bridgeRouter } from "./bridge"
+import { competitionsRouter } from "./competitions"
 import { swapRouter } from "./swap"
 import { transactionRouter } from "./transactions"
 import { validateAddressRouter } from "./validate-address"
@@ -92,6 +93,7 @@ export const appRouter = mergeRouters(
   bridgeRouter,
   alchemyRouter,
   transactionRouter,
-  userRouter
+  userRouter,
+  competitionsRouter
 )
 export type AppRouter = typeof appRouter
