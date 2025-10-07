@@ -1,26 +1,15 @@
 "use client"
 
+import { formatAmount } from "@/lib/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import Lines from "../decorations/lines"
 import Address from "../elements/address"
 import { DataTable } from "../ui/data-table"
 
-type Participant = {
-  address: string
-  volume: string
-}
-
-const participants: Participant[] = [
-  {
-    address: "0x1234567890123456789012345678901234567890",
-    volume: "1000",
-  },
-]
-
-const Participants = () => {
+const Participants = ({ participants }: { participants: Participant[] }) => {
   return (
     <div className='relative max-w-4xl w-full mx-auto'>
-      <DataTable columns={Columns} data={participants} />
+      <DataTable columns={Columns} data={participants || []} />
       <Lines />
     </div>
   )
@@ -33,7 +22,7 @@ const Columns: ColumnDef<Participant>[] = [
     header: "Rank",
     id: "rank",
     cell: ({ row }) => {
-      const address = row.original.address
+      const address = row.original.walletAddress
       return (
         <div className='flex items-center gap-3'>
           <div className='w-8 h-8 rounded-lg bg-zinc-200 border border-zinc-300 dark:border-zinc-700'></div>
@@ -44,6 +33,10 @@ const Columns: ColumnDef<Participant>[] = [
   },
   {
     header: "Volume",
-    accessorKey: "volume",
+    accessorKey: "tradingVolume",
+    cell: ({ row }) => {
+      const tradingVolume = row.original.tradingVolume
+      return <span>${formatAmount(tradingVolume.toString(), 0)}</span>
+    },
   },
 ]

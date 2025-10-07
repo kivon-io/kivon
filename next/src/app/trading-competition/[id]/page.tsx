@@ -1,4 +1,5 @@
 import { Heading } from "@/components/elements/heading"
+import JoinCompetition from "@/components/trading-competition/join-competition"
 import Participants from "@/components/trading-competition/participants"
 import { Button } from "@/components/ui/button"
 import { cn, formatAmount } from "@/lib/utils"
@@ -9,6 +10,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const { id } = await params
 
   const competition = await trpc.getCompetitionById({ id })
+  const participants = await trpc.getParticipants({ id })
 
   return (
     <main className='relative'>
@@ -22,8 +24,14 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
               {competition.title}
             </Heading>
             <p className='text-left '>{competition.description}</p>
-            <div className='text-lg md:text-2xl font-bold text-secondary-custom font-mono'>
-              ${formatAmount(competition.prizeAmount.toString())}
+            <div className='flex items-center gap-8 mt-5'>
+              <JoinCompetition competition={competition} />
+              <div className='flex flex-col'>
+                <p className='text-xs text-zinc-500'>Prize Amount</p>
+                <div className='text-lg md:text-2xl font-bold text-secondary-custom font-mono'>
+                  ${formatAmount(competition.prizeAmount.toString())}
+                </div>
+              </div>
             </div>
           </div>
           <div className='col-span-12 md:col-span-4 flex flex-col gap-4'>
@@ -32,7 +40,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
 
-        <Participants />
+        <Participants participants={participants} />
       </div>
     </main>
   )

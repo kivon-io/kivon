@@ -684,3 +684,12 @@ type Competition = {
   minimumVolumeRequired: number
   enableNetworkToNetworkTrading: boolean
 }
+
+type Participant = {
+  id: string
+  userId: string
+  username: string
+  walletAddress: string
+  tradingVolume: number
+  joinedAt: string
+}

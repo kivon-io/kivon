@@ -106,11 +106,11 @@ export const formatAddress = (address: string) => {
  * "0.00". If the input amount is "0", it returns "0". Otherwise, it splits the amount by the decimal
  * point, adds commas
  */
-export const formatAmount = (amount: string) => {
+export const formatAmount = (amount: string, decimalPlaces: number = 2) => {
   if (amount === "0.00") return "0.00"
   if (amount === "0") return "0"
 
-  amount = Number(amount).toFixed(2)
+  amount = Number(amount).toFixed(decimalPlaces)
   const parts = amount.split(".")
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return parts.join(".")
