@@ -17,14 +17,14 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       <div className={cn("h-[20rem] w-full relative")}>
         <Image src={competition.image} alt={competition.title} fill className='object-cover ' />
       </div>
-      <div className='max-w-7xl w-full mx-auto mt-10 flex flex-col gap-16 mb-10'>
+      <div className='max-w-7xl w-full mx-auto mt-10 flex flex-col gap-16 mb-10 px-4 md:px-0 '>
         <div className='grid grid-cols-12 gap-4'>
           <div className='flex flex-col gap-2 max-w-4/5 col-span-12 md:col-span-8'>
             <Heading as='h1' size='md' className='text-left max-w-full px-0 ml-0'>
               {competition.title}
             </Heading>
             <p className='text-left '>{competition.description}</p>
-            <div className='flex items-center gap-8 mt-5'>
+            <div className='flex items-center gap-4 mt-5'>
               <JoinCompetition competition={competition} />
               <div className='flex flex-col'>
                 <p className='text-xs text-zinc-500'>Prize Amount</p>

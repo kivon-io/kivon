@@ -1,10 +1,11 @@
 "use client"
 
+import { useIsTradingCompetition } from "@/hooks/use-is-reviews"
 import { cn } from "@/lib/utils"
 import ConnectedWallet from "@/lib/wallet/connected-wallet"
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Logo from "../logo"
 import { ModeToggle } from "../toggle-theme"
 import { Button } from "../ui/button"
@@ -27,6 +28,7 @@ const DesktopNavbar = ({ items, logo }: Props) => {
   const { scrollY } = useScroll()
   const [showBackground, setShowBackground] = useState(false)
   const { primaryWallet, setShowAuthFlow } = useDynamicContext()
+  const isTradingCompetition = useIsTradingCompetition()
 
   useMotionValueEvent(scrollY, "change", (value) => {
     if (value > 100) {
@@ -35,13 +37,20 @@ const DesktopNavbar = ({ items, logo }: Props) => {
       setShowBackground(false)
     }
   })
+
+  useEffect(() => {
+    if (isTradingCompetition) {
+      setShowBackground(true)
+    }
+  }, [isTradingCompetition, showBackground])
+
   return (
     <motion.div
       className={cn(
         "w-full flex relative justify-between px-4 py-3 transition duration-200 bg-transparent mx-auto"
       )}
       animate={{
-        background: showBackground ? "var(--neutral-900)" : "transparent",
+        backgroundColor: showBackground ? "#171717" : "rgba(0,0,0,0)",
       }}
       transition={{
         duration: 0.4,
