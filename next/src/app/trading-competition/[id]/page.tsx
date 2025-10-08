@@ -6,6 +6,8 @@ import { cn, formatAmount } from "@/lib/utils"
 import { trpc } from "@/trpc/server"
 import Image from "next/image"
 
+export const dynamic = "force-dynamic"
+
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 

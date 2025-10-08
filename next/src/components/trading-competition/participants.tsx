@@ -9,6 +9,7 @@ import { DataTable } from "../ui/data-table"
 const Participants = ({ participants }: { participants: Participant[] }) => {
   return (
     <div className='relative max-w-4xl w-full mx-auto overflow-hidden md:overflow-visible'>
+      <h2 className='text-lg font-medium mb-2'>Participants</h2>
       <DataTable columns={Columns} data={participants || []} />
       <Lines />
     </div>
