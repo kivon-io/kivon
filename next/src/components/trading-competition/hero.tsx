@@ -34,7 +34,7 @@ const CompetitionHero = () => {
             </Subheading>
           </div>
           <div className='col-span-12 md:col-span-4'>
-            <div className='h-80 w-full rounded-2xl bg-white'></div>
+            {/* <div className='h-80 w-full rounded-2xl bg-white'></div> */}
           </div>
         </div>
       </div>
