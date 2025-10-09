@@ -3,6 +3,7 @@
 import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { trpc } from "@/trpc/client"
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
+import { revalidatePath } from "next/cache"
 import { FiCheckCircle } from "react-icons/fi"
 import { toast } from "sonner"
 import { Button } from "../ui/button"
@@ -33,6 +34,9 @@ const JoinCompetition = ({ competition }: { competition: Competition }) => {
         id: competition.id,
         userAddress: address as string,
       })
+
+      // revalidate page
+      revalidatePath(`/trading-competition/${competition.id}`)
 
       if (response.id) {
         toast.success("Competition joined successfully")
