@@ -42,9 +42,9 @@ export default Countdown
 
 const CountdownItem = ({ label, value }: { label: string; value: string }) => {
   return (
-    <div className='flex gap-1 font-barlow font-semibold items-center bg-zinc-100 dark:bg-zinc-900 rounded-md py-1 px-2 border border-zinc-200 dark:border-zinc-700'>
+    <div className='flex gap-1 font-barlow font-semibold items-baseline bg-zinc-100 dark:bg-zinc-900 rounded-md py-1 px-2 border border-zinc-200 dark:border-zinc-700'>
       <p>{value}</p>
-      <p>{label}</p>
+      <p className='text-xs'>{label}</p>
     </div>
   )
 }

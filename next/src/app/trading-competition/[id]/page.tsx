@@ -24,21 +24,29 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       </div>
       <div className='max-w-7xl w-full mx-auto mt-10 flex flex-col gap-16 mb-10 px-4 md:px-0 '>
         <div className='grid grid-cols-12 gap-4'>
-          <div className='flex flex-col gap-2 max-w-4/5 col-span-12 md:col-span-8'>
+          <div className='flex flex-col gap-2 md:max-w-4/5 max-w-full col-span-12 md:col-span-8'>
             <Heading as='h1' size='md' className='text-left max-w-full px-0 ml-0'>
               {competition.title}
             </Heading>
             <p className='text-left '>{competition.description}</p>
-            <JoinCompetition competition={competition} />
+            <div className='w-full flex items-center gap-2'>
+              <JoinCompetition competition={competition} />
+              <Countdown endDate={competition.endDate} />
+            </div>
 
             <div className='flex items-center gap-4 mt-5'>
               <div className='flex flex-col'>
-                <p className='text-xs text-zinc-500'>Prize Pool</p>
                 <div className='text-lg md:text-2xl font-bold text-secondary-custom font-barlow'>
                   ${formatAmount(competition.prizeAmount.toString(), 0)}
                 </div>
+                <p className='text-xs text-zinc-500'>Prize Pool</p>
               </div>
-              <Countdown endDate={competition.endDate} />
+              <div className='flex flex-col'>
+                <div className='text-lg md:text-2xl font-bold text-secondary-custom font-barlow'>
+                  ${formatAmount(competition.minimumVolumeRequired.toString(), 0)}
+                </div>
+                <p className='text-xs text-zinc-500'>Minimum Volume Required</p>
+              </div>
             </div>
           </div>
           <div className='col-span-12 md:col-span-4 flex flex-col gap-2'>
@@ -95,7 +103,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
 
-        <Participants participants={participants} />
+        <Participants participants={participants} prizeStructures={competition.prizeStructures} />
       </div>
     </main>
   )
