@@ -1,14 +1,14 @@
 "use client"
 
-import { formatAmount } from "@/lib/utils"
+import { cn, formatAmount } from "@/lib/utils"
 import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useMemo } from "react"
 import Lines from "../decorations/lines"
 import Address from "../elements/address"
 import AddressAvatar from "../elements/address-avatar"
 import Rank from "../elements/position-badge"
-import { DataTable } from "../ui/data-table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
 
 type RankedParticipant = Participant & {
   _rank: number
@@ -61,7 +61,7 @@ const Participants = ({
 
   return (
     <div className='relative max-w-4xl w-full mx-auto overflow-hidden md:overflow-visible'>
-      <h2 className='text-lg font-medium mb-2'>Participants</h2>
+      <h2 className='text-lg font-medium mb-2'>Leaderboard</h2>
       <DataTable columns={Columns} data={data} />
       <Lines />
     </div>
@@ -82,13 +82,16 @@ const Columns: ColumnDef<RankedParticipant>[] = [
           {rank < 4 ? (
             <Rank className='font-barlow' rank={rank} />
           ) : (
-            <p className='text-sm font-medium font-barlow h-10 w-10 flex items-center justify-center bg-zinc-200 rounded-lg border border-zinc-300 dark:border-zinc-700'>
+            <p className='text-sm text-zinc-900 dark:text-white font-medium font-barlow h-10 w-10 flex items-center justify-center bg-zinc-200 dark:bg-zinc-900 rounded-lg border border-zinc-300 dark:border-zinc-700'>
               {rank}
             </p>
           )}
           <div className='flex items-center gap-2'>
             <AddressAvatar address={address} className='w-8 h-8' />
-            <Address className='font-semibold' address={address} />
+            <Address
+              className='font-semibold font-barlow text-zinc-900 dark:text-white'
+              address={address}
+            />
           </div>
         </div>
       )
@@ -120,3 +123,68 @@ const Columns: ColumnDef<RankedParticipant>[] = [
     },
   },
 ]
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+}
+
+export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  })
+
+  return (
+    <div className='overflow-hidden rounded-md border'>
+      <Table>
+        <TableHeader className='bg-muted'>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                )
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody className='bg-white dark:bg-zinc-900'>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => {
+              const rank = (row.original as { _rank?: number })._rank
+              return (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className={cn(
+                    rank === 1 && "bg-gradient-to-r from-emerald-500/50 to-emerald-700/50",
+                    rank === 2 && "bg-gradient-to-r from-blue-500/50 to-blue-700/50",
+                    rank === 3 && "bg-gradient-to-r from-yellow-500/50 to-yellow-700/50"
+                  )}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell className='py-5' key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              )
+            })
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className='h-24 text-center'>
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  )
+}
