@@ -659,6 +659,7 @@ type CompetitionCurrency = {
 }
 
 type PrizeStructure = {
+  id: string
   position: number
   prizeAmount: number
   description: string

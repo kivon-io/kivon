@@ -193,3 +193,32 @@ export const formatSmartBalance = (balance: string | number): string => {
   formatted = num.toFixed(decimalPlaces)
   return addCommas(formatted)
 }
+
+/**
+ * Formats a position number to a string with the appropriate ordinal suffix
+ * @param position - The position number to format
+ * @returns The formatted position string from 1st to 10th
+ */
+export const formatPosition = (position: number) => {
+  return position === 1
+    ? "1st"
+    : position === 2
+      ? "2nd"
+      : position === 3
+        ? "3rd"
+        : position === 4
+          ? "4th"
+          : position === 5
+            ? "5th"
+            : position === 6
+              ? "6th"
+              : position === 7
+                ? "7th"
+                : position === 8
+                  ? "8th"
+                  : position === 9
+                    ? "9th"
+                    : position === 10
+                      ? "10th"
+                      : position.toString()
+}

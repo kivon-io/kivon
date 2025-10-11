@@ -3,12 +3,14 @@
 import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { trpc } from "@/trpc/client"
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
-import { revalidatePath } from "next/cache"
+import { useRouter } from "next/navigation"
 import { FiCheckCircle } from "react-icons/fi"
 import { toast } from "sonner"
 import { Button } from "../ui/button"
 
 const JoinCompetition = ({ competition }: { competition: Competition }) => {
+  const router = useRouter()
+
   const { address, isConnected } = useDynamicWallet()
   const { setShowAuthFlow } = useDynamicContext()
   const { mutateAsync: joinCompetition, isPending } = trpc.joinCompetition.useMutation()
@@ -35,8 +37,7 @@ const JoinCompetition = ({ competition }: { competition: Competition }) => {
         userAddress: address as string,
       })
 
-      // revalidate page
-      revalidatePath(`/trading-competition/${competition.id}`)
+      router.refresh()
 
       if (response.id) {
         toast.success("Competition joined successfully")
@@ -47,20 +48,25 @@ const JoinCompetition = ({ competition }: { competition: Competition }) => {
     }
   }
 
-  return isUserJoined && !isCheckingIfUserJoined ? (
+  const isCompetitionEnded = new Date(competition.endDate) < new Date()
+
+  return isUserJoined && !isCheckingIfUserJoined && !isCompetitionEnded ? (
     <div className='text-emerald-600 dark:text-emerald-400 flex items-center gap-2 border border-emerald-200 dark:border-emerald-800 rounded-lg px-2 py-1 bg-emerald-50 dark:bg-emerald-950'>
       <FiCheckCircle className='size-4 text-emerald-600 dark:text-emerald-400' />
       Joined{" "}
     </div>
   ) : (
-    <Button
-      variant='tertiary'
-      onClick={handleJoinCompetition}
-      disabled={isPending}
-      busy={isPending}
-    >
-      {!isConnected ? "Connect Wallet" : isPending ? "Joining..." : "Join Competition"}
-    </Button>
+    !isCompetitionEnded && (
+      <Button
+        variant='tertiary'
+        onClick={handleJoinCompetition}
+        disabled={isPending}
+        busy={isPending}
+        className='w-fit'
+      >
+        {!isConnected ? "Connect Wallet" : isPending ? "Joining..." : "Join Competition"}
+      </Button>
+    )
   )
 }
 

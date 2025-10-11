@@ -14,6 +14,26 @@
   --color-secondary-custom: #e39aab;
 }
 
+@layer utilities {
+  /* .clip-hex {
+    clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+    -webkit-clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+  } */
+
+
+  .clip-hex-pointed {
+  clip-path: polygon(
+    50% 0%,     /* top point */
+    95% 25%,    /* upper-right */
+    95% 75%,    /* lower-right */
+    50% 100%,   /* bottom point */
+    5% 75%,     /* lower-left */
+    5% 25%      /* upper-left */
+  );
+  border-radius: 6px; /* gives the soft rounded edge effect */
+}
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
