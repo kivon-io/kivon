@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { FlickeringGrid } from "../decorations/flickering-grid"
 import Lines from "../decorations/lines"
+import AddressAvatar from "../elements/address-avatar"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
 
 interface DataTableProps<TData, TValue> {
@@ -152,15 +153,23 @@ const Columns: ColumnDef<Competition>[] = [
   {
     header: "Participants",
     id: "participants",
-    cell: () => {
+    cell: ({ row }) => {
+      const participants = row.original.participants
       return (
         <div className='flex -space-x-4'>
-          {Array.from({ length: 4 }).map((_, index) => (
+          {participants.slice(0, 3).map((participant, index) => (
             <div
               key={index}
-              className='w-8 h-8 rounded-full bg-zinc-200 border border-zinc-300 dark:border-zinc-700'
-            ></div>
+              className='w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500/20 to-emerald-700/20 border border-zinc-300 dark:border-zinc-700'
+            >
+              <AddressAvatar address={participant.walletAddress} className='w-8 h-8' />
+            </div>
           ))}
+          {participants.length > 3 && (
+            <div className='w-8 h-8 rounded-full bg-gradient-to-r from-secondary-custom to-blue-800 border border-zinc-300 text-white dark:border-zinc-700 items-center justify-center flex'>
+              <p className='text-sm font-medium font-barlow'>+{participants.length - 3}</p>
+            </div>
+          )}
         </div>
       )
     },

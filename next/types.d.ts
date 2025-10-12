@@ -677,6 +677,7 @@ type Competition = {
   originCurrency: CompetitionCurrency
   destinationCurrency: CompetitionCurrency
   prizeStructures: PrizeStructure[]
+  participants: Participant[]
   participantsCount: number
   winnersCount: number
   createdAt: string
