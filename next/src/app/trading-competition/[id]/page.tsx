@@ -1,8 +1,8 @@
 import Countdown from "@/components/countdown"
 import { Heading } from "@/components/elements/heading"
+import { CompetitionBridge } from "@/components/trading-competition/competition-bridge"
 import JoinCompetition from "@/components/trading-competition/join-competition"
 import Participants from "@/components/trading-competition/participants"
-import { Button } from "@/components/ui/button"
 import { cn, formatAmount } from "@/lib/utils"
 import { trpc } from "@/trpc/server"
 import Image from "next/image"
@@ -11,7 +11,6 @@ export const dynamic = "force-dynamic"
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-
   const competition = await trpc.getCompetitionById({ id })
   const participants = await trpc.getParticipants({ id })
 
@@ -85,9 +84,7 @@ const CompetitionCurrencyOrigin = ({ competition }: { competition: Competition }
           <p className='text-xs text-zinc-500 capitalize'>{competition.originChain.chainName}</p>
         </div>
       </div>
-      <Button variant='secondary' size='sm'>
-        Bridge
-      </Button>
+      <CompetitionBridge competition={competition} />
     </div>
   )
 }
@@ -119,9 +116,7 @@ const CompetitionCurrencyDestination = ({ competition }: { competition: Competit
           </p>
         </div>
       </div>
-      <Button variant='secondary' size='sm'>
-        Bridge
-      </Button>
+      <CompetitionBridge competition={competition} />
     </div>
   )
 }

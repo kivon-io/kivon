@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { useBridge } from "@/context/bridge-context"
+import { addTradingVolume } from "@/lib/transactions/add-trading-volume"
 import { buildBridgeTransaction } from "@/lib/transactions/build-transaction"
 import { cn, formatAddress, formatSmartBalance } from "@/lib/utils"
 import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
@@ -69,6 +70,19 @@ const ExecuteTransaction = ({
     })
 
     saveTx.mutate(payload)
+
+    const handleAddTradingVolume = async () => {
+      await addTradingVolume({
+        userAddress: address,
+        volume: Number(quote.details.currencyIn.amountUsd ?? 0),
+        originChainId: origin.chainId,
+        originAddress: origin.tokenContractAddress, // or user’s address if that’s your rule
+        destinationChainId: destination.chainId,
+        destinationAddress: destination.tokenContractAddress,
+      })
+    }
+    handleAddTradingVolume()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkResult?.status])
 

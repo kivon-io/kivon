@@ -163,9 +163,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   className={cn(
-                    rank === 1 && "bg-gradient-to-r from-emerald-500/50 to-emerald-700/50",
-                    rank === 2 && "bg-gradient-to-r from-blue-500/50 to-blue-700/50",
-                    rank === 3 && "bg-gradient-to-r from-yellow-500/50 to-yellow-700/50"
+                    rank === 1 && "bg-gradient-to-r from-emerald-500/20 to-emerald-700/20",
+                    rank === 2 && "bg-gradient-to-r from-blue-500/20 to-blue-700/20",
+                    rank === 3 && "bg-gradient-to-r from-yellow-500/20 to-yellow-700/20"
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (

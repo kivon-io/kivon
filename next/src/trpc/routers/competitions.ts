@@ -46,8 +46,6 @@ export const competitionsRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const { id, userAddress } = input
 
-      console.log(userAddress)
-
       const response = await fetch(`${COMPETITIONS_API_URL}/competitions/${id}/join`, {
         method: "POST",
         headers: {
@@ -86,4 +84,39 @@ export const competitionsRouter = createTRPCRouter({
       const data = await response.json()
       return data as boolean
     }),
+  updateUserTradingVolume: publicProcedure
+    .input(z.object({ id: z.string(), userAddress: z.string(), volume: z.number() }))
+    .mutation(async ({ input }) => {
+      const { id, userAddress, volume } = input
+
+      const response = await fetch(`${COMPETITIONS_API_URL}/competitions/${id}/update-volume`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userAddress, volume }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to update user trading volume: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data as { id: string }
+    }),
+
+  getLatestCompetition: publicProcedure.query(async () => {
+    const response = await fetch(`${COMPETITIONS_API_URL}/competitions/latest`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+    if (!response.ok) {
+      throw new Error(`Failed to fetch latest competition: ${response.status}`)
+    }
+    const data = await response.json()
+    return data as Competition
+  }),
 })
