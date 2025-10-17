@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { useBridge } from "@/context/bridge-context"
+import { addPoints } from "@/lib/transactions/add-points"
 import { addTradingVolume } from "@/lib/transactions/add-trading-volume"
 import { buildBridgeTransaction } from "@/lib/transactions/build-transaction"
 import { cn, formatAddress, formatSmartBalance } from "@/lib/utils"
@@ -43,6 +44,16 @@ const ExecuteTransaction = ({
   const { origin, destination } = form.watch()
   const { address } = useDynamicWallet()
   const saveTx = trpc.createTransaction.useMutation()
+
+  const handleAddPoints = async ({
+    userAddress,
+    volume,
+  }: {
+    userAddress: string
+    volume: number
+  }) => {
+    await addPoints({ userAddress, volume })
+  }
 
   // save the transaction if checkResult is success
   useEffect(() => {
@@ -82,7 +93,10 @@ const ExecuteTransaction = ({
       })
     }
     handleAddTradingVolume()
-
+    handleAddPoints({
+      userAddress: address,
+      volume: Number(quote.details.currencyIn.amountUsd ?? 0),
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkResult?.status])
 

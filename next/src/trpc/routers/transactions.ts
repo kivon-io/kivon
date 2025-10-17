@@ -1,4 +1,4 @@
-import { TRANSACTION_API_BASE_URL } from "@/lib/shared/constants"
+import { COMPETITIONS_API_URL, TRANSACTION_API_BASE_URL } from "@/lib/shared/constants"
 import z from "zod"
 import publicProcedure from "../procedures/public"
 import { createTRPCRouter } from "../trpc"
@@ -222,6 +222,22 @@ export const transactionRouter = createTRPCRouter({
 
     const data = await response.json()
     return data as TransactionStats
+  }),
+
+  getUser: publicProcedure.input(z.object({ userAddress: z.string() })).query(async ({ input }) => {
+    const response = await fetch(`${COMPETITIONS_API_URL}/users/wallet/${input.userAddress}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user points: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data as User
   }),
 })
 

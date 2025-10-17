@@ -17,6 +17,7 @@ import { useMediaQuery } from "usehooks-ts"
 import { formatAddress } from "../utils"
 import TotalBalance from "./total-balance"
 import { useDynamicWallet } from "./use-dynamic-wallet"
+import UserPoints from "./user-points"
 import WalletBalances from "./wallet-balances"
 import WalletIcon from "./wallet-icon"
 
@@ -94,6 +95,7 @@ const ConnectedWallet = () => {
             <div className='border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 flex flex-col gap-2'>
               <TotalBalance />
             </div>
+            <UserPoints />
           </div>
           <WalletBalances />
         </div>

@@ -695,3 +695,12 @@ type Participant = {
   tradingVolume: number
   joinedAt: string
 }
+
+type User = {
+  id: string
+  username: string
+  walletAddress: string
+  points: number
+  createdAt: string
+  updatedAt: string
+}
