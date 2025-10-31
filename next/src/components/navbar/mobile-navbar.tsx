@@ -3,6 +3,7 @@
 import { useIsIndex, useIsReviews } from "@/hooks/use-is-reviews"
 import { cn } from "@/lib/utils"
 import ConnectedWallet from "@/lib/wallet/connected-wallet"
+import UserPointsNavbar from "@/lib/wallet/user-points-navbar"
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { useMotionValueEvent, useScroll } from "motion/react"
 import Link from "next/link"
@@ -142,6 +143,9 @@ const ConnectWallet = () => {
       Connect
     </Button>
   ) : (
-    <ConnectedWallet />
+    <>
+      <ConnectedWallet />
+      <UserPointsNavbar />
+    </>
   )
 }

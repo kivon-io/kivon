@@ -26,7 +26,7 @@ const Logo = ({ logo, showBackground }: { logo?: ImageType; showBackground?: boo
       </div>
       <p
         className={cn(
-          "text-base font-medium text-zinc-900 dark:text-white",
+          "text-base font-medium text-zinc-900 dark:text-white hidden md:block",
           isChangeColor && !showBackground && "text-white dark:text-white"
         )}
       >

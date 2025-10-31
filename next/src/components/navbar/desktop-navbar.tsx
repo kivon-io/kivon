@@ -3,6 +3,7 @@
 import { useIsTradingCompetition } from "@/hooks/use-is-reviews"
 import { cn } from "@/lib/utils"
 import ConnectedWallet from "@/lib/wallet/connected-wallet"
+import UserPointsNavbar from "@/lib/wallet/user-points-navbar"
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react"
 import { useEffect, useState } from "react"
@@ -103,7 +104,10 @@ const DesktopNavbar = ({ items, logo }: Props) => {
               Connect Wallet
             </Button>
           ) : (
-            <ConnectedWallet />
+            <>
+              <ConnectedWallet />
+              <UserPointsNavbar />
+            </>
           )}
 
           <ModeToggle />
