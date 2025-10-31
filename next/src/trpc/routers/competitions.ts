@@ -119,4 +119,19 @@ export const competitionsRouter = createTRPCRouter({
     const data = await response.json()
     return data as Competition
   }),
+  getPoints: publicProcedure.query(async () => {
+    const response = await fetch(`${COMPETITIONS_API_URL}/rewards/get-points`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+    if (!response.ok) {
+      throw new Error(`Failed to fetch points: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data as number
+  }),
 })

@@ -24,6 +24,7 @@ import { HiArrowRight, HiOutlineArrowRight } from "react-icons/hi"
 import { LuCircleCheckBig, LuCircleX } from "react-icons/lu"
 import { MdOutlineOpenInNew } from "react-icons/md"
 import { BridgeImageAsset } from "./chain-image"
+import EarnedPoints from "./earned-points"
 
 const ExecuteTransaction = ({
   open,
@@ -382,6 +383,8 @@ const TransactionSucessful = ({ checkResult }: { checkResult: CheckResultT }) =>
             )
           })}
       </div>
+      <EarnedPoints amount={Number(quote?.details.currencyIn.amountUsd ?? 0)} />
+
       <div className='w-full grid grid-cols-1 gap-3'>
         {/* <Link href={`/transactions/${transactionId}`}>
           <Button className='w-full' size='lg' variant='outline'>
