@@ -54,6 +54,13 @@ const ExecuteTransaction = ({
     volume: number
   }) => {
     await addPoints({ userAddress, volume })
+    const { refetch: refetchUser } = trpc.getUser.useQuery(
+      { userAddress },
+      {
+        enabled: !!userAddress,
+      }
+    )
+    refetchUser()
   }
 
   // save the transaction if checkResult is success
