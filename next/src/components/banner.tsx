@@ -1,8 +1,8 @@
 "use client"
 
+import { MoveRight } from "lucide-react"
 import { motion } from "motion/react"
 import Image from "next/image"
-import { IoIosArrowRoundForward } from "react-icons/io"
 import { FlickeringGrid } from "./decorations/flickering-grid"
 
 const Banner = () => {
@@ -26,7 +26,7 @@ const Banner = () => {
           </p>
           <div className='rounded-full bg-zinc-800 flex items-center justify-center h-8'></div>
         </div>
-        <IoIosArrowRoundForward className='size-4 text-white' />
+        <MoveRight className='size-6 text-white' />
         <div className='flex gap-2'>
           <div className='h-8 w-8 rounded-full relative overflow-hidden'>
             <Image
