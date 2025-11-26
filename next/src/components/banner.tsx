@@ -21,14 +21,36 @@ const Banner = () => {
     >
       <div className='flex items-center gap-4 relative z-10 justify-evenly'>
         <div className='flex items-center gap-2'>
-          <p className='text-white text-lg font-medium'>
+          <p className='text-white text-sm md:text-lg font-medium'>
             Enjoy <span className='font-mono'>0</span> Fee Bridge
           </p>
-          <div className='rounded-full bg-zinc-800 flex items-center justify-center h-8'></div>
+          <div className='flex md:-space-x-4 -space-x-2'>
+            <Image
+              src='https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694'
+              alt='USDC'
+              width={32}
+              height={32}
+              className='object-cover object-center md:w-8 md:h-8 w-6 h-6'
+            />
+            <Image
+              src='https://coin-images.coingecko.com/coins/images/39963/large/usdt.png?1724952731'
+              alt='USDT'
+              width={32}
+              height={32}
+              className='object-cover object-center md:w-8 md:h-8 w-6 h-6'
+            />
+            <Image
+              src='https://coin-images.coingecko.com/coins/images/39810/large/weth.png'
+              alt='WETH'
+              width={32}
+              height={32}
+              className='object-cover object-center rounded-full md:w-8 md:h-8 w-6 h-6'
+            />
+          </div>
         </div>
         <MoveRight className='size-6 text-white' />
-        <div className='flex gap-2'>
-          <div className='h-8 w-8 rounded-full relative overflow-hidden'>
+        <div className='flex gap-2 items-center'>
+          <div className='md:h-8 md:w-8 h-6 w-6 rounded-full relative overflow-hidden'>
             <Image
               src='https://assets.coingecko.com/coins/images/3688/standard/hbar.png?1696504364'
               alt='Hedera'
@@ -37,7 +59,7 @@ const Banner = () => {
               className='object-cover object-center'
             />
           </div>
-          <p className='text-white text-lg'>Hedera</p>
+          <p className='text-white text-sm md:text-lg'>Hedera</p>
         </div>
       </div>
       <FlickeringGrid
