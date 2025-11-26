@@ -245,7 +245,7 @@ type Seo = {
 }
 
 type Token = {
-  id: number
+  id: number | string
   chainId: number
   symbol: string
   name: string

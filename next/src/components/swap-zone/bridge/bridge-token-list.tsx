@@ -138,6 +138,11 @@ const ListDetails = () => {
   }
 
   const handleActionSelectToken = async (token: Token, chain: Chain) => {
+    if (chain.name.toLowerCase() === "hedera" || chain.id === 295) {
+      window.location.href = process.env.NEXT_PUBLIC_HEDERA_BRIDGE!
+      return
+    }
+
     const bridgeToken = createBridgeTokenModel(token, chain)
     handleSelectToken(bridgeToken, type)
     toggleBridgeTokenList()

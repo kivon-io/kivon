@@ -1,5 +1,6 @@
 "use client"
 
+import Banner from "@/components/banner"
 import { useBridge } from "@/context/bridge-context"
 import { useTradingView } from "@/lib/tradingview/tradingview-context"
 import { cn, isConnectedChainEnabled } from "@/lib/utils"
@@ -36,6 +37,7 @@ const Bridge = () => {
         <Menu>
           <Slippage />
         </Menu>
+        <Banner />
 
         <div className='h-fit rounded-3xl bg-gradient-to-b from-white to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 border border-zinc-200 dark:border-zinc-800 p-5 flex flex-col gap-5'>
           <SelectAsset />
