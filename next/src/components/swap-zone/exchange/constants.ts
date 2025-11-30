@@ -10,6 +10,7 @@ export const exchangeFormSchema = z
       network: z.string().min(1, { message: "Send token is required" }),
       isFiat: z.boolean(),
       supportsFixedRate: z.boolean(),
+      isExtraIdSupported: z.boolean(),
     }),
     receiveToken: z.object({
       ticker: z.string().min(1, { message: "Send token is required" }),
@@ -19,6 +20,7 @@ export const exchangeFormSchema = z
       network: z.string().min(1, { message: "Send token is required" }),
       isFiat: z.boolean(),
       supportsFixedRate: z.boolean(),
+      isExtraIdSupported: z.boolean(),
     }),
     sendAmount: z.number().min(0, { message: "Send amount is required" }),
     destination_address: z.string().min(1, { message: "Destination address is required" }),
@@ -49,6 +51,8 @@ export const exchangeFormSchema = z
       refundAddress: z.string().optional(),
       fromNetwork: z.string(),
       toNetwork: z.string(),
+      payoutExtraId: z.string().optional(),
+      payoutExtraIdName: z.string().optional(),
     }),
   })
   .refine((data) => data.sendToken !== data.receiveToken, {

@@ -128,6 +128,8 @@ export const swapRouter = createTRPCRouter({
         refundAddress: z.string().optional(),
         flow: z.string(),
         rateId: z.string().optional(),
+        payoutExtraId: z.string().optional(),
+        payoutExtraIdName: z.string().optional(),
       })
     )
     .mutation(async ({ input }) => {
@@ -137,11 +139,14 @@ export const swapRouter = createTRPCRouter({
         toCurrency: input.receiveToken,
         toNetwork: input.receiveTokenNetwork,
         fromAmount: input.sendAmount,
-        // toAmount: input.sendAmount,
         address: input.destinationAddress,
         ...(input.rateId && { rateId: input.rateId }),
         ...(input.refundAddress && { refundAddress: input.refundAddress }),
         flow: input.flow,
+        ...(input.payoutExtraId && {
+          payoutExtraId: input.payoutExtraId,
+          payoutExtraIdName: "memo",
+        }),
       }
 
       const response = await fetch(`${CHANGE_NOW_API_URL}/exchange`, {

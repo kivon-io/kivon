@@ -20,13 +20,14 @@ const SendTransaction = () => {
 
   const [isCopied, setIsCopied] = useState(false)
   const [isCopiedAmount, setIsCopiedAmount] = useState(false)
+  const [isCopiedExtraId, setIsCopiedExtraId] = useState(false)
   const { step, form, setExchangeTransactionStatus, exchangeTransactionStatus } = useExchange()
 
   const exchangeTransaction = form.watch("exchangeTransaction")
+  const sendToken = form.watch("sendToken")
 
   const saveTx = trpc.createTransaction.useMutation()
 
-  // get transaction status every 5 seconds
   const { data: transaction, isPending: isPendingTransactionStatus } =
     trpc.getExchangeTransactionStatus.useQuery(
       {
@@ -90,6 +91,13 @@ const SendTransaction = () => {
     }, 2000)
   }
 
+  const handleCopyExtraId = () => {
+    navigator.clipboard.writeText(transaction?.payinExtraId || "")
+    setIsCopiedExtraId(true)
+    setTimeout(() => {
+      setIsCopiedExtraId(false)
+    }, 2000)
+  }
   useEffect(() => {
     if (transaction) {
       setExchangeTransactionStatus(transaction)
@@ -157,18 +165,45 @@ const SendTransaction = () => {
               {isPendingTransactionStatus ? (
                 <Loader className='text-black' />
               ) : (
-                <>
-                  <p className='text-xs text-zinc-700 dark:text-zinc-400'>To this address</p>
+                <div className='flex flex-col gap-8'>
+                  <div className='flex flex-col gap-2'>
+                    <p className='text-xs text-zinc-700 dark:text-zinc-400'>To this address</p>
 
-                  <div className='flex flex-col md:flex-row gap-2 md:items-center relative w-full'>
-                    <p className='text-zinc-700 dark:text-zinc-200 font-medium max-w-[350px] w-full break-words'>
-                      {transaction?.payinAddress || ""}
-                    </p>
-                    <Button size='icon' variant='outline' onClick={handleCopyAddress}>
-                      {isCopied ? <Check /> : <Copy />}
-                    </Button>
+                    <div className='flex flex-col md:flex-row gap-2 md:items-center relative w-full md:justify-between'>
+                      <p className='text-zinc-700 dark:text-zinc-200 font-medium max-w-[350px] w-full break-words'>
+                        {transaction?.payinAddress || ""}
+                      </p>
+                      <Button size='icon' variant='outline' onClick={handleCopyAddress}>
+                        {isCopied ? <Check /> : <Copy />}
+                      </Button>
+                    </div>
                   </div>
-                </>
+                  {transaction?.payinExtraId && (
+                    <div className='flex flex-col md:flex-row gap-2 relative w-full bg-zinc-100 dark:bg-neutral-800 rounded-lg p-4'>
+                      <div className='flex flex-col'>
+                        <div className='flex items-center relative flex-wrap'>
+                          <span className='text-xs text-muted-foreground'>Memo</span>
+                          <p className='text-zinc-700 dark:text-zinc-200 font-medium break-all'>
+                            {transaction?.payinExtraId || ""}
+                          </p>
+                        </div>
+                        <p className='text-xs text-muted-foreground'>
+                          Do not forget to specify the memo while sending to {sendToken.name}{" "}
+                          <span className='uppercase'>({sendToken.ticker})</span> transaction for
+                          the exchange to be completed.
+                        </p>
+                      </div>
+                      <Button
+                        size='icon'
+                        variant='outline'
+                        onClick={handleCopyExtraId}
+                        className='flex-shrink-0'
+                      >
+                        {isCopiedExtraId ? <Check /> : <Copy />}
+                      </Button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>

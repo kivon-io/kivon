@@ -95,7 +95,7 @@ const ExecuteTransaction = ({
         userAddress: address,
         volume: Number(quote.details.currencyIn.amountUsd ?? 0),
         originChainId: origin.chainId,
-        originAddress: origin.tokenContractAddress, // or user’s address if that’s your rule
+        originAddress: origin.tokenContractAddress,
         destinationChainId: destination.chainId,
         destinationAddress: destination.tokenContractAddress,
       })
@@ -211,29 +211,6 @@ const ExecuteTransaction = ({
                             status === "complete" && "bg-emerald-500/50"
                           )}
                         >
-                          {/* {status === "complete" && (
-                          <svg
-                            className='w-4 h-4 text-white'
-                            fill='currentColor'
-                            viewBox='0 0 20 20'
-                          >
-                            <path
-                              fillRule='evenodd'
-                              d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
-                              clipRule='evenodd'
-                            />
-                          </svg>
-                        )}
-                        ${
-                          status === "complete"
-                            ? "bg-emerald-500"
-                            : status === "pending"
-                            ? "bg-blue-500"
-                            : "bg-zinc-300 dark:bg-zinc-700"
-                        }
-                        {status === "pending" && (
-                          <div className='w-3 h-3 bg-white rounded-full animate-pulse' />
-                        )} */}
                           <BlurImage
                             src={quote.details.currencyIn.currency.metadata.logoURI}
                             alt={quote.details.currencyIn.currency.symbol}
@@ -432,41 +409,6 @@ const TransactionFailed = ({ checkResult }: { checkResult: CheckResultT }) => {
             <p className='text-sm font-medium text-center'>Transaction Failed</p>
             <p className='text-xs text-zinc-600 dark:text-zinc-400'>{checkResult.details}</p>
           </div>
-          {/* <div className='grid grid-cols-12 gap-2'>
-            <div className='col-span-12 md:col-span-5 bg-zinc-200/60 dark:bg-neutral-900 rounded-lg p-2.5'>
-              <div className='flex flex-col gap-2'>
-                <div className='flex items-center gap-2 relative'>
-                  <BridgeImageAsset
-                    chainName={origin.chainName}
-                    chainImage={origin.chainImage}
-                    currencyName={origin.tokenName}
-                    currencyImage={origin.tokenImage}
-                  />
-                </div>
-                <p className='text-sm font-semibold'>
-                  {Number(quote?.details.currencyIn.amountFormatted).toFixed(7)}{" "}
-                  {origin.tokenSymbol}
-                </p>
-              </div>
-            </div>
-            <div className='col-span-12 md:col-span-2 flex items-center justify-center'>to</div>
-            <div className='col-span-12 md:col-span-5 bg-zinc-200/60 dark:bg-neutral-900 rounded-lg p-2.5'>
-              <div className='flex flex-col gap-2'>
-                <div className='flex items-center gap-2 relative'>
-                  <BridgeImageAsset
-                    chainName={destination.chainName}
-                    chainImage={destination.chainImage}
-                    currencyName={destination.tokenName}
-                    currencyImage={destination.tokenImage}
-                  />
-                </div>
-                <p className='text-sm font-semibold'>
-                  {Number(quote?.details.currencyOut.amountFormatted).toFixed(7)}{" "}
-                  {destination.tokenSymbol}
-                </p>
-              </div>
-            </div>
-          </div> */}
           <div className=' w-full flex flex-col gap-2 border border-zinc-200 dark:border-zinc-800 rounded-lg p-2.5'>
             {checkResult.inTxHashes.length > 0 &&
               checkResult.inTxHashes.map((hash) => {

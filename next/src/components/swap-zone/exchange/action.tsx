@@ -25,8 +25,8 @@ const ExchangeAction = () => {
   const rateId = form.watch("estimatedExchange.rateId")
   const flow = form.watch("fixed_rate")
   const isAddressValid = form.watch("isAddressValid")
+  const payoutExtraId = form.watch("exchangeTransaction.payoutExtraId")
 
-  // create exchange transaction
   const { mutateAsync: createExchangeTransaction } = trpc.createExchangeTransaction.useMutation()
 
   const handleCreateExchangeTransaction = async () => {
@@ -40,6 +40,7 @@ const ExchangeAction = () => {
       refundAddress: refundAddress || undefined,
       flow: flow ? FLOW_TYPE.FIXED : FLOW_TYPE.STANDARD,
       rateId: rateId || undefined,
+      payoutExtraId: payoutExtraId || undefined,
     })
 
     form.setValue("exchangeTransaction", response)

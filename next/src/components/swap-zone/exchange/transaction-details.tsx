@@ -28,6 +28,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import TokenLogo from "../token-logo"
 import AdvancedSettings from "./advanced-settings"
 import { EXCHANGE_STEPS, ExchangeFormSchema } from "./constants"
+import ExtraField from "./ExtraField"
 import FixedRateInfoDialog from "./fixed-rate-info"
 import { ValidFixedRate } from "./valid-fixed-rate"
 
@@ -234,6 +235,9 @@ const TransactionDetails = () => {
               </FormItem>
             )}
           />
+
+          <ExtraField form={form} />
+
           <FormField
             control={form.control}
             name='terms_and_conditions'

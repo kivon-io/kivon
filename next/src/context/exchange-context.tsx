@@ -93,6 +93,8 @@ const ExchangeProvider = ({
         refundAddress: "",
         fromNetwork: "",
         toNetwork: "",
+        payoutExtraId: "",
+        payoutExtraIdName: "",
       },
     },
   })
@@ -120,6 +122,7 @@ const ExchangeProvider = ({
           network: currencies[0].network,
           isFiat: currencies[0].isFiat,
           supportsFixedRate: currencies[0].supportsFixedRate,
+          isExtraIdSupported: currencies[0].isExtraIdSupported,
         })
       }
       if (!currentReceiveToken) {
@@ -131,6 +134,7 @@ const ExchangeProvider = ({
           network: currencies[1].network,
           isFiat: currencies[1].isFiat,
           supportsFixedRate: currencies[1].supportsFixedRate,
+          isExtraIdSupported: currencies[1].isExtraIdSupported,
         })
       }
     }
@@ -153,6 +157,7 @@ const ExchangeProvider = ({
         network: fromCurrency.network,
         isFiat: fromCurrency.isFiat,
         supportsFixedRate: fromCurrency.supportsFixedRate,
+        isExtraIdSupported: fromCurrency.isExtraIdSupported,
       })
 
       // Check if receiveToken is the same as from, and fix if needed
@@ -169,6 +174,7 @@ const ExchangeProvider = ({
             network: newToCurrency.network,
             isFiat: newToCurrency.isFiat,
             supportsFixedRate: newToCurrency.supportsFixedRate,
+            isExtraIdSupported: newToCurrency.isExtraIdSupported,
           })
         }
       }
@@ -187,6 +193,7 @@ const ExchangeProvider = ({
         network: toCurrency.network,
         isFiat: toCurrency.isFiat,
         supportsFixedRate: toCurrency.supportsFixedRate,
+        isExtraIdSupported: toCurrency.isExtraIdSupported,
       })
     }
   }, [from, to, currencies, form])

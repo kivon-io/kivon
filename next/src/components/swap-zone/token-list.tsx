@@ -36,7 +36,6 @@ const TokenList = () => {
   const onOpenChange = () => {
     toggleTokenList()
   }
-
   // set from and to in the url only if exist if not don't set it
 
   const handleClick = (token: Currency) => {
@@ -49,6 +48,7 @@ const TokenList = () => {
         network: token.network,
         isFiat: token.isFiat,
         supportsFixedRate: token.supportsFixedRate,
+        isExtraIdSupported: token.isExtraIdSupported,
       })
       updateSwapUrl("from", token.legacyTicker || token.ticker)
     } else {
@@ -60,6 +60,7 @@ const TokenList = () => {
         network: token.network,
         isFiat: token.isFiat,
         supportsFixedRate: token.supportsFixedRate,
+        isExtraIdSupported: token.isExtraIdSupported,
       })
       updateSwapUrl("to", token.legacyTicker || token.ticker)
     }
