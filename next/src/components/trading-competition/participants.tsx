@@ -4,6 +4,7 @@ import { cn, formatAmount } from "@/lib/utils"
 import { useDynamicWallet } from "@/lib/wallet/use-dynamic-wallet"
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useMemo } from "react"
+import { PiUsersThreeBold } from "react-icons/pi"
 import Lines from "../decorations/lines"
 import Address from "../elements/address"
 import AddressAvatar from "../elements/address-avatar"
@@ -61,7 +62,13 @@ const Participants = ({
 
   return (
     <div className='relative max-w-4xl w-full mx-auto overflow-hidden md:overflow-visible'>
-      <h2 className='text-lg font-medium mb-2'>Leaderboard</h2>
+      <div className='flex items-center justify-between'>
+        <h2 className='text-lg font-medium mb-2'>Leaderboard</h2>
+        <div className='flex items-center gap-2 pr-2'>
+          <PiUsersThreeBold className='size-4 text-foreground' />
+          <p className='text-sm text-foreground font-medium font-barlow'> {participants.length}</p>
+        </div>
+      </div>
       <DataTable columns={Columns} data={data} />
       <Lines />
     </div>
