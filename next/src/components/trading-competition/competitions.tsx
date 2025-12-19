@@ -74,7 +74,9 @@ const Columns: ColumnDef<Competition>[] = [
           </div>
           <div className='flex flex-col max-w-sm w-full'>
             <p className='text-sm font-medium'>{title}</p>
-            <p className=' whitespace-pre-wrap truncate text-sm text-zinc-500'>{description}</p>
+            <p className=' whitespace-pre-wrap truncate text-sm text-zinc-500 line-clamp-2'>
+              {description}
+            </p>
           </div>
         </div>
       )
