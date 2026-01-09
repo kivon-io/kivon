@@ -27,15 +27,38 @@ export const competitionsRouter = createTRPCRouter({
       const data = await response.json()
       return data as Competition
     }),
-  getParticipants: publicProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
-    const response = await fetch(`${COMPETITIONS_API_URL}/competitions/${input.id}/participants`)
-    if (!response.ok) {
-      throw new Error(`Failed to fetch participants: ${response.status}`)
-    }
+  getParticipants: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        page: z.number().min(1).default(1),
+        limit: z.number().min(1).max(100).default(10),
+      })
+    )
+    .query(async ({ input }) => {
+      const { id, page, limit } = input
+      const url = new URL(`${COMPETITIONS_API_URL}/competitions/${id}/participants`)
+      url.searchParams.set("page", page.toString())
+      url.searchParams.set("limit", limit.toString())
 
-    const data = await response.json()
-    return data as Participant[]
-  }),
+      const response = await fetch(url.toString())
+      if (!response.ok) {
+        throw new Error(`Failed to fetch participants: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return {
+        data: data.data as Participant[],
+        pagination: data.pagination as {
+          page: number
+          limit: number
+          total: number
+          totalPages: number
+          hasNextPage: boolean
+          hasPreviousPage: boolean
+        },
+      }
+    }),
   joinCompetition: publicProcedure
     .input(
       z.object({

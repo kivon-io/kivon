@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic"
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const competition = await trpc.getCompetitionById({ id })
-  const participants = await trpc.getParticipants({ id })
+  const participantsData = await trpc.getParticipants({ id, page: 1, limit: 10 })
 
   return (
     <main className='relative'>
@@ -52,7 +52,12 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
 
-        <Participants participants={participants} prizeStructures={competition.prizeStructures} />
+        <Participants
+          competitionId={id}
+          prizeStructures={competition.prizeStructures}
+          initialParticipants={participantsData.data}
+          initialPagination={participantsData.pagination}
+        />
       </div>
     </main>
   )
