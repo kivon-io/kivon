@@ -20,8 +20,6 @@ export function useOriginBalance() {
     origin?.tokenIsNative
   )
 
-  console.log("balance", balance)
-
   return {
     origin,
     tokenAmount,
