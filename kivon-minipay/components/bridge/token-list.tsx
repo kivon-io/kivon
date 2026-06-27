@@ -3,6 +3,7 @@
 import { AssetIcon } from "@/components/bridge/asset-icon"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
+import { useMemo } from "react"
 import { IoCheckmarkCircle } from "react-icons/io5"
 
 type TokenListProps = {
@@ -10,8 +11,114 @@ type TokenListProps = {
   chain: Chain
   selectedTokenAddress?: string
   isLoading?: boolean
+  showFeatured?: boolean
   onSelect: (token: Token, chain: Chain) => void
   heading?: string
+}
+
+function resolveFeaturedTokens(
+  featuredTokens: Token[],
+  tokens: Token[]
+): Token[] {
+  const tokenByAddress = new Map(
+    tokens.map((token) => [token.address.toLowerCase(), token])
+  )
+
+  return featuredTokens.flatMap((featured) => {
+    const match = tokenByAddress.get(featured.address.toLowerCase())
+    return match ? [match] : []
+  })
+}
+
+function FeaturedTokenChips({
+  tokens,
+  chain,
+  selectedTokenAddress,
+  onSelect,
+}: {
+  tokens: Token[]
+  chain: Chain
+  selectedTokenAddress?: string
+  onSelect: (token: Token, chain: Chain) => void
+}) {
+  return (
+    <div className="-mx-1 mb-4 scrollbar-hide flex gap-2 overflow-x-auto px-1 pb-1">
+      {tokens.map((token) => {
+        const isSelected =
+          selectedTokenAddress?.toLowerCase() === token.address.toLowerCase()
+
+        return (
+          <button
+            key={`featured-${chain.id}-${token.address}`}
+            type="button"
+            onClick={() => onSelect(token, chain)}
+            className={cn(
+              "flex shrink-0 items-center gap-2 rounded-full border border-border bg-card px-3 py-2 transition-colors hover:bg-muted/40",
+              isSelected && "border-primary bg-primary/5"
+            )}
+          >
+            <AssetIcon
+              tokenImage={token.metadata.logoURI}
+              tokenSymbol={token.symbol}
+              chainImage={chain.iconUrl}
+              chainName={chain.displayName}
+              size="sm"
+            />
+            <span className="text-sm font-semibold text-foreground">
+              {token.symbol}
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function TokenRow({
+  token,
+  chain,
+  selectedTokenAddress,
+  onSelect,
+}: {
+  token: Token
+  chain: Chain
+  selectedTokenAddress?: string
+  onSelect: (token: Token, chain: Chain) => void
+}) {
+  const isSelected =
+    selectedTokenAddress?.toLowerCase() === token.address.toLowerCase()
+
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(token, chain)}
+      className="flex w-full items-center gap-3 px-4 py-4 text-left transition-colors hover:bg-muted/40"
+    >
+      <AssetIcon
+        tokenImage={token.metadata.logoURI}
+        tokenSymbol={token.symbol}
+        chainImage={chain.iconUrl}
+        chainName={chain.displayName}
+        size="md"
+      />
+
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <p className="truncate font-semibold text-foreground">{token.name}</p>
+          {token.metadata.verified ? (
+            <span className="inline-flex size-4 items-center justify-center rounded-full bg-kivon-600 text-[10px] text-white">
+              ✓
+            </span>
+          ) : null}
+        </div>
+        <p className="text-sm text-muted-foreground">{token.symbol}</p>
+      </div>
+
+      {isSelected ? (
+        <IoCheckmarkCircle className="size-6 shrink-0 text-emerald-500" />
+      ) : null}
+    </button>
+  )
 }
 
 export function TokenList({
@@ -19,9 +126,27 @@ export function TokenList({
   chain,
   selectedTokenAddress,
   isLoading,
+  showFeatured = true,
   onSelect,
   heading = "Popular assets",
 }: TokenListProps) {
+  const featuredTokens = useMemo(() => {
+    if (!showFeatured || !chain.featuredTokens?.length) return []
+    return resolveFeaturedTokens(chain.featuredTokens, tokens)
+  }, [chain.featuredTokens, showFeatured, tokens])
+
+  const listTokens = useMemo(() => {
+    if (featuredTokens.length === 0) return tokens
+
+    const featuredAddresses = new Set(
+      featuredTokens.map((token) => token.address.toLowerCase())
+    )
+
+    return tokens.filter(
+      (token) => !featuredAddresses.has(token.address.toLowerCase())
+    )
+  }, [featuredTokens, tokens])
+
   if (isLoading) {
     return (
       <div className="flex flex-col gap-3">
@@ -42,50 +167,33 @@ export function TokenList({
 
   return (
     <div className="flex flex-col">
-      <p className="mb-3 text-sm font-semibold text-foreground">{heading}</p>
-      <div className="divide-y divide-border rounded-2xl border border-border bg-card">
-        {tokens.map((token) => {
-          const isSelected =
-            selectedTokenAddress?.toLowerCase() === token.address.toLowerCase()
+      {featuredTokens.length > 0 ? (
+        <FeaturedTokenChips
+          tokens={featuredTokens}
+          chain={chain}
+          selectedTokenAddress={selectedTokenAddress}
+          onSelect={onSelect}
+        />
+      ) : null}
 
-          return (
-            <button
-              key={`${chain.id}-${token.address}`}
-              type="button"
-              onClick={() => onSelect(token, chain)}
-              className="flex w-full items-center gap-3 px-4 py-4 text-left transition-colors hover:bg-muted/40"
-            >
-              <AssetIcon
-                tokenImage={token.metadata.logoURI}
-                tokenSymbol={token.symbol}
-                chainImage={chain.iconUrl}
-                chainName={chain.displayName}
-                size="md"
+      {listTokens.length > 0 ? (
+        <>
+          <p className="mb-3 text-sm font-semibold text-foreground">
+            {heading}
+          </p>
+          <div className="divide-y divide-border rounded-2xl border border-border bg-card">
+            {listTokens.map((token) => (
+              <TokenRow
+                key={`${chain.id}-${token.address}`}
+                token={token}
+                chain={chain}
+                selectedTokenAddress={selectedTokenAddress}
+                onSelect={onSelect}
               />
-
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <p className="truncate font-semibold text-foreground">
-                    {token.name}
-                  </p>
-                  {token.metadata.verified ? (
-                    <span className="inline-flex size-4 items-center justify-center rounded-full bg-kivon-600 text-[10px] text-white">
-                      ✓
-                    </span>
-                  ) : null}
-                </div>
-                <p className="text-sm text-muted-foreground">{token.symbol}</p>
-              </div>
-
-              {isSelected && (
-                <IoCheckmarkCircle
-                  className={cn("size-6 shrink-0 text-emerald-500")}
-                />
-              )}
-            </button>
-          )
-        })}
-      </div>
+            ))}
+          </div>
+        </>
+      ) : null}
     </div>
   )
 }

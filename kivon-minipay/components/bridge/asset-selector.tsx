@@ -163,6 +163,7 @@ export function AssetSelector({ mode, placeholder }: AssetSelectorProps) {
             chain={tokenChain}
             selectedTokenAddress={value?.tokenAddress}
             isLoading={tokensLoading || (mode === "origin" && !celoChain)}
+            showFeatured={!tokenSearch.trim()}
             onSelect={handleTokenSelect}
             heading={mode === "origin" ? "Celo tokens" : "Popular assets"}
           />

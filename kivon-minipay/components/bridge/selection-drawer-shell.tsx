@@ -7,10 +7,10 @@ import {
   DrawerDescription,
   DrawerTitle,
 } from "@/components/ui/drawer"
-import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { HiOutlineSearch } from "react-icons/hi"
 import { HiChevronLeft } from "react-icons/hi2"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 
 type SelectionDrawerShellProps = {
   open: boolean
@@ -67,13 +67,7 @@ export function SelectionDrawerShell({
               {title}
             </DrawerTitle>
 
-            {showSearch ? (
-              <div className="flex size-10 items-center justify-center text-muted-foreground">
-                <HiOutlineSearch className="size-5" />
-              </div>
-            ) : (
-              <div className="size-10" />
-            )}
+            <div className="size-10" />
           </div>
 
           {description ? (
@@ -83,12 +77,16 @@ export function SelectionDrawerShell({
           ) : null}
 
           {showSearch && onSearchChange ? (
-            <Input
-              value={searchValue.trim()}
-              onChange={(event) => onSearchChange(event.target.value)}
-              placeholder={searchPlaceholder}
-              className="h-11 rounded-xl"
-            />
+            <InputGroup className="h-11">
+              <InputGroupAddon>
+                <HiOutlineSearch className="size-5" />
+              </InputGroupAddon>
+              <InputGroupInput
+                value={searchValue.trim()}
+                onChange={(event) => onSearchChange(event.target.value)}
+                placeholder={searchPlaceholder}
+              />
+            </InputGroup>
           ) : null}
         </div>
 

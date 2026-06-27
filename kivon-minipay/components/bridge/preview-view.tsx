@@ -42,7 +42,7 @@ export function PreviewView() {
 
   if (error) {
     return (
-      <div className="flex min-h-svh flex-col gap-6 p-6">
+      <div className="flex min-h-[calc(100svh-3rem)] flex-col gap-6 p-6">
         <ReviewHeader />
         <div className="rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-center text-sm text-destructive">
           {error.message}

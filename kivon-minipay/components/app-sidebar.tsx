@@ -131,7 +131,7 @@ export default function AppSidebar() {
           showCloseButton={false}
           className={cn(
             "flex w-full max-w-full flex-col gap-0 bg-background p-0",
-            "data-[side=left]:w-full data-[side=left]:max-w-full sm:max-w-full",
+            "data-[side=left]:w-full data-[side=left]:max-w-full data-[side=left]:border-r-0 sm:max-w-full",
             "pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))]"
           )}
         >
