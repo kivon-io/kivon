@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     ".ngrok.app",
     ".ngrok-free.dev",
     ".ngrok-free.app",
-    "ea33-146-70-133-138.ngrok-free.app",
+    "da8c-89-249-74-236.ngrok-free.app",
   ],
 }
 

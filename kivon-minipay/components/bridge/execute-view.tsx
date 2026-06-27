@@ -117,11 +117,20 @@ export function ExecuteView() {
           : "Keep this screen open until the bridge completes."
       }
       explorerUrl={explorerUrl}
-      onRetry={() => {
-        if (params && exec.isReady) {
-          started.current = true
-          exec.execute(params)
-        }
+      onRetry={
+        failed
+          ? () => {
+              if (params && exec.isReady) {
+                started.current = true
+                exec.execute(params)
+              }
+            }
+          : undefined
+      }
+      onCancel={() => {
+        exec.cancel()
+        started.current = false
+        router.push("/bridge")
       }}
     />
   )

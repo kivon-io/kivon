@@ -38,7 +38,7 @@ type BridgeContextValue = {
   /** `amount` normalised to USD, or null when no price is available. */
   usdAmount: number | null
 
-  /** Destination recipient. Null falls back to the connected wallet address. */
+  /** Destination recipient. Must be set explicitly before bridging. */
   recipient: string | null
   setRecipient: (address: string | null) => void
 }

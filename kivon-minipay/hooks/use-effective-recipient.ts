@@ -1,11 +1,9 @@
 "use client"
 
 import { useBridge } from "@/context/bridge-context"
-import { useWallet } from "@/hooks/use-wallet"
 
-/** Resolved destination recipient — custom override or connected wallet. */
+/** Explicit destination recipient set by the user. No wallet fallback. */
 export function useEffectiveRecipient() {
   const { recipient } = useBridge()
-  const { address } = useWallet()
-  return recipient ?? address ?? ""
+  return recipient ?? ""
 }

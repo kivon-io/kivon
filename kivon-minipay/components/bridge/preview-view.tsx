@@ -7,7 +7,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useBridge } from "@/context/bridge-context"
 import { useBridgeQuote } from "@/hooks/use-bridge-quote"
 import { useEffectiveRecipient } from "@/hooks/use-effective-recipient"
-import { useWallet } from "@/hooks/use-wallet"
 import { countWalletPrompts } from "@/lib/bridge/format"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -15,7 +14,6 @@ import { useEffect } from "react"
 export function PreviewView() {
   const router = useRouter()
   const { origin, destination, tokenAmount } = useBridge()
-  const { address } = useWallet()
   const effectiveRecipient = useEffectiveRecipient()
   const { quote, isLoading, error } = useBridgeQuote()
 
@@ -24,18 +22,18 @@ export function PreviewView() {
   )
 
   useEffect(() => {
-    if (!origin || !destination || tokenAmount <= 0) {
+    if (!origin || !destination || tokenAmount <= 0 || !effectiveRecipient) {
       router.replace("/bridge")
     }
-  }, [origin, destination, tokenAmount, router])
+  }, [origin, destination, tokenAmount, effectiveRecipient, router])
 
   if (!origin || !destination) return null
 
   if (isLoading || !quote) {
     return (
-      <div className="flex min-h-svh flex-col gap-6 p-6">
+      <div className="flex flex-col gap-6 p-6">
         <ReviewHeader />
-        <Skeleton className="mx-auto h-16 w-48" />
+        <Skeleton className="mx-auto h-16 w-48 rounded-full" />
         <Skeleton className="h-64 w-full rounded-2xl" />
         <Skeleton className="mt-auto h-12 w-full rounded-full" />
       </div>
@@ -57,11 +55,11 @@ export function PreviewView() {
   const receiveAmount = details.currencyOut.amountFormatted
   const receiveSymbol = details.currencyOut.currency.symbol
   const receiveUsd = details.currencyOut.amountUsd
-  const recipient = effectiveRecipient || details.recipient || address || ""
+  const recipient = effectiveRecipient
   const promptCount = countWalletPrompts(quote)
 
   return (
-    <div className="flex min-h-svh flex-col gap-4 p-6">
+    <div className="flex flex-col gap-4 p-6">
       <div className="flex flex-col gap-2">
         <ReviewHeader />
 

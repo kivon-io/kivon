@@ -44,6 +44,50 @@ export function isMinipayOriginToken(token: Token) {
   return MINIPAY_ORIGIN_SYMBOLS.some((s) => s.toUpperCase() === symbol)
 }
 
+function pickPreferredMinipayToken(a: Token, b: Token, symbol: string) {
+  const canonical = DEFAULT_ORIGIN.tokenSymbol.toUpperCase() === symbol
+    ? DEFAULT_ORIGIN.tokenAddress.toLowerCase()
+    : undefined
+
+  if (canonical) {
+    if (a.address.toLowerCase() === canonical) return a
+    if (b.address.toLowerCase() === canonical) return b
+  }
+
+  if (symbol === "CELO") {
+    if (a.metadata.isNative !== b.metadata.isNative) {
+      return a.metadata.isNative ? a : b
+    }
+  }
+
+  if (a.metadata.verified !== b.metadata.verified) {
+    return a.metadata.verified ? a : b
+  }
+
+  return a
+}
+
+/** One entry per MiniPay origin symbol — Relay can return duplicate contracts. */
+export function filterMinipayOriginTokens(tokens: Token[]) {
+  const bySymbol = new Map<string, Token>()
+
+  for (const token of tokens) {
+    if (!isMinipayOriginToken(token)) continue
+
+    const symbol = token.symbol.toUpperCase()
+    const existing = bySymbol.get(symbol)
+    bySymbol.set(
+      symbol,
+      existing ? pickPreferredMinipayToken(existing, token, symbol) : token
+    )
+  }
+
+  return MINIPAY_ORIGIN_SYMBOLS.flatMap((symbol) => {
+    const token = bySymbol.get(symbol.toUpperCase())
+    return token ? [token] : []
+  })
+}
+
 /** Chains users can bridge to from MiniPay (EVM outbound, not Celo). */
 export function getDestinationChains(chains: Chain[]) {
   return chains.filter(

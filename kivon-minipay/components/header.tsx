@@ -17,7 +17,7 @@ const Header = ({
       )}
     >
       <h1 className="text-lg font-bold">{heading}</h1>
-      <p className="text-sm text-foreground">{subHeading}</p>
+      <p className="text-xs text-foreground">{subHeading}</p>
     </div>
   )
 }

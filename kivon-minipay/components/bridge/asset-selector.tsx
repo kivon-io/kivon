@@ -9,8 +9,8 @@ import { useChains } from "@/hooks/use-chains"
 import { useTokens } from "@/hooks/use-tokens"
 import {
   createBridgeAsset,
+  filterMinipayOriginTokens,
   getDestinationChains,
-  isMinipayOriginToken,
   sortChainsByPopularity,
 } from "@/lib/bridge/constants"
 import type { SelectionDrawerStep } from "@/lib/bridge/types"
@@ -69,7 +69,7 @@ export function AssetSelector({ mode, placeholder }: AssetSelectorProps) {
 
   const visibleTokens = useMemo(() => {
     if (mode !== "origin") return tokens
-    return tokens.filter(isMinipayOriginToken)
+    return filterMinipayOriginTokens(tokens)
   }, [mode, tokens])
 
   const triggerLabel =
@@ -78,7 +78,6 @@ export function AssetSelector({ mode, placeholder }: AssetSelectorProps) {
       : (value?.chainDisplayName ?? placeholder ?? "Select network")
 
   const openDrawer = () => {
-    console.log("openDrawer", mode)
     if (mode === "origin") {
       setStep("token")
       setActiveChain(celoChain)

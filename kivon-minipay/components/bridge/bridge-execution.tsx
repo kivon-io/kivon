@@ -18,27 +18,26 @@ type BridgeExecutionProps = {
   helperText: string
   explorerUrl?: string
   onRetry?: () => void
+  onCancel?: () => void
 }
 
-function AssetCard({
-  asset,
-  amount,
-}: {
-  asset: BridgeAsset
-  amount: string
-}) {
+function AssetCard({ asset, amount }: { asset: BridgeAsset; amount: string }) {
   return (
     <div className="flex flex-1 flex-col gap-3 rounded-2xl border border-border bg-card p-4">
-      <AssetIcon
-        tokenImage={asset.tokenImage}
-        tokenSymbol={asset.tokenSymbol}
-        chainImage={asset.chainImage}
-        chainName={asset.chainDisplayName}
-        size="md"
-      />
+      <div className="relative">
+        <AssetIcon
+          tokenImage={asset.tokenImage}
+          tokenSymbol={asset.tokenSymbol}
+          chainImage={asset.chainImage}
+          chainName={asset.chainDisplayName}
+          size="md"
+        />
+      </div>
       <div className="space-y-0.5">
-        <p className="text-sm text-muted-foreground">{asset.chainDisplayName}</p>
-        <p className="text-lg font-semibold tracking-tight">
+        <p className="text-sm text-muted-foreground">
+          {asset.chainDisplayName}
+        </p>
+        <p className="text-sm font-semibold tracking-tight">
           {amount} {asset.tokenSymbol}
         </p>
       </div>
@@ -46,7 +45,13 @@ function AssetCard({
   )
 }
 
-function StepIndicator({ step, isLast }: { step: ExecStepView; isLast: boolean }) {
+function StepIndicator({
+  step,
+  isLast,
+}: {
+  step: ExecStepView
+  isLast: boolean
+}) {
   return (
     <div className="flex flex-col items-center self-stretch">
       <div
@@ -69,7 +74,10 @@ function StepIndicator({ step, isLast }: { step: ExecStepView; isLast: boolean }
       </div>
       {!isLast && (
         <span
-          className={cn("my-1 w-px flex-1", step.state === "done" ? "bg-primary/40" : "bg-border")}
+          className={cn(
+            "my-1 w-px flex-1",
+            step.state === "done" ? "bg-primary/40" : "bg-border"
+          )}
         />
       )}
     </div>
@@ -89,7 +97,12 @@ function StepRow({ step, isLast }: { step: ExecStepView; isLast: boolean }) {
       <StepIndicator step={step} isLast={isLast} />
       <div className={cn("flex-1 pb-6", isLast && "pb-0")}>
         <div className="flex items-center gap-2">
-          <p className={cn("font-semibold tracking-tight", dim && "text-muted-foreground")}>
+          <p
+            className={cn(
+              "font-semibold tracking-tight",
+              dim && "text-muted-foreground"
+            )}
+          >
             {step.title}
           </p>
           {step.badge && (
@@ -103,7 +116,12 @@ function StepRow({ step, isLast }: { step: ExecStepView; isLast: boolean }) {
             </span>
           )}
         </div>
-        <p className={cn("text-sm", dim ? "text-muted-foreground/60" : "text-muted-foreground")}>
+        <p
+          className={cn(
+            "text-sm",
+            dim ? "text-muted-foreground/60" : "text-muted-foreground"
+          )}
+        >
           {step.subtitle}
         </p>
       </div>
@@ -123,11 +141,12 @@ export function BridgeExecution({
   helperText,
   explorerUrl,
   onRetry,
+  onCancel,
 }: BridgeExecutionProps) {
   const failed = statusTone === "failed"
 
   return (
-    <div className="flex min-h-svh flex-col gap-5 p-6">
+    <div className="flex min-h-[calc(100svh-3rem)] flex-col gap-5 p-6">
       {/* Route header */}
       <div className="flex items-stretch gap-2">
         <AssetCard asset={origin} amount={formatAmount(sendAmount, 2)} />
@@ -146,7 +165,9 @@ export function BridgeExecution({
           )}
         />
         <span className="font-semibold">{statusLabel}</span>
-        {timeLeftLabel && <span className="text-muted-foreground">· {timeLeftLabel}</span>}
+        {timeLeftLabel && (
+          <span className="text-muted-foreground">· {timeLeftLabel}</span>
+        )}
       </div>
 
       {/* Steps */}
@@ -158,26 +179,38 @@ export function BridgeExecution({
 
       <p className="text-center text-sm text-muted-foreground">{helperText}</p>
 
-      {failed && onRetry ? (
-        <button
-          type="button"
-          onClick={onRetry}
-          className="mt-auto flex h-12 items-center justify-center rounded-full bg-primary text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 active:translate-y-px"
-        >
-          Try again
-        </button>
-      ) : (
-        explorerUrl && (
+      <div className="mt-auto flex flex-col gap-2">
+        {failed && onRetry ? (
+          <button
+            type="button"
+            onClick={onRetry}
+            className="flex h-12 items-center justify-center rounded-full bg-primary text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 active:translate-y-px"
+          >
+            Try again
+          </button>
+        ) : null}
+
+        {onCancel ? (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="flex h-12 items-center justify-center rounded-full border border-border bg-card text-base font-semibold transition-colors hover:bg-muted"
+          >
+            {failed ? "Back to bridge" : "Cancel"}
+          </button>
+        ) : null}
+
+        {explorerUrl ? (
           <a
             href={explorerUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-auto flex h-12 items-center justify-center rounded-full border border-border bg-card text-base font-semibold transition-colors hover:bg-muted"
+            className="flex h-12 items-center justify-center rounded-full border border-border bg-card text-base font-semibold transition-colors hover:bg-muted"
           >
             View on explorer
           </a>
-        )
-      )}
+        ) : null}
+      </div>
     </div>
   )
 }

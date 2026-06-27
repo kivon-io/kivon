@@ -31,14 +31,14 @@ export function AmountModeToggle({ className }: { className?: string }) {
       onClick={toggleAmountMode}
       disabled={!hasPrice && amountMode === "token"}
       className={cn(
-        "mx-auto flex w-fit items-center justify-center gap-3 rounded-full border border-border bg-neutral-50/50 px-3 py-2 text-muted-foreground backdrop-blur-2xl transition-colors hover:bg-muted/60 disabled:opacity-50 dark:bg-neutral-900/50",
+        "mx-auto flex w-fit items-center justify-center gap-3 rounded-full border border-border bg-neutral-50/50 px-1 py-0.5 text-muted-foreground backdrop-blur-2xl transition-colors hover:bg-muted/60 disabled:opacity-50 dark:bg-neutral-900/50",
         className
       )}
     >
       <span className="flex size-7 items-center justify-center rounded-full bg-muted">
-        <HiMiniArrowsUpDown className="size-4" />
+        <HiMiniArrowsUpDown className="size-3" />
       </span>
-      <span className="text-base font-medium">{secondary}</span>
+      <span className="text-sm font-medium">{secondary}</span>
     </button>
   )
 }

@@ -1,5 +1,9 @@
 "use client"
 
+import { CheckIcon, CopyIcon } from "lucide-react"
+import { useEffect, useState } from "react"
+import { isAddress } from "viem"
+
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -7,47 +11,52 @@ import {
   DrawerDescription,
   DrawerTitle,
 } from "@/components/ui/drawer"
-import { Input } from "@/components/ui/input"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
 import { useBridge } from "@/context/bridge-context"
-import { useEffectiveRecipient } from "@/hooks/use-effective-recipient"
 import { useHasMounted } from "@/hooks/use-has-mounted"
 import { useWallet } from "@/hooks/use-wallet"
 import { truncateAddress } from "@/lib/bridge/format"
-import { useEffect, useState } from "react"
-import { isAddress } from "viem"
 
 export function RecipientSelector() {
   const { destination, recipient, setRecipient } = useBridge()
   const { address } = useWallet()
-  const effectiveRecipient = useEffectiveRecipient()
   const mounted = useHasMounted()
   const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState("")
   const [error, setError] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
 
+  const hasRecipient = Boolean(recipient)
   const isOwnWallet =
     mounted &&
     Boolean(address) &&
-    effectiveRecipient.toLowerCase() === address?.toLowerCase()
+    Boolean(recipient) &&
+    recipient!.toLowerCase() === address!.toLowerCase()
 
-  const walletLabel = !mounted
-    ? "Custom wallet"
+  const walletLabel = !hasRecipient
+    ? "Recipient required"
     : isOwnWallet
       ? "My wallet"
       : "Custom wallet"
 
   const addressLabel = !mounted
-    ? "Connect wallet"
-    : effectiveRecipient
-      ? truncateAddress(effectiveRecipient)
-      : "Connect wallet"
+    ? "Add recipient address"
+    : hasRecipient
+      ? truncateAddress(recipient!)
+      : "Add recipient address"
 
   useEffect(() => {
     if (open) {
-      setDraft(effectiveRecipient)
+      setDraft(recipient ?? "")
       setError(null)
+      setCopied(false)
     }
-  }, [open, effectiveRecipient])
+  }, [open, recipient])
 
   if (!destination) return null
 
@@ -58,13 +67,27 @@ export function RecipientSelector() {
       return
     }
 
-    if (address && trimmed.toLowerCase() === address.toLowerCase()) {
-      setRecipient(null)
-    } else {
-      setRecipient(trimmed)
-    }
-
+    setRecipient(trimmed)
     setOpen(false)
+  }
+
+  const handleUseInternalAddress = () => {
+    if (!address) return
+    setDraft(address)
+    setError(null)
+  }
+
+  const handleCopy = async () => {
+    const value = draft.trim()
+    if (!value) return
+
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 2000)
+    } catch {
+      setError("Could not copy address")
+    }
   }
 
   return (
@@ -84,14 +107,28 @@ export function RecipientSelector() {
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold text-foreground">{walletLabel}</p>
-            <p className="truncate text-xs text-muted-foreground">
+            <p
+              className={
+                hasRecipient
+                  ? "text-xs font-semibold text-foreground"
+                  : "text-xs font-semibold text-muted-foreground"
+              }
+            >
+              {walletLabel}
+            </p>
+            <p
+              className={
+                hasRecipient
+                  ? "truncate text-xs text-muted-foreground"
+                  : "truncate text-xs text-muted-foreground/80"
+              }
+            >
               {addressLabel}
             </p>
           </div>
 
           <span className="shrink-0 text-xs font-medium text-kivon-600">
-            Edit
+            {hasRecipient ? "Edit" : "Add"}
           </span>
         </button>
       </div>
@@ -111,45 +148,63 @@ export function RecipientSelector() {
               {destination.chainDisplayName}.
             </p>
 
-            <Input
-              value={draft}
-              onChange={(event) => {
-                setDraft(event.target.value)
-                setError(null)
-              }}
-              placeholder="0x..."
-              className="h-11 rounded-xl font-mono"
-              autoComplete="off"
-              spellCheck={false}
-            />
+            <div className="flex flex-col gap-2">
+              {address ? (
+                <div className="flex justify-end">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 px-2 text-xs text-muted-foreground"
+                    onClick={handleUseInternalAddress}
+                  >
+                    Use internal address
+                  </Button>
+                </div>
+              ) : null}
+
+              <InputGroup className="h-11 rounded-xl">
+                <InputGroupInput
+                  value={draft}
+                  onChange={(event) => {
+                    setDraft(event.target.value)
+                    setError(null)
+                    setCopied(false)
+                  }}
+                  placeholder="0x..."
+                  className="font-mono"
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+                <InputGroupAddon align="inline-end">
+                  <InputGroupButton
+                    size="icon-xs"
+                    aria-label={copied ? "Copied" : "Copy address"}
+                    disabled={!draft.trim()}
+                    onClick={handleCopy}
+                  >
+                    {copied ? (
+                      <CheckIcon className="size-3.5 text-emerald-500" />
+                    ) : (
+                      <CopyIcon className="size-3.5" />
+                    )}
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+            </div>
 
             {error ? (
               <p className="text-center text-sm text-destructive">{error}</p>
             ) : null}
 
-            <div className="flex flex-col gap-2">
-              <Button
-                type="button"
-                className="h-11 w-full rounded-full"
-                onClick={handleSave}
-                disabled={!draft.trim()}
-              >
-                Save
-              </Button>
-              {address ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="h-11 w-full rounded-full"
-                  onClick={() => {
-                    setRecipient(null)
-                    setOpen(false)
-                  }}
-                >
-                  Use my wallet
-                </Button>
-              ) : null}
-            </div>
+            <Button
+              type="button"
+              className="h-11 w-full rounded-full"
+              onClick={handleSave}
+              disabled={!draft.trim()}
+            >
+              Save
+            </Button>
           </div>
         </DrawerContent>
       </Drawer>

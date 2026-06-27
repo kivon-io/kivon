@@ -45,13 +45,15 @@ export function BridgeView() {
     setAmount(parseFloat(parseFloat(balanceFormatted).toFixed(6)).toString())
   }
 
-  const previewLabel = hasInsufficientBalance ? "Insufficient balance" : "Preview Bridge"
+  const previewLabel = hasInsufficientBalance
+    ? "Insufficient balance"
+    : "Preview Bridge"
 
   return (
-    <div className="flex min-h-svh flex-col gap-8 p-6">
+    <div className="flex min-h-[calc(100svh-3rem)] flex-col gap-4 p-4">
       <Header
         heading="Bridge"
-        subHeading="Bridge your tokens from Celo to other networks"
+        // subHeading="Bridge your tokens from Celo to other networks"
       />
 
       <div className="flex flex-col gap-2">

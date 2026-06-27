@@ -26,7 +26,7 @@ export function AssetIcon({
   const dimensions = sizeMap[size]
 
   return (
-    <div className={cn("relative shrink-0", className)}>
+    <div className={cn("relative w-fit shrink-0", className)}>
       {tokenImage ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -38,7 +38,7 @@ export function AssetIcon({
         />
       ) : (
         <div
-          className="flex items-center justify-center rounded-full bg-muted font-medium uppercase text-muted-foreground"
+          className="flex items-center justify-center rounded-full bg-muted font-medium text-muted-foreground uppercase"
           style={{ width: dimensions.token, height: dimensions.token }}
         >
           {tokenSymbol.slice(0, 1)}
@@ -51,7 +51,6 @@ export function AssetIcon({
             dimensions.badgeOffset
           )}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={chainImage}
             alt={chainName ?? "chain"}
