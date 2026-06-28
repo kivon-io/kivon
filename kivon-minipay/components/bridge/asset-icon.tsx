@@ -1,3 +1,6 @@
+import Image from "next/image"
+
+import { isOptimizableImageUrl } from "@/lib/images"
 import { cn } from "@/lib/utils"
 
 type AssetIconProps = {
@@ -6,6 +9,8 @@ type AssetIconProps = {
   chainImage?: string
   chainName?: string
   size?: "sm" | "md" | "lg"
+  /** Mark the LCP candidate (only one per page). */
+  priority?: boolean
   className?: string
 }
 
@@ -15,12 +20,53 @@ const sizeMap = {
   lg: { token: 72, badge: 32, badgeOffset: "-bottom-1 -right-1" },
 } as const
 
+function TokenImage({
+  src,
+  alt,
+  size,
+  priority,
+}: {
+  src: string
+  alt: string
+  size: number
+  priority?: boolean
+}) {
+  const className = "rounded-full object-cover"
+
+  if (isOptimizableImageUrl(src)) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={size}
+        height={size}
+        sizes={`${size}px`}
+        priority={priority}
+        className={className}
+      />
+    )
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- dynamic Relay/CDN hosts
+    <img
+      src={src}
+      alt={alt}
+      width={size}
+      height={size}
+      fetchPriority={priority ? "high" : "auto"}
+      className={className}
+    />
+  )
+}
+
 export function AssetIcon({
   tokenImage,
   tokenSymbol,
   chainImage,
   chainName,
   size = "md",
+  priority = false,
   className,
 }: AssetIconProps) {
   const dimensions = sizeMap[size]
@@ -28,13 +74,11 @@ export function AssetIcon({
   return (
     <div className={cn("relative w-fit shrink-0", className)}>
       {tokenImage ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <TokenImage
           src={tokenImage}
           alt={tokenSymbol}
-          width={dimensions.token}
-          height={dimensions.token}
-          className="rounded-full object-cover"
+          size={dimensions.token}
+          priority={priority}
         />
       ) : (
         <div
@@ -51,13 +95,10 @@ export function AssetIcon({
             dimensions.badgeOffset
           )}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element -- external Relay/CDN URLs */}
-          <img
+          <TokenImage
             src={chainImage}
             alt={chainName ?? "chain"}
-            width={dimensions.badge}
-            height={dimensions.badge}
-            className="rounded-full object-cover"
+            size={dimensions.badge}
           />
         </div>
       ) : null}

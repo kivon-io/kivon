@@ -1,7 +1,6 @@
 "use client"
 
-import { HiChevronRight } from "react-icons/hi2"
-import { IoCheckmarkCircle } from "react-icons/io5"
+import { ChevronRight, CircleCheck } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 
@@ -72,9 +71,9 @@ export function NetworkList({
               </div>
 
               {isSelected ? (
-                <IoCheckmarkCircle className={cn("size-6 shrink-0 text-emerald-500")} />
+                <CircleCheck className={cn("size-6 shrink-0 text-emerald-500")} />
               ) : (
-                <HiChevronRight className="size-5 shrink-0 text-muted-foreground" />
+                <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
               )}
             </button>
           )

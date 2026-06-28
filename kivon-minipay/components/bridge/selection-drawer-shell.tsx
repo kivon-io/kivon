@@ -8,8 +8,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer"
 import { cn } from "@/lib/utils"
-import { HiOutlineSearch } from "react-icons/hi"
-import { HiChevronLeft } from "react-icons/hi2"
+import { ChevronLeft, Search } from "lucide-react"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 
 type SelectionDrawerShellProps = {
@@ -57,7 +56,7 @@ export function SelectionDrawerShell({
                 className="size-10 rounded-full"
                 onClick={onBack}
               >
-                <HiChevronLeft className="size-5" />
+                <ChevronLeft className="size-5" />
               </Button>
             ) : (
               <div className="size-10" />
@@ -79,7 +78,7 @@ export function SelectionDrawerShell({
           {showSearch && onSearchChange ? (
             <InputGroup className="h-11">
               <InputGroupAddon>
-                <HiOutlineSearch className="size-5" />
+                <Search className="size-5" />
               </InputGroupAddon>
               <InputGroupInput
                 value={searchValue.trim()}

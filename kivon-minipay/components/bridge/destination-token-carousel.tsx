@@ -169,7 +169,8 @@ export function DestinationTokenCarousel({
                     tokenSymbol={token.symbol}
                     chainImage={destination.chainImage}
                     chainName={destination.chainDisplayName}
-                    size={isSelected ? "lg" : "lg"}
+                    size="lg"
+                    priority={isSelected}
                   />
                 </button>
               </CarouselItem>

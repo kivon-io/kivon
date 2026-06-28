@@ -1,10 +1,25 @@
 "use client"
 
-import { DestinationTokenCarousel } from "@/components/bridge/destination-token-carousel"
+import dynamic from "next/dynamic"
+
 import { Skeleton } from "@/components/ui/skeleton"
 import { useBridge } from "@/context/bridge-context"
 import { useBridgeQuote } from "@/hooks/use-bridge-quote"
 import { formatAmount } from "@/lib/bridge/format"
+
+const DestinationTokenCarousel = dynamic(
+  () =>
+    import("@/components/bridge/destination-token-carousel").then((mod) => ({
+      default: mod.DestinationTokenCarousel,
+    })),
+  {
+    loading: () => (
+      <div className="flex h-[92px] items-center justify-center">
+        <Skeleton className="size-[72px] rounded-full" />
+      </div>
+    ),
+  }
+)
 
 export function QuoteSummary() {
   const { origin, destination, tokenAmount, setDestination } = useBridge()

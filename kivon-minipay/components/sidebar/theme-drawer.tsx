@@ -1,7 +1,7 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import { IoCheckmarkCircle } from "react-icons/io5"
+import { CircleCheck } from "lucide-react"
 
 import { useHasMounted } from "@/hooks/use-has-mounted"
 
@@ -57,7 +57,7 @@ export function ThemeDrawer({ open, onOpenChange }: ThemeDrawerProps) {
                     {option.description}
                   </p>
                 </div>
-                <IoCheckmarkCircle
+                <CircleCheck
                   className={cn(
                     "size-6 shrink-0 text-emerald-500 transition-opacity",
                     isSelected ? "opacity-100" : "opacity-0"

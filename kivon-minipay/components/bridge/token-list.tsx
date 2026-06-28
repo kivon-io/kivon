@@ -4,7 +4,7 @@ import { AssetIcon } from "@/components/bridge/asset-icon"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import { useMemo } from "react"
-import { IoCheckmarkCircle } from "react-icons/io5"
+import { CircleCheck } from "lucide-react"
 
 type TokenListProps = {
   tokens: Token[]
@@ -115,7 +115,7 @@ function TokenRow({
       </div>
 
       {isSelected ? (
-        <IoCheckmarkCircle className="size-6 shrink-0 text-emerald-500" />
+        <CircleCheck className="size-6 shrink-0 text-emerald-500" />
       ) : null}
     </button>
   )

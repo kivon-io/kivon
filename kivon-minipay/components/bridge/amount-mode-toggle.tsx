@@ -3,7 +3,7 @@
 import { useBridge } from "@/context/bridge-context"
 import { formatAmount } from "@/lib/bridge/format"
 import { cn } from "@/lib/utils"
-import { HiMiniArrowsUpDown } from "react-icons/hi2"
+import { ArrowUpDown } from "lucide-react"
 
 export function AmountModeToggle({ className }: { className?: string }) {
   const {
@@ -36,7 +36,7 @@ export function AmountModeToggle({ className }: { className?: string }) {
       )}
     >
       <span className="flex size-7 items-center justify-center rounded-full bg-muted">
-        <HiMiniArrowsUpDown className="size-3" />
+        <ArrowUpDown className="size-3" />
       </span>
       <span className="text-sm font-medium">{secondary}</span>
     </button>
