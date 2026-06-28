@@ -1,9 +1,14 @@
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Kivon"
 export const APP_LOGO_URL = process.env.NEXT_PUBLIC_APP_LOGO_URL
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://kivon.io"
+/** MiniPay linkUrl / production app origin (e.g. https://minipay.kivon.io). */
+export const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://minipay.kivon.io"
 
-export const TERMS_URL = `${APP_URL}/terms-of-use`
-export const PRIVACY_URL = `${APP_URL}/privacy-policy`
+/** Legal pages live on the main marketing site, not the MiniPay subdomain. */
+export const TERMS_URL =
+  process.env.NEXT_PUBLIC_TERMS_URL ?? "https://kivon.io/terms-of-use"
+export const PRIVACY_URL =
+  process.env.NEXT_PUBLIC_PRIVACY_URL ?? "https://kivon.io/privacy-policy"
 
 export const SUPPORT_URL =
   process.env.NEXT_PUBLIC_SUPPORT_URL ?? "https://t.me/kivon_io"
