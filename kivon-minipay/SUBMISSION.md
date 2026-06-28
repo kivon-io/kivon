@@ -13,7 +13,7 @@ Fill these before submitting. Replace placeholders with your production values.
 | **App name** | Kivon (or `NEXT_PUBLIC_APP_NAME`) |
 | **Tagline** | _Draft 1–2 sentences — e.g. bridge from Celo to EVM networks in MiniPay_ |
 | **Publisher** | _Your name or organization_ |
-| **Support URL** | _In-app support link — Telegram, WhatsApp, email, or web portal_ |
+| **Support URL** | `https://t.me/kivon_io` (override with `NEXT_PUBLIC_SUPPORT_URL`) |
 | **Terms of Service** | `{APP_URL}/terms-of-use` (default: `https://kivon.io/terms-of-use`) |
 | **Privacy Policy** | `{APP_URL}/privacy-policy` (default: `https://kivon.io/privacy-policy`) |
 | **Category** | `finance` |

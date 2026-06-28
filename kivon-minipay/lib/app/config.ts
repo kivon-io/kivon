@@ -5,6 +5,9 @@ export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://kivon.io"
 export const TERMS_URL = `${APP_URL}/terms-of-use`
 export const PRIVACY_URL = `${APP_URL}/privacy-policy`
 
+export const SUPPORT_URL =
+  process.env.NEXT_PUBLIC_SUPPORT_URL ?? "https://t.me/kivon_io"
+
 export const FAQ_ITEMS = [
   {
     id: "speed",

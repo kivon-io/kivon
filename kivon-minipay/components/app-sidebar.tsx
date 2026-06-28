@@ -22,7 +22,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import { PRIVACY_URL, TERMS_URL, THEME_OPTIONS } from "@/lib/app/config"
+import { PRIVACY_URL, SUPPORT_URL, TERMS_URL, THEME_OPTIONS } from "@/lib/app/config"
 import { cn } from "@/lib/utils"
 
 const listVariants = {
@@ -75,7 +75,18 @@ function SettingsRow({
 
 function SidebarFooter() {
   return (
-    <div className="flex items-center justify-center gap-4 border-t border-border pt-4 text-xs text-muted-foreground">
+    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-border pt-4 text-xs text-muted-foreground">
+      <a
+        href={SUPPORT_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="transition-colors hover:text-foreground"
+      >
+        Support
+      </a>
+      <span aria-hidden className="text-border">
+        ·
+      </span>
       <a
         href={TERMS_URL}
         target="_blank"
