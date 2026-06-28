@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
     ".ngrok-free.app",
     "da8c-89-249-74-236.ngrok-free.app",
   ],
+  async rewrites() {
+    return [
+      {
+        source: "/",
+        destination: "/bridge",
+      },
+    ]
+  },
 }
 
 export default nextConfig
