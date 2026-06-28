@@ -1,28 +1,3 @@
-// import { Button } from "@/components/ui/button"
-// import Link from "next/link"
-
-// export default function Page() {
-//   return (
-//     <div className="flex min-h-svh p-6">
-//       <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-//         <div>
-//           <h1 className="font-medium">Project ready!</h1>
-//           <p>You may now add components and start building.</p>
-//           <p>We&apos;ve already added the button component for you.</p>
-//           <Link href="/bridge">
-//             <Button className="mt-2 w-full" size="lg">
-//               Bridge
-//             </Button>
-//           </Link>
-//         </div>
-//         <div className="font-mono text-xs text-muted-foreground">
-//           (Press <kbd>d</kbd> to toggle dark mode)
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
 "use client"
 
 import { Button } from "@/components/ui/button"
@@ -90,7 +65,7 @@ function Blob({
   )
 }
 
-export default function Page() {
+export default function WelcomePage() {
   return (
     <div className="relative flex min-h-svh w-full flex-col items-center justify-center overflow-hidden bg-[#0E0A0C]">
       <Blob
@@ -121,10 +96,9 @@ export default function Page() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={APP_LOGO_URL ?? ""}
-            alt="Lkivon"
+            alt="Kivon"
             width={118}
             height={118}
-            className=""
             style={{
               boxShadow:
                 "0 20px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.10)",
@@ -149,7 +123,7 @@ export default function Page() {
         className="absolute inset-x-6 bottom-[54px] z-10"
         {...fadeUp(0.85)}
       >
-        <Link href="/bridge">
+        <Link href="/">
           <Button className="h-12 w-full rounded-full" size="lg">
             Bridge Now
           </Button>

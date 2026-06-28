@@ -1,0 +1,45 @@
+name: kivon-minipay CI
+
+on:
+  push:
+    paths:
+      - "kivon-minipay/**"
+      - ".github/workflows/kivon-minipay-ci.yml"
+  pull_request:
+    paths:
+      - "kivon-minipay/**"
+      - ".github/workflows/kivon-minipay-ci.yml"
+
+defaults:
+  run:
+    working-directory: kivon-minipay
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: kivon-minipay/package-lock.json
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_APP_NAME: Kivon
+          NEXT_PUBLIC_APP_URL: https://kivon.io
