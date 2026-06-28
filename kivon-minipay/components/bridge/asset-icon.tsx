@@ -51,6 +51,7 @@ export function AssetIcon({
             dimensions.badgeOffset
           )}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element -- external Relay/CDN URLs */}
           <img
             src={chainImage}
             alt={chainName ?? "chain"}

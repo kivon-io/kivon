@@ -3,8 +3,6 @@
 import { ArrowUpRight, Check } from "lucide-react"
 import { Button } from "../ui/button"
 
-const TEAL = "#6fb3aa"
-
 type BridgeCompletionProps = {
   sentLabel: string
   receivedLabel: string

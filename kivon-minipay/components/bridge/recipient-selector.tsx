@@ -1,7 +1,7 @@
 "use client"
 
 import { CheckIcon, CopyIcon } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { isAddress } from "viem"
 
 import { Button } from "@/components/ui/button"
@@ -50,13 +50,14 @@ export function RecipientSelector() {
       ? truncateAddress(recipient!)
       : "Add recipient address"
 
-  useEffect(() => {
-    if (open) {
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (nextOpen) {
       setDraft(recipient ?? "")
       setError(null)
       setCopied(false)
     }
-  }, [open, recipient])
+    setOpen(nextOpen)
+  }
 
   if (!destination) return null
 
@@ -99,7 +100,7 @@ export function RecipientSelector() {
 
         <button
           type="button"
-          onClick={() => setOpen(true)}
+          onClick={() => handleOpenChange(true)}
           className="flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-2 py-1.5 text-left transition-colors hover:bg-muted/40"
         >
           <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-kivon-600 text-xs font-semibold text-white">
@@ -133,7 +134,7 @@ export function RecipientSelector() {
         </button>
       </div>
 
-      <Drawer open={open} onOpenChange={setOpen}>
+      <Drawer open={open} onOpenChange={handleOpenChange}>
         <DrawerContent className="flex flex-col overflow-hidden bg-background">
           <div className="flex flex-col gap-4 px-4 pt-2 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
             <DrawerTitle className="text-center text-base font-semibold">

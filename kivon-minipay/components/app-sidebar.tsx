@@ -10,7 +10,9 @@ import {
 } from "lucide-react"
 import { motion } from "motion/react"
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useState } from "react"
+
+import { useHasMounted } from "@/hooks/use-has-mounted"
 
 import { AppLogo } from "@/components/app-logo"
 import { FaqSection } from "@/components/sidebar/faq-section"
@@ -114,9 +116,7 @@ export default function AppSidebar() {
   const [open, setOpen] = useState(false)
   const [themeDrawerOpen, setThemeDrawerOpen] = useState(false)
   const { theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => setMounted(true), [])
+  const mounted = useHasMounted()
 
   const themeLabel =
     THEME_OPTIONS.find(

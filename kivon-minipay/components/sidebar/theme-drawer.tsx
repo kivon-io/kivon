@@ -1,8 +1,9 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
 import { IoCheckmarkCircle } from "react-icons/io5"
+
+import { useHasMounted } from "@/hooks/use-has-mounted"
 
 import {
   Drawer,
@@ -20,9 +21,7 @@ type ThemeDrawerProps = {
 
 export function ThemeDrawer({ open, onOpenChange }: ThemeDrawerProps) {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => setMounted(true), [])
+  const mounted = useHasMounted()
 
   const activeTheme = (mounted ? theme : "system") as ThemeOption
 
