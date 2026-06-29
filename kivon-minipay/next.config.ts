@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     ".ngrok.app",
     ".ngrok-free.dev",
     ".ngrok-free.app",
-    "da8c-89-249-74-236.ngrok-free.app",
+    "497e-84-252-95-166.ngrok-free.app",
   ],
   images: {
     formats: ["image/avif", "image/webp"],

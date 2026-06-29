@@ -6,6 +6,7 @@ import { sendTransaction, waitForTransactionReceipt } from "wagmi/actions"
 import { RELAY_LINK_API_URL } from "@/lib/relay/constants"
 import { fetchQuote } from "@/lib/relay/fetchers"
 import type { GetQuoteInput } from "@/lib/relay/schemas"
+import { buildMiniPaySendParams } from "@/lib/wallet/fee-currency"
 import { wagmiConfig } from "@/lib/wallet/wagmi"
 
 export type StepStatus = "incomplete" | "pending" | "complete" | "failed"
@@ -64,6 +65,11 @@ export const useExecuteSteps = () => {
   const runningRef = useRef(false)
   const cancelledRef = useRef(false)
   const abortRef = useRef<AbortController | null>(null)
+  /** Origin token for CIP-64 feeCurrency on Celo txs during the active run. */
+  const executionOriginRef = useRef<{
+    originCurrency: string
+    originSymbol?: string
+  } | null>(null)
 
   useEffect(() => {
     return () => {
@@ -109,6 +115,10 @@ export const useExecuteSteps = () => {
       const freshQuote = await fetchQuote(params)
       throwIfCancelled()
       setQuote(freshQuote)
+      executionOriginRef.current = {
+        originCurrency: params.originCurrency,
+        originSymbol: quoteOriginSymbol(freshQuote),
+      }
 
       const stepArray = (freshQuote.steps ?? []) as Step[]
       if (stepArray.length === 0) throw new Error("No steps to execute")
@@ -186,26 +196,25 @@ export const useExecuteSteps = () => {
       await switchChainAsync({ chainId: data.chainId as WagmiChainId })
     }
 
-    // Only forward gas fields that are actually present — passing BigInt() over
-    // an undefined value would throw and kill the whole bridge.
-    const gas = toBigInt(data.gas)
-    const maxFeePerGas = toBigInt(data.maxFeePerGas)
-    const maxPriorityFeePerGas = toBigInt(data.maxPriorityFeePerGas)
+    const origin = executionOriginRef.current
+    if (!origin?.originCurrency) {
+      throw new Error("Missing origin token for fee configuration")
+    }
 
-    const txParams = {
-      account: address,
-      chainId: data.chainId as WagmiChainId,
-      to: data.to as `0x${string}`,
-      data: data.data as `0x${string}`,
-      value: toBigInt(data.value) ?? BigInt(0),
-      ...(gas !== undefined && { gas }),
-      ...(maxFeePerGas !== undefined && { maxFeePerGas }),
-      ...(maxPriorityFeePerGas !== undefined && { maxPriorityFeePerGas }),
+    let txParams
+    try {
+      txParams = buildMiniPaySendParams(
+        data,
+        address,
+        origin.originCurrency,
+        origin.originSymbol
+      )
+    } catch {
+      throw new Error("UNSUPPORTED_FEE_CURRENCY")
     }
 
     try {
-      // wagmi's param is a chain-specific union (Celo uses cip64 fee-currency
-      // txs); we forward Relay's pre-built calldata as-is, so bypass the union.
+      // CIP-64 feeCurrency txs use a Celo-specific wagmi/viem union.
       const hash = await sendTransaction(
         wagmiConfig,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -452,13 +461,8 @@ const delay = (ms: number, signal?: AbortSignal): Promise<void> =>
     )
   })
 
-function toBigInt(value?: string | null): bigint | undefined {
-  if (value === undefined || value === null || value === "") return undefined
-  try {
-    return BigInt(value)
-  } catch {
-    return undefined
-  }
+function quoteOriginSymbol(quote: Quote): string | undefined {
+  return quote.details?.currencyIn?.currency?.symbol
 }
 
 function isAbortError(err: unknown): boolean {
@@ -477,6 +481,9 @@ function normalizeRejection(err: unknown): Error {
     }
     if (msg.includes("insufficient funds")) {
       return new Error("INSUFFICIENT_GAS")
+    }
+    if (msg === "UNSUPPORTED_FEE_CURRENCY") {
+      return new Error("UNSUPPORTED_FEE_CURRENCY")
     }
     // Gas-estimation/revert dumps from viem are noisy and useless to users.
     if (
@@ -498,7 +505,9 @@ function toUserMessage(err: unknown): string {
       case "USER_REJECTED":
         return "You rejected the transaction."
       case "INSUFFICIENT_GAS":
-        return "Not enough balance to cover network fees. Top up CELO and try again."
+        return "Not enough stablecoin balance to cover network fees required to execute this bridge."
+      case "UNSUPPORTED_FEE_CURRENCY":
+        return "This token can't pay network fees on Celo. Try USDC, USDT, or USDm."
       case "TX_REVERTED":
         return "The transaction couldn't be completed. Please try again."
       case "EXECUTION_FAILED":

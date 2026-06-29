@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils"
 type OriginBalanceProps = {
   symbol: string
   balanceDisplay?: string
-  balanceFormatted?: string
   hasInsufficientBalance: boolean
   isLoading: boolean
+  canMax?: boolean
   onMax: () => void
   className?: string
 }
@@ -15,9 +15,9 @@ type OriginBalanceProps = {
 export function OriginBalance({
   symbol,
   balanceDisplay,
-  balanceFormatted,
   hasInsufficientBalance,
   isLoading,
+  canMax = true,
   onMax,
   className,
 }: OriginBalanceProps) {
@@ -49,7 +49,7 @@ export function OriginBalance({
       <button
         type="button"
         onClick={onMax}
-        disabled={!balanceFormatted || Number(balanceFormatted) <= 0}
+        disabled={!canMax}
         className="rounded-full border border-border bg-neutral-900/80 px-3 py-1 text-xs font-semibold text-kivon-400 transition-opacity hover:opacity-80 disabled:opacity-40 dark:bg-neutral-900/50"
       >
         MAX

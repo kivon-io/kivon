@@ -134,7 +134,11 @@ export function RecipientSelector() {
         </button>
       </div>
 
-      <Drawer open={open} onOpenChange={handleOpenChange}>
+      <Drawer
+        open={open}
+        onOpenChange={handleOpenChange}
+        repositionInputs={false}
+      >
         <DrawerContent className="flex flex-col overflow-hidden bg-background">
           <div className="flex flex-col gap-4 px-4 pt-2 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
             <DrawerTitle className="text-center text-base font-semibold">
