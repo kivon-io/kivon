@@ -1,6 +1,5 @@
 "use client"
 
-import Banner from "@/components/banner"
 import { useBridge } from "@/context/bridge-context"
 import { useTradingView } from "@/lib/tradingview/tradingview-context"
 import { cn, isConnectedChainEnabled } from "@/lib/utils"
@@ -22,7 +21,7 @@ const Bridge = () => {
     <div
       className={cn(
         "grid grid-cols-12 gap-4 max-w-lg mx-auto",
-        isChartOpen ? "grid-cols-12 max-w-7xl" : "grid-cols-1"
+        isChartOpen ? "grid-cols-12 max-w-7xl" : "grid-cols-1",
       )}
     >
       <div className={cn("col-span-12", isChartOpen ? "col-span-12 md:col-span-8" : "col-span-8")}>
@@ -31,13 +30,13 @@ const Bridge = () => {
       <div
         className={cn(
           "col-span-12 flex flex-col gap-1",
-          isChartOpen ? "col-span-12 md:col-span-4" : "col-span-12"
+          isChartOpen ? "col-span-12 md:col-span-4" : "col-span-12",
         )}
       >
         <Menu>
           <Slippage />
         </Menu>
-        <Banner />
+        {/* <Banner /> */}
 
         <div className='h-fit rounded-3xl bg-gradient-to-b from-white to-zinc-100 dark:from-neutral-900 dark:to-neutral-950 border border-zinc-200 dark:border-zinc-800 p-5 flex flex-col gap-5'>
           <SelectAsset />
