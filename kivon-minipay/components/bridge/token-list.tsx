@@ -2,6 +2,8 @@
 
 import { AssetIcon } from "@/components/bridge/asset-icon"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useTokenBalances, type TokenBalanceEntry } from "@/hooks/use-token-balances"
+import { useWallet } from "@/hooks/use-wallet"
 import { cn } from "@/lib/utils"
 import { useMemo } from "react"
 import { CircleCheck } from "lucide-react"
@@ -12,6 +14,9 @@ type TokenListProps = {
   selectedTokenAddress?: string
   isLoading?: boolean
   showFeatured?: boolean
+  /** Fetch and show wallet balances (origin token picker on Celo). */
+  showBalances?: boolean
+  celoUsdPrice?: number | null
   onSelect: (token: Token, chain: Chain) => void
   heading?: string
 }
@@ -78,11 +83,15 @@ function TokenRow({
   token,
   chain,
   selectedTokenAddress,
+  balance,
+  balanceLoading,
   onSelect,
 }: {
   token: Token
   chain: Chain
   selectedTokenAddress?: string
+  balance?: TokenBalanceEntry
+  balanceLoading?: boolean
   onSelect: (token: Token, chain: Chain) => void
 }) {
   const isSelected =
@@ -114,6 +123,14 @@ function TokenRow({
         <p className="text-sm text-muted-foreground">{token.symbol}</p>
       </div>
 
+      {balanceLoading ? (
+        <span className="shrink-0 text-sm text-muted-foreground">…</span>
+      ) : balance ? (
+        <span className="shrink-0 text-sm font-medium text-foreground tabular-nums">
+          {balance.usdLabel}
+        </span>
+      ) : null}
+
       {isSelected ? (
         <CircleCheck className="size-6 shrink-0 text-emerald-500" />
       ) : null}
@@ -127,9 +144,21 @@ export function TokenList({
   selectedTokenAddress,
   isLoading,
   showFeatured = true,
+  showBalances = false,
+  celoUsdPrice,
   onSelect,
   heading = "Popular assets",
 }: TokenListProps) {
+  const { address, chainId } = useWallet()
+  const balanceChainId = chainId ?? chain.id
+
+  const { balances, isLoading: balancesLoading } = useTokenBalances(
+    tokens,
+    showBalances ? balanceChainId : undefined,
+    showBalances ? address : undefined,
+    celoUsdPrice
+  )
+
   const featuredTokens = useMemo(() => {
     if (!showFeatured || !chain.featuredTokens?.length) return []
     return resolveFeaturedTokens(chain.featuredTokens, tokens)
@@ -188,6 +217,8 @@ export function TokenList({
                 token={token}
                 chain={chain}
                 selectedTokenAddress={selectedTokenAddress}
+                balance={balances.get(token.address.toLowerCase())}
+                balanceLoading={showBalances && balancesLoading}
                 onSelect={onSelect}
               />
             ))}

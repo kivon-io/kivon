@@ -13,6 +13,11 @@ export const PRIVACY_URL =
 export const SUPPORT_URL =
   process.env.NEXT_PUBLIC_SUPPORT_URL ?? "https://t.me/kivon_io"
 
+/** MiniPay add-cash deep link (USDm, USDC, USDT). */
+export const MINIPAY_ADD_CASH_URL =
+  process.env.NEXT_PUBLIC_MINIPAY_ADD_CASH_URL ??
+  "https://link.minipay.xyz/add_cash?tokens=USDm,USDC,USDT"
+
 export const FAQ_ITEMS = [
   {
     id: "speed",

@@ -1,7 +1,9 @@
 import { ArrowRight, Check, X } from "lucide-react"
 
 import { AssetIcon } from "@/components/bridge/asset-icon"
+import { MinipayTopUpPrompt } from "@/components/bridge/minipay-top-up-prompt"
 import { formatAmount } from "@/lib/bridge/format"
+import { shouldOfferMinipayTopUp } from "@/lib/wallet/minipay-top-up"
 import type { BridgeAsset } from "@/lib/bridge/types"
 import type { ExecStepView } from "@/lib/bridge/view-model"
 import { cn } from "@/lib/utils"
@@ -177,7 +179,11 @@ export function BridgeExecution({
         ))}
       </div>
 
-      <p className="text-center text-sm text-muted-foreground">{helperText}</p>
+      {failed && shouldOfferMinipayTopUp(helperText) ? (
+        <MinipayTopUpPrompt message={helperText} />
+      ) : (
+        <p className="text-center text-sm text-muted-foreground">{helperText}</p>
+      )}
 
       <div className="mt-auto flex flex-col gap-2">
         {failed && onRetry ? (

@@ -505,7 +505,7 @@ function toUserMessage(err: unknown): string {
       case "USER_REJECTED":
         return "You rejected the transaction."
       case "INSUFFICIENT_GAS":
-        return "Not enough stablecoin balance to cover network fees."
+        return "Not enough stablecoin balance to cover network fees required to execute this bridge."
       case "UNSUPPORTED_FEE_CURRENCY":
         return "This token can't pay network fees on Celo. Try USDC, USDT, or USDm."
       case "TX_REVERTED":

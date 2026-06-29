@@ -23,7 +23,8 @@ type AssetSelectorProps = {
 }
 
 export function AssetSelector({ mode, placeholder }: AssetSelectorProps) {
-  const { origin, destination, setOrigin, setDestination } = useBridge()
+  const { origin, destination, setOrigin, setDestination, originUsdPrice } =
+    useBridge()
   const value = mode === "origin" ? origin : destination
   const onChange = mode === "origin" ? setOrigin : setDestination
   const [open, setOpen] = useState(false)
@@ -164,6 +165,8 @@ export function AssetSelector({ mode, placeholder }: AssetSelectorProps) {
             selectedTokenAddress={value?.tokenAddress}
             isLoading={tokensLoading || (mode === "origin" && !celoChain)}
             showFeatured={!tokenSearch.trim()}
+            showBalances={mode === "origin"}
+            celoUsdPrice={originUsdPrice}
             onSelect={handleTokenSelect}
             heading={mode === "origin" ? "Celo tokens" : "Popular assets"}
           />

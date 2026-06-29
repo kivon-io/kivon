@@ -2,6 +2,7 @@
 
 import { AmountInput } from "@/components/bridge/amount-input"
 import { AmountModeToggle } from "@/components/bridge/amount-mode-toggle"
+import { MinipayTopUpLink } from "@/components/bridge/minipay-top-up-prompt"
 import { OriginBalance } from "@/components/bridge/origin-balance"
 import { QuoteSummary } from "@/components/bridge/quote-summary"
 import { RecipientSelector } from "@/components/bridge/recipient-selector"
@@ -22,11 +23,11 @@ export function BridgeView() {
   const {
     origin: originAsset,
     balanceDisplay,
-    balanceFormatted,
+    maxSendable,
     hasInsufficientBalance,
     isLoading: isBalanceLoading,
     setAmount,
-  } = useOriginBalance()
+  } = useOriginBalance({ quote })
 
   const canPreview = Boolean(
     origin &&
@@ -40,9 +41,11 @@ export function BridgeView() {
     !isBalanceLoading
   )
 
+  const maxAmount = maxSendable
+
   const handleMax = () => {
-    if (!balanceFormatted) return
-    setAmount(parseFloat(parseFloat(balanceFormatted).toFixed(6)).toString())
+    if (maxAmount <= 0) return
+    setAmount(maxAmount.toString())
   }
 
   const previewLabel = hasInsufficientBalance
@@ -62,14 +65,22 @@ export function BridgeView() {
         <AmountInput />
         <AmountModeToggle />
         {originAsset ? (
-          <OriginBalance
-            symbol={originAsset.tokenSymbol}
-            balanceDisplay={balanceDisplay}
-            balanceFormatted={balanceFormatted}
-            hasInsufficientBalance={hasInsufficientBalance}
-            isLoading={isBalanceLoading}
-            onMax={handleMax}
-          />
+          <>
+            <OriginBalance
+              symbol={originAsset.tokenSymbol}
+              balanceDisplay={balanceDisplay}
+              hasInsufficientBalance={hasInsufficientBalance}
+              isLoading={isBalanceLoading}
+              canMax={maxAmount > 0}
+              onMax={handleMax}
+            />
+            {hasInsufficientBalance ? (
+              <p className="text-center text-sm text-muted-foreground">
+                Amount is too small to cover fees required to execute this
+                bridge. <MinipayTopUpLink /> in MiniPay to continue.
+              </p>
+            ) : null}
+          </>
         ) : null}
       </div>
 

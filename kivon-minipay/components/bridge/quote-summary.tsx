@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 
+import { MinipayTopUpPrompt } from "@/components/bridge/minipay-top-up-prompt"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useBridge } from "@/context/bridge-context"
 import { useBridgeQuote } from "@/hooks/use-bridge-quote"
@@ -79,10 +80,8 @@ export function QuoteSummary() {
 
       {showQuoteLoading ? <QuoteDetailsSkeleton /> : null}
 
-      {showQuoteError ? (
-        <div className="mt-2 w-full rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-center text-sm text-destructive">
-          {error?.message}
-        </div>
+      {showQuoteError && error?.message ? (
+        <MinipayTopUpPrompt message={error.message} className="mt-2 w-full" />
       ) : null}
 
       {showQuoteDetails && receiveAmount ? (
