@@ -1,10 +1,10 @@
 import { AppShell } from "@/components/app-shell"
-import { BridgeLayoutShell } from "@/components/bridge/bridge-layout-shell"
+import { EarnLayoutShell } from "@/components/earn/earn-layout-shell"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppShell>
-      <BridgeLayoutShell>{children}</BridgeLayoutShell>
+      <EarnLayoutShell>{children}</EarnLayoutShell>
     </AppShell>
   )
 }
