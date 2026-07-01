@@ -1,15 +1,19 @@
 "use client"
 
 import {
+  ArrowRightLeft,
   ChevronRight,
   MenuIcon,
   MonitorIcon,
   MoonIcon,
   SunIcon,
+  TrendingUp,
   XIcon,
 } from "lucide-react"
 import { motion } from "motion/react"
 import { useTheme } from "next-themes"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useState } from "react"
 
 import { useHasMounted } from "@/hooks/use-has-mounted"
@@ -24,7 +28,12 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import { PRIVACY_URL, SUPPORT_URL, TERMS_URL, THEME_OPTIONS } from "@/lib/app/config"
+import {
+  PRIVACY_URL,
+  SUPPORT_URL,
+  TERMS_URL,
+  THEME_OPTIONS,
+} from "@/lib/app/config"
 import { cn } from "@/lib/utils"
 
 const listVariants = {
@@ -42,6 +51,67 @@ const itemVariants = {
     x: 0,
     transition: { duration: 0.22, ease: [0.42, 0, 0.58, 1] as const },
   },
+}
+
+const NAV_ITEMS = [
+  {
+    href: "/bridge",
+    label: "Bridge",
+    description: "Move tokens across networks",
+    icon: ArrowRightLeft,
+    isActive: (pathname: string) => pathname.startsWith("/bridge"),
+  },
+  {
+    href: "/earn",
+    label: "Earn",
+    description: "Deposit USDT and earn yield",
+    icon: TrendingUp,
+    isActive: (pathname: string) => pathname.startsWith("/earn"),
+  },
+] as const
+
+function NavRow({
+  href,
+  label,
+  description,
+  icon: Icon,
+  isActive,
+  onNavigate,
+}: {
+  href: string
+  label: string
+  description: string
+  icon: React.ComponentType<{ className?: string }>
+  isActive: boolean
+  onNavigate: () => void
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        "flex w-full items-center gap-3 py-3.5 text-left transition-colors"
+        // isActive && "bg-muted/50"
+      )}
+    >
+      <span
+        className={cn(
+          "flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground",
+          isActive && "bg-kivon-500/10 text-kivon-600 dark:text-kivon-400"
+        )}
+      >
+        <Icon className="size-4" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-medium text-foreground">{label}</span>
+        <span className="block text-sm text-muted-foreground">
+          {description}
+        </span>
+      </span>
+      <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+    </Link>
+  )
 }
 
 function SettingsRow({
@@ -115,8 +185,11 @@ function SidebarFooter() {
 export default function AppSidebar() {
   const [open, setOpen] = useState(false)
   const [themeDrawerOpen, setThemeDrawerOpen] = useState(false)
+  const pathname = usePathname()
   const { theme } = useTheme()
   const mounted = useHasMounted()
+
+  const closeSidebar = () => setOpen(false)
 
   const themeLabel =
     THEME_OPTIONS.find(
@@ -167,6 +240,25 @@ export default function AppSidebar() {
               variants={listVariants}
               className="flex flex-col gap-6"
             >
+              <motion.section variants={itemVariants}>
+                <p className="mb-1 px-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  Navigate
+                </p>
+                <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card px-4">
+                  {NAV_ITEMS.map((item) => (
+                    <NavRow
+                      key={item.href}
+                      href={item.href}
+                      label={item.label}
+                      description={item.description}
+                      icon={item.icon}
+                      isActive={item.isActive(pathname)}
+                      onNavigate={closeSidebar}
+                    />
+                  ))}
+                </div>
+              </motion.section>
+
               <motion.section variants={itemVariants}>
                 <p className="mb-1 px-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
                   Preferences

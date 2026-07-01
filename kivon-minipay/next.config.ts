@@ -19,19 +19,23 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "assets.relay.link",
       },
+      {
+        protocol: "https",
+        hostname: "d1e92zism97rps.cloudfront.net",
+      },
     ],
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "motion/react"],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/",
-        destination: "/bridge",
-      },
-    ]
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/",
+  //       destination: "/bridge",
+  //     },
+  //   ]
+  // },
   async headers() {
     return [
       {
