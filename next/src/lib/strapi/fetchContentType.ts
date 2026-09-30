@@ -91,6 +91,24 @@ function toStrapiShape(node: unknown): unknown {
   return out
 }
 
+// Strapi only returns the dynamic-zone components listed in `populate.<field>.on`, and
+// callers rely on that (e.g. getHeroData reads dynamic_zone[0]). Payload returns every block.
+function applyOnFilters(docs: unknown, populate: unknown): unknown {
+  if (!populate || typeof populate !== "object") return docs
+  const list = Array.isArray(docs) ? docs : [docs]
+  for (const [field, config] of Object.entries(populate as Record<string, unknown>)) {
+    const on = (config as { on?: Record<string, unknown> } | null)?.on
+    if (!on) continue
+    for (const doc of list as Record<string, unknown>[]) {
+      const blocks = doc?.[field]
+      if (Array.isArray(blocks)) {
+        doc[field] = blocks.filter((block) => block.__component in on)
+      }
+    }
+  }
+  return docs
+}
+
 export default async function fetchContentType(
   contentType: string,
   params: Record<string, unknown> = {},
@@ -131,7 +149,8 @@ export default async function fetchContentType(
     }
 
     const json = await response.json()
-    const jsonData = { data: toStrapiShape(isGlobal ? json : json.docs) } as StrapiResponse
+    const data = applyOnFilters(toStrapiShape(isGlobal ? json : json.docs), params.populate)
+    const jsonData = { data } as StrapiResponse
     return spreadData ? spreadStrapiData(jsonData) : jsonData
   } catch (error) {
     // Log any errors that occur during the fetch process
