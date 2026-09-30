@@ -33,13 +33,10 @@ export default async function BlogPage() {
 
   const categories = await fetchContentType("categories", {
     filters: {
-      articles: {
-        id: {
-          $in: [
-            ...articles.data.map((article: Article) => article.id),
-            ...featuredArticles.data.map((article: Article) => article.id),
-          ],
-        },
+      id: {
+        $in: [...articles.data, ...featuredArticles.data].flatMap((article: Article) =>
+          article.categories.map((category) => category.id)
+        ),
       },
     },
     populate: {
